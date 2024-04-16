@@ -20,6 +20,8 @@ const SignUpRoute = async (req, res, next) => {
     const token = jwt.sign({ _id: newUser._id }, SECRET_KEY, {
       expiresIn: "90d",
     });
+    console.log({ signUp: user });
+
     res.status(201).json({
       status: "success",
       message: "User Registered successfully",
@@ -41,11 +43,12 @@ const LoginRoute = async (req, res, next) => {
       return next(new CreateError("Incorrects Email or Password", 400));
     }
     const token = jwt.sign({ _id: user._id }, SECRET_KEY);
+    console.log({ loginController: user });
     res.status(200).json({
       status: "success",
       token,
       message: "Logged insuccesfully",
-      userData: {
+      user: {
         name: user.name,
         email: user.email,
         id: user._id,

@@ -24,7 +24,7 @@ app.get("/", (req, res) => {
 app.use("/api/user/", UserRoutes);
 // DATABASE CONNECTION AND SERVER ACTION
 const URI = process.env.MONGO_CONNECT_URI;
-console.log(URI);
+// console.log(URI);
 mongoose
   .connect(URI)
   .then(() => {
