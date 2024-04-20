@@ -5,15 +5,9 @@ const NavbarToggler = () => {
     <>
       <div className="nav-header">
         <a href="index.html" className="brand-logo">
-          <img className="logo-abbr" src="Omah/images/logo.png" alt="/" />
           <img
-            className="logo-compact"
-            src="Omah/images/logo-text.png"
-            alt="/"
-          />
-          <img
-            className="brand-title"
-            src="Omah/images/logo-text.png"
+            className="logo-abbr"
+            src="https://i.pinimg.com/originals/27/86/ae/2786ae70c40b19ba4350d218c292ce22.jpg"
             alt="/"
           />
         </a>

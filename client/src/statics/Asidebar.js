@@ -11,6 +11,7 @@ import { Tooltip } from "antd";
 
 import { useMediaQuery } from "@uidotdev/usehooks";
 import { Link } from "react-router-dom";
+import { useState } from "react";
 const Asidebar = () => {
   const showToolTip = useMediaQuery("(min-width : 769px)");
 
@@ -19,10 +20,6 @@ const Asidebar = () => {
       title: "Dash Board",
       icon: <MdOutlineDashboard size={30} />,
       link: "/",
-      subMenu: [
-        { title: "Dashboard", link: "/" },
-        { title: "Analytics", link: "/analytics" },
-      ],
     },
     {
       title: "Properties",
@@ -38,8 +35,8 @@ const Asidebar = () => {
       icon: <GrServices size={30} />,
       link: "/services",
       subMenu: [
-        { title: "Service A", link: "/services/a" },
-        { title: "Service B", link: "/services/b" },
+        { title: "Service A", link: "/services" },
+        { title: "Service B", link: "/services" },
       ],
     },
     {
@@ -47,8 +44,8 @@ const Asidebar = () => {
       icon: <AiOutlineShop size={30} />,
       link: "/products",
       subMenu: [
-        { title: "Product A", link: "/products/a" },
-        { title: "Product B", link: "/products/b" },
+        { title: "Product A", link: "/products" },
+        { title: "Product B", link: "/products" },
       ],
     },
     {
@@ -56,17 +53,17 @@ const Asidebar = () => {
       icon: <RiBriefcase2Line size={30} />,
       link: "/jobs",
       subMenu: [
-        { title: "Job A", link: "/jobs/a" },
-        { title: "Job B", link: "/jobs/b" },
+        { title: "Job A", link: "/jobs" },
+        { title: "Job B", link: "/jobs" },
       ],
     },
     {
       title: "Agents",
       icon: <FaBuildingUser size={30} />,
-      link: "/agents",
+      link: "gents",
       subMenu: [
-        { title: "Agent A", link: "/agents/a" },
-        { title: "Agent B", link: "/agents/b" },
+        { title: "Agent A", link: "/agents" },
+        { title: "Agent B", link: "/agents" },
       ],
     },
     {
@@ -74,8 +71,8 @@ const Asidebar = () => {
       icon: <LiaPersonBoothSolid size={30} />,
       link: "/suppliers",
       subMenu: [
-        { title: "Supplier A", link: "/suppliers/a" },
-        { title: "Supplier B", link: "/suppliers/b" },
+        { title: "Supplier A", link: "/suppliers" },
+        { title: "Supplier B", link: "/suppliers" },
       ],
     },
     {
@@ -83,8 +80,8 @@ const Asidebar = () => {
       icon: <FaUserTag size={30} />,
       link: "/customers",
       subMenu: [
-        { title: "Customer A", link: "/customers/a" },
-        { title: "Customer B", link: "/customers/b" },
+        { title: "Customer A", link: "/customers" },
+        { title: "Customer B", link: "/customers" },
       ],
     },
     {
@@ -92,11 +89,12 @@ const Asidebar = () => {
       icon: <FaUserTie size={30} />,
       link: "/manager",
       subMenu: [
-        { title: "Manager A", link: "/manager/a" },
-        { title: "Manager B", link: "/manager/b" },
+        { title: "Manager A", link: "/manager" },
+        { title: "Manager B", link: "/manager" },
       ],
     },
   ];
+  const [active, setActive] = useState(0);
 
   return (
     <>
@@ -104,7 +102,14 @@ const Asidebar = () => {
         <div className="deznav-scroll">
           <ul className="metismenu" id="menu">
             {sidebarItems.map((item, index) => (
-              <li key={index} className="mm" area-expanded="false">
+              <li
+                key={index}
+                className={`mm${index === active ? "-active" : ""}`}
+                area-expanded="false"
+                onClick={() => {
+                  setActive(index);
+                }}
+              >
                 {showToolTip && (
                   <Link
                     className="has-arrow ai-icon"
@@ -125,7 +130,7 @@ const Asidebar = () => {
                 {!showToolTip && (
                   <Link
                     className="has-arrow ai-icon"
-                    to={`#${index}`}
+                    to={`${item.link}`}
                     aria-expanded="false"
                   >
                     {item.icon} <span className="nav-text">{item.title}</span>
