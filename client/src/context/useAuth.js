@@ -1,11 +1,13 @@
 import { createContext, useContext, useEffect, useState } from "react";
 
 const AuthContext = createContext();
+
 export const AuthProvider = ({ children }) => {
   const [token, setToken] = useState(null);
   const [userData, setUserData] = useState(null);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const storedData = JSON.parse(localStorage.getItem("user_data"));
+
   useEffect(() => {
     if (storedData) {
       const { userToken, user } = storedData;
@@ -13,7 +15,7 @@ export const AuthProvider = ({ children }) => {
       setUserData(user);
       setIsAuthenticated(true);
     }
-  }, [storedData]);
+  }, []);
 
   const login = (newToken, newData) => {
     localStorage.setItem(
@@ -24,18 +26,25 @@ export const AuthProvider = ({ children }) => {
     setUserData(newData);
     setIsAuthenticated(true);
   };
+
   const logout = () => {
     localStorage.removeItem("user_data");
     setToken(null);
     setUserData(null);
     setIsAuthenticated(false);
   };
+
+  // Pass context value as an object
+  const contextValue = {
+    token,
+    isAuthenticated,
+    userData,
+    login,
+    logout,
+  };
+
   return (
-    <AuthContext.Provider
-      value={{ token, isAuthenticated, userData, login, logout }}
-    >
-      {children}
-    </AuthContext.Provider>
+    <AuthContext.Provider value={contextValue}>{children}</AuthContext.Provider>
   );
 };
 

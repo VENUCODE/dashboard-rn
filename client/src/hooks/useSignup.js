@@ -1,6 +1,6 @@
 import { useState } from "react";
-import { useAuth } from "../context/UserContext";
-
+import { useAuth } from "../context/useAuth";
+import { message } from "antd";
 const useSignup = () => {
   const { login } = useAuth();
   const [error, setError] = useState(null);
@@ -11,6 +11,7 @@ const useSignup = () => {
     }
     try {
       setError(null);
+
       setLoading(true);
 
       //FIXME - the url for the signup backed route should be provided
@@ -22,14 +23,17 @@ const useSignup = () => {
       const data = result.json();
       if (result.status === 201) {
         //FIXME - display a registration succesfull popup
+        message.error("successful registration");
         //NOTE - after registration send the data to the login function of auth provider to share the data in context
         login(data.token, data.user);
       } else if (result.status === 400) {
         setError(data.message);
       } else {
+        message.error("Registration filed");
         //FIXME -  display the registration failure alert message
       }
     } catch (error) {
+      message.error(error.message, 3);
       //FIXME - display the error message here using component
     } finally {
       setLoading(false);
