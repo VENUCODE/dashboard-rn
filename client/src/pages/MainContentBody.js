@@ -3,10 +3,10 @@ import React from "react";
 import { Routes, Route } from "react-router-dom";
 import LandingSection from "../statics/Landing/LandingSection";
 // import CopyRight from "../components/CopyRight";
-import JobPage from "./Jobs";
-import AgentDetails from "../jani/AgentDetails";
-import AgentsPage from "../statics/AgentPage";
+import AgentsPage from "./AgentPage";
 import { AgentsProvider } from "../context/useAgents";
+import JobsPage from "./Jobs";
+import { JobProvider } from "../context/useJobPosts";
 
 const MainContentBody = () => {
   return (
@@ -14,7 +14,14 @@ const MainContentBody = () => {
       <Routes>
         <Route path="/" element={<LandingSection />} />
         <Route path="/property" element={<LandingSection />} />
-        <Route path="/jobs" element={<JobPage />} />
+        <Route
+          path="/jobs"
+          element={
+            <JobProvider>
+              <JobsPage />
+            </JobProvider>
+          }
+        />
         <Route
           path="/agents"
           element={
@@ -23,7 +30,7 @@ const MainContentBody = () => {
             </AgentsProvider>
           }
         />
-        <Route
+        {/* <Route
           exact
           path="/agent-detail"
           element={
@@ -31,7 +38,7 @@ const MainContentBody = () => {
               <AgentDetails />
             </AgentsProvider>
           }
-        />
+        /> */}
       </Routes>
       {/* <CopyRight /> */}
     </div>

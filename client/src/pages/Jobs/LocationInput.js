@@ -31,10 +31,7 @@ const LocationInput = ({ onPlaceSelected, ...props }) => {
       const place = autocompleteInstance.getPlace();
       const { name, formatted_address, geometry } = place;
       const { lat, lng } = geometry.location;
-      //   console.log("Selected place:", name);
-      //   console.log("Formatted Address:", formatted_address);
-      //   console.log("Latitude:", lat());
-      //   console.log("Longitude:", lng());
+
       setLocation(formatted_address);
       onPlaceSelected({ name, formatted_address, lat: lat(), lng: lng() });
     }

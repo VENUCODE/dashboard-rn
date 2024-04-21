@@ -60,7 +60,7 @@ const Asidebar = () => {
     {
       title: "Agents",
       icon: <FaBuildingUser size={30} />,
-      link: "gents",
+      link: "agents",
       subMenu: [
         { title: "Agent A", link: "/agents" },
         { title: "Agent B", link: "/agents" },

@@ -3,8 +3,10 @@ import React from "react";
 import { BiBell } from "react-icons/bi";
 import { getNameInitials } from "../helperFunctions/helper";
 import { useAuth } from "../context/useAuth";
+import { deepOrange } from "@mui/material/colors";
+import { Link } from "react-router-dom";
 const Header = () => {
-  const { userData } = useAuth();
+  const { userData, logout } = useAuth();
   return (
     <div className="header">
       <div className="header-content">
@@ -166,13 +168,21 @@ const Header = () => {
                   data-bs-toggle="dropdown"
                 >
                   <div className="header-info">
-                    <span className="text-black">Henry Jr.</span>
+                    <span className="text-black text-capitalize">
+                      {" "}
+                      {userData.name}
+                    </span>
                     <p className="fs-12 mb-0">Admin</p>
                   </div>
-                  <Avatar>{getNameInitials(userData?.name)}</Avatar>
+                  <Avatar
+                    className="btn btn-danger border-2 border-danger object-fit-contain light"
+                    sx={{ bgcolor: deepOrange[500], width: 30, height: 30 }}
+                  >
+                    {getNameInitials(userData?.name)}
+                  </Avatar>
                 </a>
                 <div className="dropdown-menu dropdown-menu-end">
-                  <a href="/" className="dropdown-item ai-icon">
+                  <Link path="/profile" className="dropdown-item ai-icon">
                     <svg
                       id="icon-user1"
                       xmlns="http://www.w3.org/2000/svg"
@@ -190,9 +200,14 @@ const Header = () => {
                       <circle cx="12" cy="7" r="4"></circle>
                     </svg>
                     <span className="ms-2">Profile </span>
-                  </a>
+                  </Link>
 
-                  <a href="/" className="dropdown-item ai-icon">
+                  <span
+                    onClick={() => {
+                      logout();
+                    }}
+                    className="dropdown-item ai-icon c-pointer"
+                  >
                     <svg
                       id="icon-logout"
                       xmlns="http://www.w3.org/2000/svg"
@@ -211,7 +226,7 @@ const Header = () => {
                       <line x1="21" y1="12" x2="9" y2="12"></line>
                     </svg>
                     <span className="ms-2">Logout </span>
-                  </a>
+                  </span>
                 </div>
               </li>
             </ul>

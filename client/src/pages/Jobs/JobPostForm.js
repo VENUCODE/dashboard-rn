@@ -5,7 +5,6 @@ import {
   MenuItem,
   FormControl,
   InputLabel,
-  Typography,
   Grid,
   InputAdornment,
   Chip,
@@ -16,13 +15,16 @@ import { ImCross } from "react-icons/im";
 import { FaRegPlusSquare } from "react-icons/fa";
 import { skills, jobCategories } from "../../data/JobsData";
 import LocationInput from "./LocationInput";
+import { useAuth } from "../../context/useAuth";
+import { useJobs } from "../../context/useJobPosts";
 
 const JobForm = () => {
-  const [selectedSkills, setSelectedSkills] = useState([]);
-  const [formData, setFormData] = useState({
+  const { userData } = useAuth();
+  const intitialFormData = {
+    postedBy: userData.id,
     jobTitle: "",
     category: "",
-    skillsRequired: selectedSkills,
+    skillsRequired: [],
     experience: "",
     location: "",
     jobType: "",
@@ -30,7 +32,10 @@ const JobForm = () => {
     qualification: "",
     aboutCompany: "",
     numberOfOpenings: "",
-  });
+    coordinates: { lat: 0, long: 0 }, // Default values for latitude and longitude
+  };
+  const [selectedSkills, setSelectedSkills] = useState([]);
+  const [formData, setFormData] = useState(intitialFormData);
 
   useEffect(() => {
     setFormData((prevState) => ({
@@ -40,7 +45,7 @@ const JobForm = () => {
   }, [selectedSkills]);
 
   const [skill, setSkill] = useState("");
-
+  const [loading, setLoading] = useState(false);
   const handleSkillChange = (event) => {
     const selectedSkill = event.target.value;
     if (!selectedSkills.includes(selectedSkill)) {
@@ -63,8 +68,15 @@ const JobForm = () => {
     setFormData({ ...formData, [name]: value });
   };
   const placeSelected = (data) => {
-    const location = data.formatted_address;
-    setFormData({ ...formData, [location]: location });
+    const { name, formatted_address, lat, lng } = data;
+    const location = formatted_address;
+    const latitude = lat;
+    const longitude = lng;
+    setFormData({
+      ...formData,
+      location,
+      coordinates: { lat: latitude, long: longitude },
+    });
   };
 
   const handleAddKeyResponsibility = () => {
@@ -91,20 +103,41 @@ const JobForm = () => {
       keyResponsibilities: updatedKeyResponsibilities,
     });
   };
-
-  const handleSubmit = (e) => {
+  const { addJob } = useJobs();
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    message.info("Submit clicked");
-    console.log(formData);
-  };
+    try {
+      setLoading(true);
+      const response = await fetch("http://localhost:3300/api/jobs/add-post", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData),
+      });
+      const data = await response.json();
+      if (response.ok) {
+        message.success(data.message);
+        console.log(data.data);
+        addJob(data.data);
+      } else {
+        message.error(data.message);
+      }
+    } catch (error) {
+      console.error("Error:", error);
+      message.error("Failed to add job post");
+    } finally {
+      setFormData(intitialFormData);
+      setSelectedSkills([]);
+      setSkill(null);
 
+      setLoading(false);
+    }
+  };
   return (
-    <div className="row">
+    <div className="row my-2">
       <div className="col-10 offset-1 card shadow py-4">
-        <form onSubmit={handleSubmit}>
-          <Typography variant="h4" gutterBottom>
-            Job Posting Form
-          </Typography>
+        <form onSubmit={handleSubmit} autoComplete={false}>
           <Grid container spacing={3}>
             <Grid item xs={12}>
               {" "}
@@ -320,6 +353,7 @@ const JobForm = () => {
             <Grid item xs={12} sm={6}>
               <Button
                 type="submit"
+                loading={loading}
                 className="py-2 bg-info w-100 h-100 text-white fw-bolder"
                 htmltype="submit"
               >

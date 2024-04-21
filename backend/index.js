@@ -6,6 +6,9 @@ const dotenv = require("dotenv").config();
 const app = express();
 //CUSTOM MODULE IMPORTS
 const UserRoutes = require("./routes/UserRoutes");
+const AgentRoutes = require("./routes/AgentRoutes");
+const upload = require("./controllers/FileUploadController");
+const JobsRouters = require("./routes/JobPostRoutes");
 // MIDDLEWARE SETUP
 app.use(cors());
 app.use(express.json());
@@ -22,8 +25,18 @@ app.get("/", (req, res) => {
   res.status(200).json("server is running");
 });
 app.use("/api/user/", UserRoutes);
+app.use("/api/agent/", AgentRoutes);
+app.use("/api/jobs", JobsRouters);
+app.post("/upload_img", upload.any(), function (req, res, next) {
+  try {
+    console.log(req.body);
+    res.status(200).json(req.body);
+  } catch (error) {
+    next(error);
+  }
+});
 // DATABASE CONNECTION AND SERVER ACTION
-const URI = process.env.MONGO_CONNECT_URI;
+const URI = process.env.MONGO_URL;
 // console.log(URI);
 mongoose
   .connect(URI)

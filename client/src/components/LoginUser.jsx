@@ -73,9 +73,10 @@ const LoginUser = () => {
                   fullWidth
                   className="btn-primary light border-2 border-primary shadow-sm"
                   disabled={loading}
+                  loading={loading}
                   startIcon={loading && <CircularProgress size={20} />}
                 >
-                  {loading ? "Logging in..." : "Login"}
+                  Login
                 </Button>
               </Grid>
             </Grid>
