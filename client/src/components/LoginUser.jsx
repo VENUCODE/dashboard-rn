@@ -1,49 +1,88 @@
 import React from "react";
-import { Form, Input, Button, Spin } from "antd";
-import "bootstrap/dist/css/bootstrap.min.css";
+import { Grid, TextField, Button, CircularProgress } from "@mui/material";
+import { AccountCircle, Lock } from "@mui/icons-material";
 import useLogin from "../hooks/userLogin";
+import { Divider } from "antd";
+
 const LoginUser = () => {
   const { loading, error, loginUser } = useLogin();
-  const onFinish = (values) => {
-    loginUser(values);
+
+  const onFinish = (event) => {
+    event.preventDefault();
+    console.log(event);
+    const formData = new FormData(event.target);
+    const email = formData.get("email");
+    const password = formData.get("password");
+    loginUser({ email, password });
   };
+
   const onFinishFailed = async (data) => {
     console.log(data);
   };
+
   return (
-    <Form
-      name="basic"
-      labelCol={{ span: 8 }}
-      wrapperCol={{ span: 16 }}
-      style={{ maxWidth: 600 }}
-      initialValues={{ remember: true }}
-      onFinish={onFinish}
-      onFinishFailed={onFinishFailed}
-      autoComplete="off"
-    >
-      <Form.Item
-        label="Email"
-        name="email"
-        className="d-flex flex-column"
-        rules={[{ required: true, message: " Email is required" }]}
-      >
-        <Input placeholder="Enter email" type="email" />
-      </Form.Item>
-
-      <Form.Item
-        label="Password"
-        name="password"
-        rules={[{ required: true, message: "Please input your password!" }]}
-      >
-        <Input.Password placeholder="Enter password" />
-      </Form.Item>
-
-      <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
-        <Button type="primary" htmlType="submit" loading={loading}>
-          {loading ? <Spin /> : "Login"}
-        </Button>
-      </Form.Item>
-    </Form>
+    <div className="content-body h-100">
+      <Grid container justifyContent="center " className="py-4 container">
+        <Grid
+          item
+          xs={10}
+          md={6}
+          className="card d-flex px-3 py-3 shadow-lg  flex-column"
+        >
+          <Grid item xs={12}>
+            <Divider orientation="center" orientationMargin={10}>
+              Login
+            </Divider>
+          </Grid>
+          <form
+            name="basic"
+            style={{ maxWidth: 600 }}
+            autoComplete="off"
+            onSubmit={onFinish}
+          >
+            <Grid container spacing={2}>
+              <Grid item xs={12}>
+                <TextField
+                  fullWidth
+                  variant="outlined"
+                  label="Email"
+                  name="email"
+                  required
+                  InputProps={{
+                    startAdornment: <AccountCircle />,
+                  }}
+                />
+              </Grid>
+              <Grid item xs={12}>
+                <TextField
+                  fullWidth
+                  variant="outlined"
+                  label="Password"
+                  name="password"
+                  type="password"
+                  required
+                  InputProps={{
+                    startAdornment: <Lock />,
+                  }}
+                />
+              </Grid>
+              <Grid item xs={6}>
+                <Button
+                  type="submit"
+                  variant="outlined"
+                  fullWidth
+                  className="btn-primary light border-2 border-primary shadow-sm"
+                  disabled={loading}
+                  startIcon={loading && <CircularProgress size={20} />}
+                >
+                  {loading ? "Logging in..." : "Login"}
+                </Button>
+              </Grid>
+            </Grid>
+          </form>
+        </Grid>
+      </Grid>
+    </div>
   );
 };
 

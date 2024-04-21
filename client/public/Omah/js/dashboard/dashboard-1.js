@@ -1,4 +1,3 @@
-const ApexCharts = require("../../vendor/apexchart/apexchart");
 (function ($) {
   /* "use strict" */
 

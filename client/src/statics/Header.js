@@ -1,6 +1,10 @@
+import { Avatar } from "@mui/material";
 import React from "react";
 import { BiBell } from "react-icons/bi";
+import { getNameInitials } from "../helperFunctions/helper";
+import { useAuth } from "../context/useAuth";
 const Header = () => {
+  const { userData } = useAuth();
   return (
     <div className="header">
       <div className="header-content">
@@ -165,7 +169,7 @@ const Header = () => {
                     <span className="text-black">Henry Jr.</span>
                     <p className="fs-12 mb-0">Admin</p>
                   </div>
-                  <img src="Omah/images/profile/17.jpg" width="20" alt="/" />
+                  <Avatar>{getNameInitials(userData?.name)}</Avatar>
                 </a>
                 <div className="dropdown-menu dropdown-menu-end">
                   <a href="/" className="dropdown-item ai-icon">

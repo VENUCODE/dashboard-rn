@@ -16,7 +16,7 @@ import { ImCross } from "react-icons/im";
 import { FaRegPlusSquare } from "react-icons/fa";
 import { skills, jobCategories } from "../../data/JobsData";
 import LocationInput from "./LocationInput";
-console.log(jobCategories);
+
 const JobForm = () => {
   const [selectedSkills, setSelectedSkills] = useState([]);
   const [formData, setFormData] = useState({
