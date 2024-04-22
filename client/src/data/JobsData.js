@@ -1,4 +1,5 @@
 export const skills = [
+  "Select Skill",
   "JavaScript",
   "Python",
   "Java",

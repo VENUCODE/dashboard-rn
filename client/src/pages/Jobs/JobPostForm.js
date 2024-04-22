@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import {
   TextField,
   Select,
@@ -34,80 +34,105 @@ const JobForm = () => {
     numberOfOpenings: "",
     coordinates: { lat: 0, long: 0 }, // Default values for latitude and longitude
   };
+
   const [selectedSkills, setSelectedSkills] = useState([]);
   const [formData, setFormData] = useState(intitialFormData);
-
-  useEffect(() => {
-    setFormData((prevState) => ({
-      ...prevState,
-      skillsRequired: selectedSkills,
-    }));
-  }, [selectedSkills]);
-
-  const [skill, setSkill] = useState("");
   const [loading, setLoading] = useState(false);
-  const handleSkillChange = (event) => {
-    const selectedSkill = event.target.value;
-    if (!selectedSkills.includes(selectedSkill)) {
-      setSelectedSkills([...selectedSkills, selectedSkill]);
-    } else {
-      message.warning("Already selected", 1);
-    }
-    setSkill("select skill");
-  };
+  const [skill, setSkill] = useState("Select Skill");
 
-  const handleDeleteSkill = (deletedSkill) => {
-    const updatedSkills = selectedSkills.filter(
-      (skill) => skill !== deletedSkill
-    );
-    setSelectedSkills(updatedSkills);
-    message.error("skill deleted");
-  };
-  const handleChange = (e) => {
+  const handleSkillChange = useCallback(
+    (selectedSkill) => {
+      if (
+        selectedSkill !== "Select Skill" &&
+        !selectedSkills.includes(selectedSkill)
+      ) {
+        setSelectedSkills((prevSelectedSkills) => [
+          ...prevSelectedSkills,
+          selectedSkill,
+        ]);
+        setFormData((prevFormData) => ({
+          ...prevFormData,
+          skillsRequired: [...prevFormData.skillsRequired, selectedSkill],
+        }));
+        setSkill(""); // Reset skill state after adding
+      } else {
+        message.warning(
+          selectedSkill ? "Already selected" : "Please select a valid skill",
+          1
+        );
+      }
+    },
+    [selectedSkills]
+  );
+
+  const handleDeleteSkill = useCallback(
+    (deletedSkill) => {
+      const updatedSkills = selectedSkills.filter(
+        (skill) => skill !== deletedSkill
+      );
+      setSelectedSkills(updatedSkills);
+      message.error("Skill deleted");
+    },
+    [selectedSkills]
+  );
+
+  const handleChange = useCallback((e) => {
     const { name, value } = e.target;
-    setFormData({ ...formData, [name]: value });
-  };
-  const placeSelected = (data) => {
-    const { name, formatted_address, lat, lng } = data;
+    setFormData((prevFormData) => ({
+      ...prevFormData,
+      [name]: value,
+    }));
+  }, []);
+
+  const placeSelected = useCallback((data) => {
+    const { formatted_address, lat, lng } = data;
     const location = formatted_address;
     const latitude = lat;
     const longitude = lng;
-    setFormData({
-      ...formData,
+    setFormData((prevFormData) => ({
+      ...prevFormData,
       location,
       coordinates: { lat: latitude, long: longitude },
-    });
-  };
+    }));
+  }, []);
 
-  const handleAddKeyResponsibility = () => {
-    setFormData({
-      ...formData,
-      keyResponsibilities: [...formData.keyResponsibilities, ""],
-    });
-  };
+  const handleAddKeyResponsibility = useCallback(() => {
+    setFormData((prevFormData) => ({
+      ...prevFormData,
+      keyResponsibilities: [...prevFormData.keyResponsibilities, ""],
+    }));
+  }, []);
 
-  const handleDeleteKeyResponsibility = (index) => {
-    const updatedKeyResponsibilities = [...formData.keyResponsibilities];
-    updatedKeyResponsibilities.splice(index, 1);
-    setFormData({
-      ...formData,
-      keyResponsibilities: updatedKeyResponsibilities,
+  const handleDeleteKeyResponsibility = useCallback((index) => {
+    setFormData((prevFormData) => {
+      const updatedKeyResponsibilities = [...prevFormData.keyResponsibilities];
+      updatedKeyResponsibilities.splice(index, 1);
+      return {
+        ...prevFormData,
+        keyResponsibilities: updatedKeyResponsibilities,
+      };
     });
-  };
+  }, []);
 
-  const handleKeyResponsibilityChange = (index, value) => {
-    const updatedKeyResponsibilities = [...formData.keyResponsibilities];
-    updatedKeyResponsibilities[index] = value;
-    setFormData({
-      ...formData,
-      keyResponsibilities: updatedKeyResponsibilities,
+  const handleKeyResponsibilityChange = useCallback((index, value) => {
+    setFormData((prevFormData) => {
+      const updatedKeyResponsibilities = [...prevFormData.keyResponsibilities];
+      updatedKeyResponsibilities[index] = value;
+      return {
+        ...prevFormData,
+        keyResponsibilities: updatedKeyResponsibilities,
+      };
     });
-  };
+  }, []);
+
   const { addJob } = useJobs();
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
       setLoading(true);
+      console.log({ selectedSkills, formData });
+      // return;
       const response = await fetch("http://localhost:3300/api/jobs/add-post", {
         method: "POST",
         headers: {
@@ -129,19 +154,22 @@ const JobForm = () => {
     } finally {
       setFormData(intitialFormData);
       setSelectedSkills([]);
-      setSkill(null);
-
+      setSkill("Select Skill");
       setLoading(false);
     }
   };
+
   return (
-    <div className="row my-2">
-      <div className="col-10 offset-1 card shadow py-4">
-        <form onSubmit={handleSubmit} autoComplete={false}>
+    <div className="row my-2" data-aos="fade-in">
+      <div className="col-10 offset-1 card shadow py-4 ">
+        <form onSubmit={handleSubmit}>
           <Grid container spacing={3}>
             <Grid item xs={12}>
-              {" "}
-              <Divider orientation="left" orientationMargin={10}>
+              <Divider
+                className="p-0 m-0 "
+                orientation="left"
+                orientationMargin={10}
+              >
                 Primary Details
               </Divider>
             </Grid>
@@ -158,37 +186,39 @@ const JobForm = () => {
             </Grid>
             <Grid item xs={12} sm={6}>
               <FormControl fullWidth size="small">
-                <InputLabel>Job Category</InputLabel>
+                <InputLabel className="bg-white">Job Category</InputLabel>
                 <Select
                   name="category"
                   size="small"
                   value={formData.category}
-                  onChange={(e) => {
-                    const selectedCategory = e.target.value;
-                    setFormData((prevFormData) => ({
-                      ...prevFormData,
-                      category: selectedCategory,
-                    }));
-                  }}
+                  onChange={handleChange}
                   required
                 >
                   {[...jobCategories].sort().map((item) => (
-                    <MenuItem value={item}>{item}</MenuItem>
+                    <MenuItem key={item} value={item}>
+                      {item}
+                    </MenuItem>
                   ))}
                 </Select>
               </FormControl>
             </Grid>
 
             <Grid item xs={12}>
-              {" "}
-              <Divider orientation="left" orientationMargin={10}>
+              <Divider
+                className="p-0 m-0 "
+                orientation="left"
+                orientationMargin={10}
+              >
                 Job Specificcations
               </Divider>
             </Grid>
-            {/* //!SECTION - skillsRequired */}
             {selectedSkills.length > 0 && (
               <Grid item xs={12}>
-                <Divider orientation="center" orientationMargin={30}>
+                <Divider
+                  className="p-0 m-0 "
+                  orientation="center"
+                  orientationMargin={30}
+                >
                   <small>Selected skills</small>
                 </Divider>
                 <div className="w-100 overflow-x-scroll d-flex flex-row">
@@ -196,6 +226,8 @@ const JobForm = () => {
                     <Chip
                       key={index}
                       label={skill}
+                      className="mx-1 p-1"
+                      size="small"
                       onDelete={() => handleDeleteSkill(skill)}
                       style={{ marginRight: "5px", marginBottom: "5px" }}
                     />
@@ -205,14 +237,17 @@ const JobForm = () => {
             )}
             <Grid item xs={12} md={6}>
               <FormControl fullWidth>
-                <InputLabel id="skill">Select Skill</InputLabel>
+                <InputLabel id="skill" className="bg-white">
+                  Select Skill
+                </InputLabel>
                 <Select
                   size="small"
                   labelId="skill"
                   id="skill-select"
-                  placeholder="select skill"
-                  onChange={handleSkillChange}
+                  placeholder="Select skill"
+                  onChange={(e) => handleSkillChange(e.target.value)}
                   fullWidth
+                  value={skill}
                   autoFocus={false}
                 >
                   {[...skills].sort().map((skill, index) => (
@@ -223,8 +258,6 @@ const JobForm = () => {
                 </Select>
               </FormControl>
             </Grid>
-
-            {/* //SECTION - skills required 2 */}
 
             <Grid item xs={12} sm={6}>
               <TextField
@@ -238,20 +271,11 @@ const JobForm = () => {
               />
             </Grid>
             <Grid item xs={12} sm={6}>
-              {/* <TextField
-                fullWidth
-                size="small"
-                name="location"
-                label="Location"
-                value={formData.location}
-                onChange={handleChange}
-                required
-              /> */}
               <LocationInput size="small" onPlaceSelected={placeSelected} />
             </Grid>
             <Grid item xs={12} sm={6}>
               <FormControl fullWidth size="small">
-                <InputLabel>Job Type</InputLabel>
+                <InputLabel className="bg-white">Job Type</InputLabel>
                 <Select
                   name="jobType"
                   value={formData.jobType}
@@ -279,14 +303,17 @@ const JobForm = () => {
               />
             </Grid>
             <Grid item xs={12}>
-              <Divider orientation="left" orientationMargin={10}>
+              <Divider
+                className="p-0 m-0 "
+                orientation="left"
+                orientationMargin={10}
+              >
                 Key Responsibilities
               </Divider>
               {formData.keyResponsibilities.map((keyResp, index) => (
-                <div>
+                <div key={index}>
                   <TextField
                     className="my-2"
-                    key={index}
                     fullWidth
                     size="small"
                     rows={1}
@@ -296,7 +323,7 @@ const JobForm = () => {
                       endAdornment: (
                         <InputAdornment
                           position="end"
-                          className="c-pointer "
+                          className="c-pointer"
                           onClick={() => handleDeleteKeyResponsibility(index)}
                         >
                           <ImCross size={15} color="black" />
@@ -313,7 +340,7 @@ const JobForm = () => {
               <div>
                 <Button
                   variant="outlined"
-                  className="my-2 shadow-sm btn btn-black  text-black pe-2 ms-2 light text-center justify-content-center px-0 border-black border-2"
+                  className="my-2 shadow-sm btn btn-black text-black pe-2 ms-2 light text-center justify-content-center px-0 border-black border-2"
                   onClick={handleAddKeyResponsibility}
                 >
                   <FaRegPlusSquare size={20} color="black" className="mx-2" />{" "}
@@ -322,7 +349,11 @@ const JobForm = () => {
               </div>
             </Grid>
             <Grid item xs={12}>
-              <Divider orientation="left" orientationMargin={10}>
+              <Divider
+                className="p-0 m-0 "
+                orientation="left"
+                orientationMargin={10}
+              >
                 About Company
               </Divider>
             </Grid>
