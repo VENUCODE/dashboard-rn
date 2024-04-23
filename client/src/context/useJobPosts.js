@@ -6,13 +6,14 @@ const JobContext = createContext();
 
 export const JobProvider = ({ children }) => {
   const [jobs, setJobs] = useState([]);
-
+  const [loading, setLoading] = useState(false);
   const addJob = (newJob) => {
     setJobs([...jobs, newJob]);
   };
 
   const getJobs = async () => {
     try {
+      setLoading(true);
       const response = await fetch("http://localhost:3300/api/jobs/get-posts");
       const data = await response.json();
       if (response.ok) {
@@ -28,6 +29,8 @@ export const JobProvider = ({ children }) => {
       }
     } catch (error) {
       console.error("Error fetching job posts:", error);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -43,9 +46,12 @@ export const JobProvider = ({ children }) => {
   };
   useEffect(() => {
     getJobs();
+    setLoading(false);
   });
   return (
-    <JobContext.Provider value={{ jobs, addJob, closeJob, deleteJob, getJobs }}>
+    <JobContext.Provider
+      value={{ jobs, addJob, closeJob, deleteJob, getJobs, loading }}
+    >
       {children}
     </JobContext.Provider>
   );

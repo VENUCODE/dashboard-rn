@@ -44,13 +44,13 @@ const JobsPage = () => {
       </div>
       {showAddJobForm && (
         <>
-          <Divider className="" orientation="left" orientationMargin={100}>
+          <Divider className="" orientation="left">
             {<MdOutlinePostAdd size={40} />}
           </Divider>
           <JobForm />
         </>
       )}
-      <Divider className=" gap-2" orientation="left" orientationMargin={100}>
+      <Divider className=" gap-2" orientation="left">
         {<SlBriefcase size={40} />} Jobs List
       </Divider>
       <JobPostList />

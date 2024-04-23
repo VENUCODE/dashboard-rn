@@ -1,11 +1,10 @@
 import React, { useEffect, useState } from "react";
-import Time from "../../components/TimeAgo";
 import { useJobs } from "../../context/useJobPosts";
-import { message } from "antd";
+import { Spin, message } from "antd";
 import JobCard from "./Jobcard";
 
 const JobPostList = () => {
-  const { jobs, closeJob, deleteJob } = useJobs();
+  const { jobs, closeJob, deleteJob, loading } = useJobs();
   const [jobPosts, setJobPosts] = useState([...jobs]);
   useEffect(() => {
     setJobPosts([...jobs]);
@@ -67,9 +66,8 @@ const JobPostList = () => {
   };
   return (
     <div className="container-fluid">
-      <h2>Job Post List</h2>
-
       <>
+        {loading && <Spin />}
         {jobPosts.map((post) => (
           <JobCard
             key={post._id}

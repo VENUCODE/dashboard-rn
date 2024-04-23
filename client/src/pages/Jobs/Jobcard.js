@@ -1,11 +1,19 @@
 import React, { useState } from "react";
 import { Button, Card, Collapse, Divider } from "antd";
-import { FaLocationPin, FaCalendar, FaCircleDot } from "react-icons/fa6";
+import {
+  FaLocationPin,
+  FaCalendar,
+  FaCircleDot,
+  FaIndianRupeeSign,
+  FaIndustry,
+  FaBuildingUser,
+} from "react-icons/fa6";
 import { BiCategoryAlt } from "react-icons/bi";
 import { BsChevronDoubleDown, BsChevronDoubleUp } from "react-icons/bs";
 import { TbNumbers } from "react-icons/tb";
 import Chip from "@mui/material/Chip";
 import Time from "../../components/TimeAgo";
+import { FaRupeeSign } from "react-icons/fa6";
 import {
   Grid,
   List,
@@ -15,7 +23,6 @@ import {
 } from "@mui/material";
 
 const { Panel } = Collapse;
-
 const JobCard = ({ data, handleCloseJob, handleDeleteJob }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [closeLoading, setCloseLoading] = useState(false);
@@ -40,10 +47,17 @@ const JobCard = ({ data, handleCloseJob, handleDeleteJob }) => {
         </Divider>
         <div className={`grid-item col-9 `}>
           <h3 className="text-capitalize">{data.jobTitle}</h3>
-          <p className="mb-2 text-capitalize">
+          <p className="mb-0 text-capitalize">
             <BiCategoryAlt className="me-2" />
             {data.category}
           </p>
+          <p className="mb-2 text-capitalize">
+            <FaBuildingUser /> {data?.companyName}
+          </p>
+          <p className="mb-2 text-capitalize">
+            <FaIndianRupeeSign /> {data?.expectedSalary || "Not disclosed"}
+          </p>
+
           <p className="mb-2">
             <TbNumbers className="me-2" />
             Openings {data.numberOfOpenings}

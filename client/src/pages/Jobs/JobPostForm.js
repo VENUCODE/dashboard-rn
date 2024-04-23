@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useCallback } from "react";
+import React, { useEffect, useState, useCallback, useRef } from "react";
 import {
   TextField,
   Select,
@@ -25,6 +25,8 @@ const JobForm = () => {
     jobTitle: "",
     category: "",
     skillsRequired: [],
+    expectedSalary: null,
+    companyName: "",
     experience: "",
     location: "",
     jobType: "",
@@ -38,6 +40,7 @@ const JobForm = () => {
   const [selectedSkills, setSelectedSkills] = useState([]);
   const [formData, setFormData] = useState(intitialFormData);
   const [loading, setLoading] = useState(false);
+  const jobForm = useRef(null);
   const [skill, setSkill] = useState("Select Skill");
 
   const handleSkillChange = useCallback(
@@ -129,6 +132,7 @@ const JobForm = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
     try {
       setLoading(true);
       console.log({ selectedSkills, formData });
@@ -153,8 +157,10 @@ const JobForm = () => {
       message.error("Failed to add job post");
     } finally {
       setFormData(intitialFormData);
+
       setSelectedSkills([]);
       setSkill("Select Skill");
+      jobForm.current?.reset();
       setLoading(false);
     }
   };
@@ -162,7 +168,7 @@ const JobForm = () => {
   return (
     <div className="row my-2" data-aos="fade-in">
       <div className="col-10 offset-1 card shadow py-4 ">
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={handleSubmit} ref={jobForm}>
           <Grid container spacing={3}>
             <Grid item xs={12}>
               <Divider
@@ -202,7 +208,6 @@ const JobForm = () => {
                 </Select>
               </FormControl>
             </Grid>
-
             <Grid item xs={12}>
               <Divider
                 className="p-0 m-0 "
@@ -258,7 +263,6 @@ const JobForm = () => {
                 </Select>
               </FormControl>
             </Grid>
-
             <Grid item xs={12} sm={6}>
               <TextField
                 fullWidth
@@ -271,7 +275,15 @@ const JobForm = () => {
               />
             </Grid>
             <Grid item xs={12} sm={6}>
-              <LocationInput size="small" onPlaceSelected={placeSelected} />
+              <TextField
+                fullWidth
+                size="small"
+                name="expectedSalary"
+                label="Expected Salary"
+                value={formData.expectedSalary}
+                onChange={handleChange}
+                required
+              />
             </Grid>
             <Grid item xs={12} sm={6}>
               <FormControl fullWidth size="small">
@@ -356,6 +368,24 @@ const JobForm = () => {
               >
                 About Company
               </Divider>
+            </Grid>{" "}
+            <Grid item xs={12} sm={6}>
+              <TextField
+                fullWidth
+                size="small"
+                name="companyName"
+                label="Company name"
+                value={formData.companyName}
+                onChange={handleChange}
+                required
+              />
+            </Grid>
+            <Grid item sm={6} xs={12}>
+              <LocationInput
+                fullWidth
+                size="small"
+                onPlaceSelected={placeSelected}
+              />
             </Grid>
             <Grid item xs={12}>
               <TextField
