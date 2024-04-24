@@ -7,7 +7,7 @@ import JobsCount from "../../components/Sections/JobsCount";
 
 const LandingSection = () => {
   return (
-    <>
+    <div className="content-body">
       <div className="container-fluid ">
         <DashBoardWelcome />
         <div class="row form-head  page-titles d-flex bg-danger gradient-1  shadow  border-secondary  align-items-center">
@@ -36,7 +36,7 @@ const LandingSection = () => {
         </div>
         <JobsCount />
       </div>
-    </>
+    </div>
   );
 };
 

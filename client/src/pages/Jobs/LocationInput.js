@@ -26,9 +26,10 @@ const LocationInput = ({ onPlaceSelected, ...props }) => {
     });
   }, [onPlaceSelected]);
 
-  const handlePlaceChanged = (autocompleteInstance, onPlaceSelected) => {
-    if (autocompleteInstance) {
-      const place = autocompleteInstance.getPlace();
+  const handlePlaceChanged = (result, onPlaceSelected) => {
+    if (result) {
+      console.log(result.getPlace());
+      const place = result.getPlace();
       const { name, formatted_address, geometry } = place;
       const { lat, lng } = geometry.location;
 

@@ -12,48 +12,50 @@ const JobsPage = () => {
   };
 
   return (
-    <div className="container-fluid">
-      <div className=" bg-white rounded-2 shadow d-flex justify-content-between p-2 align-items-center">
-        {/* onClick={toggleAddJobForm} */}
-        <div>
-          <h2 className="text-black font-w600">Job's Page</h2>
-        </div>
-        <div>
-          {!showAddJobForm ? (
-            <Button
-              variant="outlined"
-              color="success"
-              className=" shadow w-100 "
-              onClick={toggleAddJobForm}
-            >
-              Add Job
-            </Button>
-          ) : (
-            <>
+    <div className="content-body">
+      <div className="container-fluid">
+        <div className=" bg-white rounded-2 shadow d-flex justify-content-between p-2 align-items-center">
+          {/* onClick={toggleAddJobForm} */}
+          <div>
+            <h2 className="text-black font-w600">Job's Page</h2>
+          </div>
+          <div>
+            {!showAddJobForm ? (
               <Button
                 variant="outlined"
-                color="error"
-                className=" shadow w-100  "
+                color="success"
+                className=" shadow w-100 "
                 onClick={toggleAddJobForm}
               >
-                Close form
+                Add Job
               </Button>
-            </>
-          )}
+            ) : (
+              <>
+                <Button
+                  variant="outlined"
+                  color="error"
+                  className=" shadow w-100  "
+                  onClick={toggleAddJobForm}
+                >
+                  Close form
+                </Button>
+              </>
+            )}
+          </div>
         </div>
+        {showAddJobForm && (
+          <>
+            <Divider className="" orientation="left">
+              {<MdOutlinePostAdd size={40} />}
+            </Divider>
+            <JobForm />
+          </>
+        )}
+        <Divider className=" gap-2" orientation="left">
+          {<SlBriefcase size={40} />} Jobs List
+        </Divider>
+        <JobPostList />
       </div>
-      {showAddJobForm && (
-        <>
-          <Divider className="" orientation="left">
-            {<MdOutlinePostAdd size={40} />}
-          </Divider>
-          <JobForm />
-        </>
-      )}
-      <Divider className=" gap-2" orientation="left">
-        {<SlBriefcase size={40} />} Jobs List
-      </Divider>
-      <JobPostList />
     </div>
   );
 };

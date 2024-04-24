@@ -24,6 +24,14 @@ const getAllJobPosts = async (req, res, next) => {
     next(error);
   }
 };
+const getJobCategories = async (req, res, next) => {
+  try {
+    const jobCategories = await JobPost.distinct("category");
+    res.status(200).json({ data: jobCategories });
+  } catch (error) {
+    next(error);
+  }
+};
 
 // // Controller function to get a single job post by ID
 // const getJobPostById = async (req, res) => {
@@ -96,6 +104,7 @@ module.exports = {
   createJobPost,
   getAllJobPosts,
   //   getJobPostById,
+  getJobCategories,
   UpdateJobPostStatusById,
   deleteJobPostById,
 };

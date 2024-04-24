@@ -10,40 +10,42 @@ const AgentsPage = () => {
   };
 
   return (
-    <div className="container-fluid">
-      <div className=" bg-white rounded-2 shadow d-flex justify-content-between p-2 align-items-center">
-        {/* onClick={toggleAddAgentForm} */}
-        <div>
-          <h2 className="text-black font-w600">Agent's Page</h2>
-        </div>
-        <div>
-          {!showAddAgentForm ? (
-            <Button
-              variant="outlined"
-              color="success"
-              className=" shadow w-100 "
-              onClick={toggleAddAgentForm}
-            >
-              Add agent
-            </Button>
-          ) : (
-            <>
+    <div className="content-body">
+      <div className="container-fluid">
+        <div className=" bg-white rounded-2 shadow d-flex justify-content-between p-2 align-items-center">
+          {/* onClick={toggleAddAgentForm} */}
+          <div>
+            <h2 className="text-black font-w600">Agent's Page</h2>
+          </div>
+          <div>
+            {!showAddAgentForm ? (
               <Button
                 variant="outlined"
-                color="error"
-                className=" shadow w-100  "
+                color="success"
+                className=" shadow w-100 "
                 onClick={toggleAddAgentForm}
               >
-                Close form
+                Add agent
               </Button>
-            </>
-          )}
+            ) : (
+              <>
+                <Button
+                  variant="outlined"
+                  color="error"
+                  className=" shadow w-100  "
+                  onClick={toggleAddAgentForm}
+                >
+                  Close form
+                </Button>
+              </>
+            )}
+          </div>
         </div>
-      </div>
-      {showAddAgentForm && <AddAgent />}
-      <Divider className="" orientation="center" orientationMargin="2">
-        {<FaUsersLine size={40} />}
-      </Divider>
+        {showAddAgentForm && <AddAgent />}
+        <Divider className="" orientation="center" orientationMargin="2">
+          {<FaUsersLine size={40} />}
+        </Divider>
+      </div>{" "}
     </div>
   );
 };

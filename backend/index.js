@@ -24,9 +24,13 @@ app.use((err, req, res, next) => {
 app.get("/", (req, res) => {
   res.status(200).json("server is running");
 });
-app.use("/api/user/", UserRoutes);
-app.use("/api/agent/", AgentRoutes);
+app.use("/api/user", UserRoutes);
+app.use("/api/agent", AgentRoutes);
 app.use("/api/jobs", JobsRouters);
+const PropertyRoutes = require("./routes/PropertyStatsRoute");
+app.use("/api/stats/property", PropertyRoutes);
+const ProductRoutes = require("./routes/ProductRoutes");
+app.use("/api/products", ProductRoutes);
 app.post("/upload_img", upload.any(), function (req, res, next) {
   try {
     console.log(req.body);

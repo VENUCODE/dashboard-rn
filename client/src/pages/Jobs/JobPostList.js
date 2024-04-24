@@ -2,10 +2,12 @@ import React, { useEffect, useState } from "react";
 import { useJobs } from "../../context/useJobPosts";
 import { Spin, message } from "antd";
 import JobCard from "./Jobcard";
+import JobFilter from "./JobFilter";
 
 const JobPostList = () => {
   const { jobs, closeJob, deleteJob, loading } = useJobs();
   const [jobPosts, setJobPosts] = useState([...jobs]);
+  const [current, setCurrent] = useState(jobPosts);
   useEffect(() => {
     setJobPosts([...jobs]);
   }, [jobs]);
@@ -67,8 +69,14 @@ const JobPostList = () => {
   return (
     <div className="container-fluid">
       <>
+        <p>
+          {current.length !== 0
+            ? current.length + " found"
+            : "No results found"}
+        </p>
+        <JobFilter jobs={jobs} setCurrent={setCurrent} />
         {loading && <Spin />}
-        {jobPosts.map((post) => (
+        {current.map((post) => (
           <JobCard
             key={post._id}
             data={post}

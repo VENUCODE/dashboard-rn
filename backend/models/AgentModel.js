@@ -6,6 +6,10 @@ const AgentSchema = new mongoose.Schema(
       type: String,
       required: [true, "Name of agent is required"],
     },
+    approvedBy: {
+      type: String,
+      required: [true, "ApprovedBy requird"],
+    },
     role: {
       type: String,
       enum: ["agent", "manager"],

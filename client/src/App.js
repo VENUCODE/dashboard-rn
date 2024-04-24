@@ -1,4 +1,3 @@
-// import PreLoader from "./components/PreLoader";
 import Home from "./pages/Home";
 import "./assets/css/bootstrap-select.min.css";
 import LoginUser from "./components/LoginUser";
@@ -7,28 +6,71 @@ import { useAuth } from "./context/useAuth";
 import { useEffect } from "react";
 import AOS from "aos";
 import "aos/dist/aos.css";
-function App() {
+import JobsPage from "./pages/Jobs";
+import AgentsPage from "./pages/AgentPage";
+import Topbar from "./statics/Topbar";
+import Header from "./statics/Header";
+import LandingSection from "./statics/Landing/LandingSection";
+import { JobProvider } from "./context/useJobPosts";
+import { AgentsProvider } from "./context/useAgents";
+import Asidebar from "./statics/Asidebar";
+const App = () => {
   const { isAuthenticated } = useAuth();
   useEffect(() => {
     AOS.init({
-      // Global settings:
-      offset: 100, // offset (in px) from the original trigger point
-      duration: 1000, // duration (in ms) of the animation
-      easing: "ease", // default easing for AOS animations
-      once: true, // whether animation should happen only once - while scrolling down
+      offset: 100,
+      duration: 500,
+      easing: "ease",
+      once: true,
     });
   }, []);
   return (
     <div id="main-wrapper" className="show">
+      {isAuthenticated && (
+        <>
+          <Topbar />
+          <Header />
+          <Asidebar />
+        </>
+      )}
       <Routes>
         <Route
           path="/login"
           element={!isAuthenticated ? <LoginUser /> : <Navigate to={"/"} />}
         />
+        <Route
+          path="/"
+          element={
+            isAuthenticated ? <LandingSection /> : <Navigate to={"/login"} />
+          }
+        />
+        <Route
+          path="/jobs"
+          element={
+            isAuthenticated ? (
+              <JobProvider>
+                <JobsPage />
+              </JobProvider>
+            ) : (
+              <Navigate to="/login" />
+            )
+          }
+        />
+        <Route
+          path="/agents"
+          element={
+            isAuthenticated ? (
+              <AgentsProvider>
+                <AgentsPage />
+              </AgentsProvider>
+            ) : (
+              <Navigate to={"/login"} />
+            )
+          }
+        />
       </Routes>
-      <Home />
     </div>
   );
-}
+};
 
 export default App;

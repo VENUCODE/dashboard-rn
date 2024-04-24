@@ -1,19 +1,17 @@
 import React, { useState } from "react";
 import { Button, Card, Collapse, Divider } from "antd";
-import {
-  FaLocationPin,
-  FaCalendar,
-  FaCircleDot,
-  FaIndianRupeeSign,
-  FaIndustry,
-  FaBuildingUser,
-} from "react-icons/fa6";
+import { FaCircleDot, FaIndianRupeeSign } from "react-icons/fa6";
+import { FiCalendar } from "react-icons/fi";
+import { GrMapLocation } from "react-icons/gr";
 import { BiCategoryAlt } from "react-icons/bi";
-import { BsChevronDoubleDown, BsChevronDoubleUp } from "react-icons/bs";
+import {
+  BsBuildings,
+  BsChevronDoubleDown,
+  BsChevronDoubleUp,
+} from "react-icons/bs";
 import { TbNumbers } from "react-icons/tb";
 import Chip from "@mui/material/Chip";
 import Time from "../../components/TimeAgo";
-import { FaRupeeSign } from "react-icons/fa6";
 import {
   Grid,
   List,
@@ -33,42 +31,39 @@ const JobCard = ({ data, handleCloseJob, handleDeleteJob }) => {
   const [loading, setLoading] = useState(false);
 
   return (
-    <Card className="p-0 my-4 outline-light shadow  " data-aos="fade-right">
-      <div className={`grid-container row m-0 `}>
-        <Divider orientation="right" orientationMargin={10} className="m-0 p-0">
-          <p
-            className={`px-3 text-upper fs-6 py-0 rounded-2  ${
-              data.status === "open" ? "bg-success-subtle" : "bg-dark-subtle"
-            }`}
-          >
-            {" "}
-            {data.status}
-          </p>
-        </Divider>
+    <Card className="p-0 my-4 outline-light shadow  " data-aos="zoom-in-up">
+      <div className={`grid-container row m-0 py-0`}>
         <div className={`grid-item col-9 `}>
           <h3 className="text-capitalize">{data.jobTitle}</h3>
-          <p className="mb-0 text-capitalize">
-            <BiCategoryAlt className="me-2" />
-            {data.category}
-          </p>
-          <p className="mb-2 text-capitalize">
-            <FaBuildingUser /> {data?.companyName}
-          </p>
-          <p className="mb-2 text-capitalize">
-            <FaIndianRupeeSign /> {data?.expectedSalary || "Not disclosed"}
-          </p>
-
-          <p className="mb-2">
-            <TbNumbers className="me-2" />
-            Openings {data.numberOfOpenings}
-          </p>
-          <p className="mb-2">
-            <FaCalendar /> <Time date={data.createdAt} />
-          </p>
-          <p className="mb-2">
-            <FaLocationPin /> {data.location}
-          </p>
+          <div className="row mb-2">
+            <div className="col-md-6 mb-2 mb-md-0 text-capitalize">
+              <BiCategoryAlt className="me-2" />
+              {data.category}
+            </div>
+            <div className="col-md-6 text-capitalize">
+              <BsBuildings /> {data?.companyName}
+            </div>
+          </div>
+          <div className="row mb-2">
+            <div className="col-md-6 mb-2 mb-md-0">
+              <FaIndianRupeeSign />{" "}
+              {data?.expectedSalary + "/Month" || "Not disclosed"}
+            </div>
+            <div className="col-md-6">
+              <TbNumbers className="me-2" />
+              Openings {data.numberOfOpenings}
+            </div>
+          </div>
+          <div className="row mb-2">
+            <div className="col-md-6 mb-2 mb-md-0">
+              <FiCalendar /> <Time date={data.createdAt} />
+            </div>
+            <div className="col-md-6">
+              <GrMapLocation /> {data.location}
+            </div>
+          </div>
         </div>
+
         <div className="grid-item col-3 d-flex flex-column  justify-content-center">
           <Button
             type="contained"
@@ -100,7 +95,7 @@ const JobCard = ({ data, handleCloseJob, handleDeleteJob }) => {
         activeKey={isOpen ? "1" : "0"}
         className="px-0 mx-0 rounded-2"
       >
-        <Panel showArrow={false} key="1" className="bg-white">
+        <Panel showArrow={false} key="1" className="bg-white mx-0 px-0">
           <div className="accordion">
             <div className="card-body pt-0">
               <Grid container>
