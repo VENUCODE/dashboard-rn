@@ -3,6 +3,7 @@ import { useJobs } from "../../context/useJobPosts";
 import { Spin, message } from "antd";
 import JobCard from "./Jobcard";
 import JobFilter from "./JobFilter";
+import { Grid } from "@mui/material";
 
 const JobPostList = () => {
   const { jobs, closeJob, deleteJob, loading } = useJobs();
@@ -69,21 +70,18 @@ const JobPostList = () => {
   return (
     <div className="container-fluid">
       <>
-        <p>
-          {current.length !== 0
-            ? current.length + " found"
-            : "No results found"}
-        </p>
-        <JobFilter jobs={jobs} setCurrent={setCurrent} />
+        <JobFilter jobs={jobs} count={current.length} setCurrent={setCurrent} />
         {loading && <Spin />}
-        {current.map((post) => (
-          <JobCard
-            key={post._id}
-            data={post}
-            handleCloseJob={handleCloseJob}
-            handleDeleteJob={handleDeleteJob}
-          />
-        ))}
+        <Grid container>
+          {current.map((post) => (
+            <JobCard
+              key={post._id}
+              data={post}
+              handleCloseJob={handleCloseJob}
+              handleDeleteJob={handleDeleteJob}
+            />
+          ))}
+        </Grid>
       </>
     </div>
   );

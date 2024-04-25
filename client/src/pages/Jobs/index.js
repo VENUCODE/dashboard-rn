@@ -3,7 +3,6 @@ import { Button } from "@mui/material";
 import { Divider } from "antd";
 import JobForm from "./JobPostForm";
 import JobPostList from "./JobPostList";
-import { SlBriefcase } from "react-icons/sl";
 import { MdOutlinePostAdd } from "react-icons/md";
 const JobsPage = () => {
   const [showAddJobForm, setShowAddJobForm] = useState(false);
@@ -15,7 +14,6 @@ const JobsPage = () => {
     <div className="content-body">
       <div className="container-fluid">
         <div className=" bg-white rounded-2 shadow d-flex justify-content-between p-2 align-items-center">
-          {/* onClick={toggleAddJobForm} */}
           <div>
             <h2 className="text-black font-w600">Job's Page</h2>
           </div>
@@ -51,9 +49,9 @@ const JobsPage = () => {
             <JobForm />
           </>
         )}
-        <Divider className=" gap-2" orientation="left">
+        {/* <Divider className=" gap-2" orientation="left">
           {<SlBriefcase size={40} />} Jobs List
-        </Divider>
+        </Divider> */}
         <JobPostList />
       </div>
     </div>

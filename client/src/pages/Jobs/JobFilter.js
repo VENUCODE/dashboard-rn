@@ -1,20 +1,17 @@
 import React, { useState, useEffect } from "react";
 import Chip from "@mui/material/Chip";
-import { Checkbox, FormControlLabel, FormGroup } from "@mui/material";
-import { useMediaQuery } from "@mui/material";
-import Grid from "@mui/material/Grid";
 import IconButton from "@mui/material/IconButton";
 import { AiOutlineControl } from "react-icons/ai";
-import { FaSortNumericDown, FaSortNumericDownAlt } from "react-icons/fa";
-const JobFilter = ({ jobs, setCurrent }) => {
+import FilterModal from "./JobFilterModal";
+import { Input } from "antd";
+const JobFilter = ({ jobs, setCurrent, count }) => {
   const [categories, setCategories] = useState([]);
   const [jobTypes, setJobTypes] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState([]);
   const [filtersVisible, setFiltersVisible] = useState(false);
-  const isMobile = useMediaQuery("(max-width:600px)");
   const [sortOrder, setSortOrder] = useState("asc");
+
   useEffect(() => {
-    // Fetch categories from API
     const fetchCategories = async () => {
       try {
         const response = await fetch(
@@ -32,6 +29,7 @@ const JobFilter = ({ jobs, setCurrent }) => {
     fetchCategories();
   }, []);
 
+  const [searchInput, setSearchInput] = useState("");
   useEffect(() => {
     const handleFilter = () => {
       let filteredJobs = [...jobs];
@@ -43,6 +41,14 @@ const JobFilter = ({ jobs, setCurrent }) => {
       if (selectedCategory.length > 0) {
         filteredJobs = filteredJobs.filter((job) =>
           selectedCategory.includes(job.category)
+        );
+      }
+      if (searchInput) {
+        const searchTerm = searchInput.toLowerCase();
+        filteredJobs = filteredJobs.filter(
+          (job) =>
+            job.jobTitle.toLowerCase().includes(searchTerm) ||
+            job.category.toLowerCase().includes(searchTerm)
         );
       }
       if (sortOrder === "asc") {
@@ -58,7 +64,7 @@ const JobFilter = ({ jobs, setCurrent }) => {
     };
 
     handleFilter();
-  }, [selectedCategory, jobTypes, jobs, setCurrent, sortOrder]);
+  }, [selectedCategory, jobTypes, jobs, setCurrent, sortOrder, searchInput]);
 
   const handleSelectedCategory = (cat) => {
     if (selectedCategory.includes(cat)) {
@@ -69,70 +75,60 @@ const JobFilter = ({ jobs, setCurrent }) => {
       setSelectedCategory((prevCategories) => [...prevCategories, cat]);
     }
   };
+  const handleSearchInputChange = (event) => {
+    setSearchInput(event.target.value);
+    setSelectedCategory([]);
+    setJobTypes([]);
+  };
 
   return (
     <div className="job-filter">
-      <IconButton
-        color="secondary"
-        aria-label="filter"
-        onClick={() => setFiltersVisible(!filtersVisible)}
-      >
-        <AiOutlineControl size={30} color="black" />
-      </IconButton>
-      <Chip
-        label={sortOrder === "asc" ? "Oldest" : "Newest"}
-        onClick={() => {
-          setSortOrder((prevSortOrder) =>
-            prevSortOrder === "asc" ? "desc" : "asc"
-          );
-        }}
+      <div className="d-flex flex-row justify-content-between px-2 bg-white">
+        <div className="justify-content-center align-items-center d-flex">
+          <Input
+            type="text"
+            placeholder="Search by job title or category"
+            value={searchInput}
+            onChange={(e) => handleSearchInputChange(e)}
+            style={{ width: 200 }}
+          />
+        </div>
+        <div className="justify-content-center align-items-center d-flex">
+          <span>
+            {count !== 0
+              ? count + " job" + (count === 1 ? "" : "s") + " found"
+              : "No jobs found"}
+          </span>
+        </div>
+        <div className="justify-content-center align-items-center d-flex">
+          <Chip
+            size="small"
+            className="bg-primary text-white"
+            label={sortOrder === "asc" ? "Oldest" : "Newest"}
+            onClick={() => {
+              setSortOrder((prevSortOrder) =>
+                prevSortOrder === "asc" ? "desc" : "asc"
+              );
+            }}
+          />
+          <IconButton
+            color="secondary"
+            aria-label="filter"
+            onClick={() => setFiltersVisible((p) => !p)}
+          >
+            <AiOutlineControl color="#3B4CB8" size={30} />
+          </IconButton>
+        </div>
+      </div>
+      <FilterModal
+        categories={categories}
+        selectedCategory={selectedCategory}
+        jobTypes={jobTypes}
+        setJobTypes={setJobTypes}
+        setSelectedCategory={setSelectedCategory}
+        isOpen={filtersVisible}
+        onClose={() => setFiltersVisible(false)}
       />
-      {filtersVisible && (
-        <Grid container spacing={2}>
-          <Grid item xs={12} md={6}>
-            <div className="categories">
-              <h3>Categories</h3>
-              <div className="chip-container">
-                {categories.map((category) => (
-                  <Chip
-                    key={category}
-                    label={category}
-                    className={
-                      selectedCategory.includes(category)
-                        ? "bg-dark text-white"
-                        : "bg-gray"
-                    }
-                    onClick={() => handleSelectedCategory(category)}
-                  />
-                ))}
-              </div>
-            </div>
-          </Grid>
-          <Grid item xs={12} md={6}>
-            <div className="job-type">
-              <h3>Job Type</h3>
-              <div className="chip-container">
-                {["remote", "full-time", "part-time", "hybrid"].map((type) => (
-                  <Chip
-                    key={type}
-                    label={type.charAt(0).toUpperCase() + type.slice(1)}
-                    className={
-                      jobTypes.includes(type) ? "bg-dark text-white" : "bg-gray"
-                    }
-                    onClick={() =>
-                      setJobTypes((prevJobTypes) =>
-                        prevJobTypes.includes(type)
-                          ? prevJobTypes.filter((t) => t !== type)
-                          : [...prevJobTypes, type]
-                      )
-                    }
-                  />
-                ))}
-              </div>
-            </div>
-          </Grid>
-        </Grid>
-      )}
     </div>
   );
 };

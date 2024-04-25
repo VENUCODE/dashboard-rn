@@ -18,7 +18,7 @@ const App = () => {
   const { isAuthenticated } = useAuth();
   useEffect(() => {
     AOS.init({
-      offset: 100,
+      offset: 50,
       duration: 500,
       easing: "ease",
       once: true,
