@@ -26,8 +26,15 @@ export default function AgentCard({ agent, ...props }) {
         <CardContent className="p-1 position-relative">
           <Chip
             size="small"
-            style={{ fontSize: "6px" }}
-            className="bg-primary-subtle text-primary text-capitalize py-0 px-1  position-absolute"
+            style={{
+              fontSize: "6px",
+              width: "13ch",
+              overflow: "hidden",
+              textOverflow: "ellipsis",
+              whiteSpace: "nowrap",
+              right: "0",
+            }}
+            className="bg-primary-subtle text-primary text-capitalize py-0 px-1  position-absolute mx-1 "
             label={occupation}
           />
           <div
@@ -43,7 +50,18 @@ export default function AgentCard({ agent, ...props }) {
               sx={{ width: 100, height: 100 }}
             />
           </div>
-          <Typography variant="h6" component="div" mt={2} textAlign="center">
+          <Typography
+            variant="h6"
+            component="div"
+            mt={2}
+            textAlign="center"
+            sx={{
+              overflow: "hidden",
+              textOverflow: "ellipsis",
+              whiteSpace: "nowrap",
+            }}
+            className="text-capitalize"
+          >
             {name}
           </Typography>
           <Typography

@@ -44,7 +44,7 @@ const AgentFilterModal = ({
             </div>
             <div className="modal-body">
               <div className="categories">
-                <h3>Categories</h3>
+                <h3>Occupations</h3>
                 <div className="chip-container">
                   {Occupation.map((occupation) => (
                     <Chip
