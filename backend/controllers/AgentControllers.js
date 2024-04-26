@@ -12,8 +12,16 @@ const GetAgentDetailById = async (req, res, next) => {
 };
 const GetAllAgents = async (req, res, next) => {
   try {
-    const agents = await AgentModel.find({});
+    const agents = await AgentModel.find({ usertype: "agent" });
     res.status(200).json(agents);
+  } catch (error) {
+    next(error);
+  }
+};
+const getAgentOccupations = async (req, res, next) => {
+  try {
+    const AgentOccupations = await AgentModel.distinct("occupation");
+    res.status(200).json({ data: AgentOccupations });
   } catch (error) {
     next(error);
   }
@@ -62,5 +70,6 @@ module.exports = {
   GetAgentList,
   GetAgentByLocation,
   AddAgent,
+  getAgentOccupations,
   GetAllAgents,
 };

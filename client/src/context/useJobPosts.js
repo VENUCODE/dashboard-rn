@@ -46,7 +46,6 @@ export const JobProvider = ({ children }) => {
   };
   useEffect(() => {
     getJobs();
-    setLoading(false);
   });
   return (
     <JobContext.Provider

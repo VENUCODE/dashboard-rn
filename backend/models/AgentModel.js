@@ -37,7 +37,8 @@ const AgentSchema = new mongoose.Schema(
       long: { type: Number, required: [true, "Longitude is required"] },
     },
   },
-  { timestamps: true }
+
+  { timestamps: true, collection: "UserInfo" }
 );
 
 module.exports = mongoose.model("Agent", AgentSchema);

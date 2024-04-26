@@ -25,7 +25,7 @@ app.get("/", (req, res) => {
   res.status(200).json("server is running");
 });
 app.use("/api/user", UserRoutes);
-app.use("/api/agent", AgentRoutes);
+app.use("/api/agents", AgentRoutes);
 app.use("/api/jobs", JobsRouters);
 const PropertyRoutes = require("./routes/PropertyStatsRoute");
 app.use("/api/stats/property", PropertyRoutes);

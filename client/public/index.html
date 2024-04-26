@@ -55,60 +55,14 @@
   <!-- Chart piety plugin files -->
   <script src="Omah/vendor/peity/jquery.peity.min.js"></script>
 
-  <script src="vendor/jquery-steps/build/jquery.steps.min.js"></script>
+  <!-- <script src="vendor/jquery-steps/build/jquery.steps.min.js"></script> -->
   <script src="vendor/jquery-validation/jquery.validate.min.js"></script>
   <script src="js/plugins-init/jquery.validate-init.js"></script>
-  <!-- <script src="Omah/js/dashboard/dashboard-1.js"></script> -->
+  <script src="Omah/js/dashboard/dashboard-1.js"></script>
   <script src="Omah/js/custom.min.js"></script>
-  <script src="vendor/jquery-smartwizard/dist/js/jquery.smartWizard.js"></script>
+  <!-- <script
+    src="vendor/jquery-smartwizard/dist/js/jquery.smartWizard.js"></script> -->
   <script src="Omah/js/deznav-init.js"></script>
-  <!-- Dashboard 1 -->
-
-  <script>
-    function carouselReview() {
-      /*  testimonial one function by = owl.carousel.js */
-      jQuery('.testimonial-one').owlCarousel({
-        loop: true,
-        autoplay: true,
-        margin: 0,
-        nav: true,
-        dots: false,
-        navText: ['<i class="las la-long-arrow-alt-left"></i>', '<i class="las la-long-arrow-alt-right"></i>'],
-        responsive: {
-          0: {
-            items: 1
-          },
-
-          480: {
-            items: 1
-          },
-
-          767: {
-            items: 1
-          },
-          1000: {
-            items: 1
-          }
-        }
-      })
-      /*Custom Navigation work*/
-      jQuery('#next-slide').on('click', function () {
-        $('.testimonial-one').trigger('next.owl.carousel');
-      });
-
-      jQuery('#prev-slide').on('click', function () {
-        $('.testimonial-one').trigger('prev.owl.carousel');
-      });
-      /*Custom Navigation work*/
-    }
-
-    jQuery(window).on('load', function () {
-      setTimeout(function () {
-        carouselReview();
-      }, 1000);
-    });
-  </script>
-
 </body>
 
 </html>

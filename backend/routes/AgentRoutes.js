@@ -5,6 +5,7 @@ const {
   GetAllAgents,
   GetAgentDetailById,
   GetAgentList,
+  getAgentOccupations,
 } = require("../controllers/AgentControllers");
 //NOTE - route to get the agents list who  are under a particular manager of the specified managerId
 router.get("/manager/:managerId", GetAgentList);
@@ -14,5 +15,6 @@ router.get("/agent-detail/:agentId", GetAgentDetailById);
 router.get("/all", GetAllAgents);
 //NOTE - route to add a new agent through admin panel
 router.post("/add-agent", AddAgent);
+router.get("/occupation", getAgentOccupations);
 
 module.exports = router;

@@ -34,7 +34,6 @@ export const AuthProvider = ({ children }) => {
     setIsAuthenticated(false);
   };
 
-  // Pass context value as an object
   const contextValue = {
     token,
     isAuthenticated,

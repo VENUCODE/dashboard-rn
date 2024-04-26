@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import AddAgent from "./AddAgent";
 import { Button } from "@mui/material";
-import { Divider } from "antd";
-import { FaUsersLine } from "react-icons/fa6";
+import AgentsList from "./AgentsList";
+
 const AgentsPage = () => {
   const [showAddAgentForm, setShowAddAgentForm] = useState(false);
   const toggleAddAgentForm = () => {
@@ -12,8 +12,7 @@ const AgentsPage = () => {
   return (
     <div className="content-body">
       <div className="container-fluid">
-        <div className=" bg-white rounded-2 shadow d-flex justify-content-between p-2 align-items-center">
-          {/* onClick={toggleAddAgentForm} */}
+        <div className=" bg-white  shadow-sm d-flex justify-content-between p-2 align-items-center">
           <div>
             <h2 className="text-black font-w600">Agent's Page</h2>
           </div>
@@ -42,10 +41,8 @@ const AgentsPage = () => {
           </div>
         </div>
         {showAddAgentForm && <AddAgent />}
-        <Divider className="" orientation="center" orientationMargin="2">
-          {<FaUsersLine size={40} />}
-        </Divider>
       </div>{" "}
+      <AgentsList />
     </div>
   );
 };
