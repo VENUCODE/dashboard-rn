@@ -18,12 +18,12 @@ const Asidebar = () => {
   const sidebarItems = [
     {
       title: "Dash Board",
-      icon: <MdOutlineDashboard size={30} />,
+      icon: <MdOutlineDashboard color="#E35A60" size={30} />,
       link: "/",
     },
     {
       title: "Properties",
-      icon: <BiBuildings size={30} />,
+      icon: <BiBuildings color="#E35A60" size={30} />,
       link: "/properties",
       subMenu: [
         { title: "Residential", link: "/properties/residential" },
@@ -32,7 +32,7 @@ const Asidebar = () => {
     },
     {
       title: "Services",
-      icon: <GrServices size={30} />,
+      icon: <GrServices color="#E35A60" size={30} />,
       link: "/services",
       subMenu: [
         { title: "Service A", link: "/services" },
@@ -41,7 +41,7 @@ const Asidebar = () => {
     },
     {
       title: "Products",
-      icon: <AiOutlineShop size={30} />,
+      icon: <AiOutlineShop color="#E35A60" size={30} />,
       link: "/products",
       subMenu: [
         { title: "Product A", link: "/products" },
@@ -50,7 +50,7 @@ const Asidebar = () => {
     },
     {
       title: "Jobs",
-      icon: <RiBriefcase2Line size={30} />,
+      icon: <RiBriefcase2Line color="#E35A60" size={30} />,
       link: "/jobs",
       subMenu: [
         { title: "Job A", link: "/jobs" },
@@ -59,7 +59,7 @@ const Asidebar = () => {
     },
     {
       title: "Agents",
-      icon: <FaBuildingUser size={30} />,
+      icon: <FaBuildingUser color="#E35A60" size={30} />,
       link: "agents",
       subMenu: [
         { title: "Agent A", link: "/agents" },
@@ -68,7 +68,7 @@ const Asidebar = () => {
     },
     {
       title: "Suppliers",
-      icon: <LiaPersonBoothSolid size={30} />,
+      icon: <LiaPersonBoothSolid color="#E35A60" size={30} />,
       link: "/suppliers",
       subMenu: [
         { title: "Supplier A", link: "/suppliers" },
@@ -77,7 +77,7 @@ const Asidebar = () => {
     },
     {
       title: "Customers",
-      icon: <FaUserTag size={30} />,
+      icon: <FaUserTag color="#E35A60" size={30} />,
       link: "/customers",
       subMenu: [
         { title: "Customer A", link: "/customers" },
@@ -86,7 +86,7 @@ const Asidebar = () => {
     },
     {
       title: "Manager",
-      icon: <FaUserTie size={30} />,
+      icon: <FaUserTie color="#E35A60" size={30} />,
       link: "/manager",
       subMenu: [
         { title: "Manager A", link: "/manager" },
@@ -119,7 +119,7 @@ const Asidebar = () => {
                     <Tooltip
                       title={item.title}
                       placement="right"
-                      color="#2323ffaa"
+                      color="#E35A60aa"
                       trigger={"hover"}
                     >
                       {item.icon}{" "}
@@ -136,7 +136,7 @@ const Asidebar = () => {
                     {item.icon} <span className="nav-text">{item.title}</span>
                   </Link>
                 )}
-                <ul aria-expanded="false">
+                <ul>
                   {item.subMenu?.map((subItem, subIndex) => (
                     <li key={subIndex}>
                       <Link to={subItem.link}>{subItem.title}</Link>

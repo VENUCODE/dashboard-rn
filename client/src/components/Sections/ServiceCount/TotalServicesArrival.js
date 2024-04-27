@@ -1,17 +1,20 @@
 import React from "react";
 import TimelineChart from "./TimelineChart";
-
-const TotalRevenue = ({ color }) => {
+import { FcServices } from "react-icons/fc";
+const TotalServicesArrival = ({ color }) => {
   return (
     <div className="col-xl-6 col-xxl-6">
       <div className="card">
         <div className="card-header border-0 pb-0">
-          <h3 className="fs-18 text-black">Total Revenue</h3>
+          <h3 className="fs-18 text-black">Monthly Services Arrival</h3>
         </div>
         <div className="card-body  pb-0">
           <div className="d-flex flex-wrap align-items-center">
-            <span className="fs-28 text-black font-w600 me-3">$678,345</span>
-            <p className="me-sm-auto me-3 mb-sm-0 mb-3">last month $563,443</p>
+            <span className="fs-28 text-black font-w600 me-3 ">
+              <FcServices className="me-2" size={40} />
+              1245
+            </span>
+            <p className="me-sm-auto me-3 mb-sm-0 mb-3">last month 563</p>
             <div className="d-flex align-items-center">
               <svg
                 className="me-3"
@@ -65,4 +68,4 @@ const TotalRevenue = ({ color }) => {
   );
 };
 
-export default TotalRevenue;
+export default TotalServicesArrival;

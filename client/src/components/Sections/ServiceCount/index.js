@@ -1,7 +1,7 @@
 import React from "react";
 import PropertySaleCount from "./ServiceCategoryCount";
 import TotalPropertiesCount from "./TotalCategoriesCount";
-import TotalRevenue from "./TotalRevenue";
+import TotalRevenue from "./TotalServicesArrival";
 
 const ServiceCount = () => {
   return (

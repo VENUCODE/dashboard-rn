@@ -1,7 +1,7 @@
 import React from "react";
 import PropertySaleCount from "./ProductCategoryCount";
 import TotalPropertiesCount from "./TotalCategoriesCount";
-import TotalRevenue from "./TotalRevenue";
+import TotalProductArrival from "./TotalProductArrival";
 
 const ProductCount = () => {
   return (
@@ -31,7 +31,7 @@ const ProductCount = () => {
           />
         </div>
       </div>
-      <TotalRevenue color="#121212" />
+      <TotalProductArrival color="#121212" />
     </>
   );
 };

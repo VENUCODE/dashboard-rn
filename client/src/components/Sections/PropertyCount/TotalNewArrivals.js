@@ -1,17 +1,21 @@
 import React from "react";
 import TimelineChart from "./TimelineChart";
+import { FaBuilding } from "react-icons/fa";
 
-const TotalRevenue = () => {
+const TotalNewArrivals = () => {
   return (
     <div className="col-xl-6 col-xxl-6">
       <div className="card">
         <div className="card-header border-0 pb-0">
-          <h3 className="fs-18 text-black">Total Revenue</h3>
+          <h3 className="fs-18 text-black">Total Properties Arrival</h3>
         </div>
         <div className="card-body  pb-0">
           <div className="d-flex flex-wrap align-items-center">
-            <span className="fs-28 text-black font-w600 me-3">$678,345</span>
-            <p className="me-sm-auto me-3 mb-sm-0 mb-3">last month $563,443</p>
+            <span className="fs-28 text-black font-w600 me-3 justify-content-center">
+              <FaBuilding className="me-2" color="#E35A60" />
+              6784
+            </span>
+            <p className="me-sm-auto me-3 mb-sm-0 mb-3">last month 5634</p>
             <div className="d-flex align-items-center">
               <svg
                 className="me-3"
@@ -65,4 +69,4 @@ const TotalRevenue = () => {
   );
 };
 
-export default TotalRevenue;
+export default TotalNewArrivals;

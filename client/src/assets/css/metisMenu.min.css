@@ -27,6 +27,10 @@
     content: "\f3d2"
 }
 
+.metismenu .mm-active li {
+    background-color: rgba(227, 90, 96, 0.5) !important;
+}
+
 .metismenu .mm-active>a>.ion.arrow:before {
     content: "\f3d0"
 }

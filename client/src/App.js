@@ -14,7 +14,6 @@ import { JobProvider } from "./context/useJobPosts";
 import { AgentsProvider } from "./context/useAgents";
 import Asidebar from "./statics/Asidebar";
 import PropertiesPage from "./pages/PropertiesPage";
-import AgentCard from "./pages/AgentPage/AgentsCard";
 const App = () => {
   const { isAuthenticated } = useAuth();
   useEffect(() => {
@@ -26,7 +25,7 @@ const App = () => {
     });
   }, []);
   return (
-    <div id="main-wrapper" className="show">
+    <div id="main-wrapper" className="show ">
       {isAuthenticated && (
         <>
           <Topbar />
