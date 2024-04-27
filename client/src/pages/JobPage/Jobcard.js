@@ -36,8 +36,8 @@ const JobCard = ({ data, handleCloseJob, handleDeleteJob }) => {
         data-aos="zoom-in"
         data-aos-delay="100"
       >
-        <div className={`grid-container row m-0 py-0`}>
-          <div className={`grid-item col-12 `}>
+        <div className={` row m-0 py-0 justify-content-between`}>
+          <div className={` col-12 `}>
             <h3 className="text-capitalize">{data.jobTitle}</h3>
             <div className="row mb-2">
               <div className="col-6 mb-2 mb-md-0 text-capitalize">
@@ -68,7 +68,7 @@ const JobCard = ({ data, handleCloseJob, handleDeleteJob }) => {
             </div>
           </div>
 
-          <div className="grid-item col-12 d-flex flex-column justify-content-center">
+          <div className="col-12 d-flex flex-column justify-content-center">
             <div className="d-flex flex-row justify-content-between row gap-1">
               <Button
                 type="contained"
