@@ -3,6 +3,7 @@ import AgentFilter from "./AgentFilter";
 import { Grid } from "@mui/material";
 import AgentCard from "./AgentsCard";
 import { useAgents } from "../../context/useAgents";
+import { Spin } from "antd";
 
 const AgentsList = () => {
   const { agents, loading } = useAgents();
@@ -61,15 +62,22 @@ const AgentsList = () => {
   // };
   return (
     <div className="container-fluid">
-      <>
-        <AgentFilter setCurrent={setCurrent} />
-        {loading && <span>Loading......</span>}
-        <Grid container spacing={2} className="my-2">
-          <Grid
-            item
-            xs={12}
-            className="d-flex justify-content-end align-items-center pe-2"
-          >
+      <AgentFilter setCurrent={setCurrent} />
+      <Grid container spacing={2} className="my-2">
+        <Grid
+          item
+          xs={12}
+          className="d-flex justify-content-center align-items-center "
+        >
+          {loading && <Spin />}
+        </Grid>
+
+        <Grid
+          item
+          xs={12}
+          className="d-flex justify-content-end align-items-center pe-2 pt-2 pb-0 mb-0 "
+        >
+          {current.length > 0 && (
             <span>
               {current.length !== 0
                 ? current.length +
@@ -78,13 +86,14 @@ const AgentsList = () => {
                   " found"
                 : "No agents found"}
             </span>
-          </Grid>
-          {current.length > 0 &&
-            current.map((agent, index) => (
-              <AgentCard key={index} agent={agent} />
-            ))}
+          )}
+          {current.length === 0 && !loading && "No agents found"}
         </Grid>
-      </>
+        {current.length > 0 &&
+          current.map((agent, index) => (
+            <AgentCard key={index} agent={agent} />
+          ))}
+      </Grid>
     </div>
   );
 };

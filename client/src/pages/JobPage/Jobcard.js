@@ -19,7 +19,7 @@ import {
 const JobCard = ({ data, handleCloseJob, handleDeleteJob }) => {
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [closeLoading, setCloseLoading] = useState(false);
-  const [loading, setLoading] = useState(false);
+  const [deleteLoading, setDeleteLoading] = useState(false);
 
   const showModal = () => {
     setIsModalVisible(true);
@@ -31,7 +31,11 @@ const JobCard = ({ data, handleCloseJob, handleDeleteJob }) => {
 
   return (
     <Grid item xs={12} sm={12} md={6}>
-      <Card className="p-0 my-2 mx-1 outline-light shadow" data-aos="fade-in">
+      <Card
+        className="p-0 my-2 mx-1 outline-light shadow"
+        data-aos="zoom-in"
+        data-aos-delay="100"
+      >
         <div className={`grid-container row m-0 py-0`}>
           <div className={`grid-item col-12 `}>
             <h3 className="text-capitalize">{data.jobTitle}</h3>
@@ -68,9 +72,9 @@ const JobCard = ({ data, handleCloseJob, handleDeleteJob }) => {
             <div className="d-flex flex-row justify-content-between row gap-1">
               <Button
                 type="contained"
-                loading={loading}
+                loading={deleteLoading}
                 className="btn btn-outline-danger bg-danger-subtle light mb-2 col-5"
-                onClick={() => handleDeleteJob(data._id, setLoading)}
+                onClick={() => handleDeleteJob(data._id, setDeleteLoading)}
               >
                 Delete
               </Button>

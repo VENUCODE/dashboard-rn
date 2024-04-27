@@ -13,7 +13,7 @@ const JobsPage = () => {
   return (
     <div className="content-body">
       <div className="container-fluid">
-        <div className=" bg-white rounded-2 shadow d-flex justify-content-between p-2 align-items-center">
+        <div className=" bg-white  shadow-sm d-flex justify-content-between p-2 align-items-center">
           <div>
             <h2 className="text-black font-w600">Job's Page</h2>
           </div>
@@ -49,11 +49,9 @@ const JobsPage = () => {
             <JobForm />
           </>
         )}
-        {/* <Divider className=" gap-2" orientation="left">
-          {<SlBriefcase size={40} />} Jobs List
-        </Divider> */}
-        <JobPostList />
       </div>
+
+      <JobPostList />
     </div>
   );
 };

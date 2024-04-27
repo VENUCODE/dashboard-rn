@@ -93,13 +93,7 @@ const JobFilter = ({ jobs, setCurrent, count }) => {
             style={{ width: 200 }}
           />
         </div>
-        <div className="justify-content-center align-items-center d-flex">
-          <span>
-            {count !== 0
-              ? count + " job" + (count === 1 ? "" : "s") + " found"
-              : "No jobs found"}
-          </span>
-        </div>
+
         <div className="justify-content-center align-items-center d-flex">
           <Chip
             size="small"

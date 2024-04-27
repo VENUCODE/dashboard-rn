@@ -22,7 +22,7 @@ export default function AgentCard({ agent, ...props }) {
 
   return (
     <Grid item xs={12} sm={6} md={4} lg={3}>
-      <Card>
+      <Card data-aos="zoom-in" data-aos-dealy="100">
         <CardContent className="p-1 position-relative">
           <Chip
             size="small"

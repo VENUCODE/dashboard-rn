@@ -46,7 +46,8 @@ export const JobProvider = ({ children }) => {
   };
   useEffect(() => {
     getJobs();
-  });
+    return () => {};
+  }, []);
   return (
     <JobContext.Provider
       value={{ jobs, addJob, closeJob, deleteJob, getJobs, loading }}
