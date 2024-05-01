@@ -9,16 +9,21 @@ import {
   Grid,
   Typography,
 } from "@mui/material";
-import { FaPause, FaRegTrashAlt } from "react-icons/fa";
+import { FaPause, FaPlay, FaRegTrashAlt } from "react-icons/fa";
 import { Button } from "antd";
-export default function AgentCard({ agent, ...props }) {
+import { useState } from "react";
+export default function AgentCard({ agent, handleHoldAgent, ...props }) {
   const {
-    id = "1234",
+    _id = "1234",
     name = "name",
+    status,
     location = "location",
     occupation = "no occup",
     image = "https://placehold.co/100x100.png",
   } = agent;
+
+  const [holdLoading, setHoldLoading] = useState(false);
+  const [deleteLoading, setDeleteLoading] = useState(false);
 
   return (
     <Grid item xs={12} sm={6} md={4} lg={3}>
@@ -36,6 +41,23 @@ export default function AgentCard({ agent, ...props }) {
             }}
             className="bg-primary-subtle text-primary text-capitalize py-0 px-1  position-absolute mx-1 "
             label={occupation}
+          />
+          <Chip
+            size="small"
+            style={{
+              fontSize: "6px",
+              width: "13ch",
+              overflow: "hidden",
+              textOverflow: "ellipsis",
+              whiteSpace: "nowrap",
+              left: "0",
+            }}
+            className={`bg-${
+              status === "running" ? "success" : "primary"
+            }-subtle text-${
+              status === "running" ? "success" : "primary"
+            } text-capitalize py-0 px-1  position-absolute mx-1 `}
+            label={status}
           />
           <div
             style={{
@@ -86,9 +108,28 @@ export default function AgentCard({ agent, ...props }) {
             </Button>
             <Button
               variant="outlined"
-              className="bg-primary-subtle px-4 shadow-sm py-1 rounded-4"
+              loading={holdLoading}
+              onClick={() =>
+                handleHoldAgent(
+                  _id,
+                  status === "running" ? "hold" : "running",
+                  setHoldLoading
+                )
+              }
+              className={`bg-${
+                status === "running" ? "success" : "primary"
+              }-subtle px-4 shadow-sm py-1 rounded-4`}
             >
-              <FaPause size={15} className="text-primary" />
+              {status === "running" ? (
+                <FaPause
+                  size={15}
+                  className={`text-${
+                    status === "running" ? "success" : "primary"
+                  }`}
+                />
+              ) : (
+                <FaPlay className="text-primary" />
+              )}
             </Button>
 
             <Button

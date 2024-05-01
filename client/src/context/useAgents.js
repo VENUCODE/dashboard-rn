@@ -36,23 +36,23 @@ export const AgentsProvider = ({ children }) => {
   const holdAgent = (agentId, status) => {
     setAgents((prevAgents) =>
       prevAgents.map((agent) =>
-        agent.id === agentId ? { ...agent, status: status } : agent
+        agent._id === agentId ? { ...agent, status: status } : agent
       )
     );
   };
 
   const deleteAgent = (agentId) => {
     setAgents((prevAgents) =>
-      prevAgents.filter((Agent) => Agent.id !== agentId)
+      prevAgents.filter((Agent) => Agent._id !== agentId)
     );
   };
 
   useEffect(() => {
     getAgents();
-    console.log(agents);
-    // Cleanup function to prevent memory leaks
+    // console.log(agents);
+
     return () => {};
-  }, []); // Pass an empty dependency array to run the effect only once
+  }, []);
 
   return (
     <AgentContext.Provider

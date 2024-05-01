@@ -6,6 +6,12 @@ const AgentSchema = new mongoose.Schema(
       type: String,
       required: [true, "Name of agent is required"],
     },
+    status: {
+      type: String,
+      enum: ["running", "hold"],
+      default: "running",
+      required: [true, "Name of agent is required"],
+    },
     approvedBy: {
       type: String,
       required: [true, "ApprovedBy requird"],
@@ -13,6 +19,11 @@ const AgentSchema = new mongoose.Schema(
     role: {
       type: String,
       enum: ["agent", "manager"],
+      default: "agent",
+    },
+    usertype: {
+      type: String,
+      enum: ["agent", "manager", "normal_user"],
       default: "agent",
     },
     email: {

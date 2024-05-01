@@ -3,39 +3,45 @@ import AgentFilter from "./AgentFilter";
 import { Grid } from "@mui/material";
 import AgentCard from "./AgentsCard";
 import { useAgents } from "../../context/useAgents";
-import { Spin } from "antd";
+import { Spin, message } from "antd";
 
 const AgentsList = () => {
-  const { agents, loading } = useAgents();
+  const { agents, loading, holdAgent } = useAgents();
   const [current, setCurrent] = useState(agents);
   useEffect(() => {
     setCurrent(agents);
   }, [agents]);
 
-  // const handleCloseJob = async (jobId, status, setLoading) => {
-  //   try {
-  //     setLoading(true);
-  //     const response = await fetch("http://localhost:3300/api/update-status", {
-  //       method: "POST",
-  //       headers: {
-  //         "Content-Type": "application/json",
-  //       },
-  //       body: JSON.stringify({ jobId, status }),
-  //     });
+  const handleHoldAgent = async (agentId, status, setLoading) => {
+    try {
+      setLoading(true);
+      const response = await fetch(
+        "http://localhost:3300/api/agents/update-status",
+        {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ agentId, status }),
+        }
+      );
 
-  //     if (response.ok) {
-  //       console.log("Job closed successfully");
-  //       message.success("Job closed successfully", 1);
-  //       closeJob(jobId, status);
-  //     } else {
-  //       console.error("Failed to close job");
-  //     }
-  //   } catch (error) {
-  //     console.error("Error closing job:", error);
-  //   } finally {
-  //     setLoading(false);
-  //   }
-  // };
+      if (response.ok) {
+        console.log(`${status} successfully`);
+        message.success("agent status updated ", 1);
+        const data = await response.json();
+        console.log(data);
+        holdAgent(agentId, status);
+      } else {
+        console.log(response);
+        console.log("Failed to close job");
+      }
+    } catch (error) {
+      console.error("Error closing job:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
   // const handleDeleteJob = async (jobId, setLoading) => {
   //   try {
   //     setLoading(true);
@@ -91,7 +97,11 @@ const AgentsList = () => {
         </Grid>
         {current.length > 0 &&
           current.map((agent, index) => (
-            <AgentCard key={index} agent={agent} />
+            <AgentCard
+              key={index}
+              handleHoldAgent={handleHoldAgent}
+              agent={agent}
+            />
           ))}
       </Grid>
     </div>

@@ -9,7 +9,7 @@ const JobFilter = ({ jobs, setCurrent, count }) => {
   const [jobTypes, setJobTypes] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState([]);
   const [filtersVisible, setFiltersVisible] = useState(false);
-  const [sortOrder, setSortOrder] = useState("asc");
+  const [sortOrder, setSortOrder] = useState("desc");
 
   useEffect(() => {
     const fetchCategories = async () => {

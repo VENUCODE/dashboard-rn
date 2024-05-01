@@ -4,8 +4,9 @@ import {
   FaCalendar,
   FaCity,
   FaLandmarkDome,
-  FaRupeeSign,
+  FaLocationPin,
 } from "react-icons/fa6";
+import { FaRupeeSign } from "react-icons/fa";
 import ImageCarousel from "./ImageCarousel";
 import { Chip, Grid } from "@mui/material";
 import { Button, Card } from "antd";
@@ -22,6 +23,7 @@ export default function PropertyCard({ data }) {
     transactionTypes = ["nothing"],
     pWidth = 21,
     papproved,
+    location,
     pfloorsAllowed = 14,
   } = data;
   return (
@@ -91,6 +93,26 @@ export default function PropertyCard({ data }) {
                     <p className="text-muted">
                       <FaCalendar style={{ color: "#3f51b5" }} />{" "}
                       <Time date={availableFrom} />
+                    </p>
+                  </div>
+                </div>
+                <div className="row">
+                  <div className="col-6">
+                    <p className="text-muted">
+                      <FaLocationPin
+                        style={{
+                          color: "#3f51b5",
+                          textOverflow: "ellipsis",
+                          whiteSpace: "nowrap",
+                        }}
+                      />{" "}
+                      {location}
+                    </p>
+                  </div>
+                  <div className="col-6">
+                    <p className="text-muted">
+                      <FaLandmarkDome style={{ color: "#3f51b5" }} />{" "}
+                      {propertyType}
                     </p>
                   </div>
                 </div>

@@ -20,7 +20,7 @@ export const JobProvider = ({ children }) => {
         const sortedJobPosts = data.data.sort((a, b) => {
           const dateA = new Date(a.createdAt);
           const dateB = new Date(b.createdAt);
-          return dateB - dateA;
+          return dateA - dateB;
         });
         setJobs(sortedJobPosts);
       } else {
@@ -37,16 +37,16 @@ export const JobProvider = ({ children }) => {
   const closeJob = (jobId, status) => {
     setJobs((prevJobs) =>
       prevJobs.map((job) =>
-        job.id === jobId ? { ...job, status: status } : job
+        job._id === jobId ? { ...job, status: status } : job
       )
     );
   };
   const deleteJob = (jobId) => {
-    setJobs((prevJobs) => prevJobs.filter((job) => job.id !== jobId));
+    setJobs((prevJobs) => prevJobs.filter((job) => job._id !== jobId));
   };
   useEffect(() => {
     getJobs();
-    return () => {};
+    // return () => {};
   }, []);
   return (
     <JobContext.Provider

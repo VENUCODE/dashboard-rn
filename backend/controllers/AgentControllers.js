@@ -18,6 +18,41 @@ const GetAllAgents = async (req, res, next) => {
     next(error);
   }
 };
+
+const updateAgentStatus = async (req, res, next) => {
+  try {
+    const { agentId, status } = req.body;
+    const updatedAgent = await AgentModel.findByIdAndUpdate(
+      agentId,
+      { status: status },
+      { new: true }
+    );
+    if (!updatedAgent) {
+      return res.status(404).json({ error: "Agent not found" });
+    }
+    console.log(updatedAgent);
+    res.status(200).json(updatedAgent);
+  } catch (error) {
+    next(error);
+  }
+};
+const deleteAgent = async (req, res, next) => {
+  try {
+    const { agentId, status } = req.body;
+    const updatedAgent = await AgentModel.findByIdAndUpdate(
+      agentId,
+      { role: "normal_user", usertype: "normal_user" },
+      { new: true }
+    );
+    if (!updatedAgent) {
+      return res.status(404).json({ error: "Agent not found" });
+    }
+    console.log(updatedAgent);
+    res.status(200).json(updatedAgent);
+  } catch (error) {
+    next(error);
+  }
+};
 const getAgentOccupations = async (req, res, next) => {
   try {
     const AgentOccupations = await AgentModel.distinct("occupation");
@@ -71,5 +106,6 @@ module.exports = {
   GetAgentByLocation,
   AddAgent,
   getAgentOccupations,
+  updateAgentStatus,
   GetAllAgents,
 };

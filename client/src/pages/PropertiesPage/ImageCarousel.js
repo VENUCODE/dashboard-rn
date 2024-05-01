@@ -11,12 +11,8 @@ const ImageCarousel = ({ images }) => (
         >
           <Image
             key={index}
-            style={{
-              height: "200",
-              objectFit: "cover",
-              textAlign: "center",
-            }}
-            width="400"
+            width={300}
+            className="carousel-img"
             src={`https://rightneeds.azurewebsites.net/${img}`}
             alt={img}
           />
