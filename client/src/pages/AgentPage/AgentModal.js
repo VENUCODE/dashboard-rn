@@ -1,39 +1,57 @@
-import Box from "@mui/material/Box";
-import Button from "@mui/material/Button";
-import Modal from "@mui/material/Modal";
-import AgentDetails from "../../jani/AgentDetails";
-import useModalState from "../../hooks/useModalState";
+import { Button, Modal } from "antd";
+import { FaLocationPin } from "react-icons/fa6";
 
-export default function AgentModal() {
-  const { open, handleOpen, handleClose } = useModalState();
+import { CiMail } from "react-icons/ci";
 
+const AgentModal = ({ isModalVisible, handleCancel }) => {
+  const data = {
+    role: "agent",
+    _id: "65ec543f9206b62b0e6e4655",
+    usertype: "agent",
+    name: "ganesh",
+    email: "gani@gmail.com",
+    mobile: "9704504152",
+    password: "Rameshrazole@1",
+    location: "location of agent",
+    __v: 0,
+    profileImage: "uploads\\image-1710346510172.jpg",
+    status: "running",
+    updatedAt: "2024-04-27T18:03:27.852Z",
+  };
   return (
-    <div>
-      <Button onClick={handleOpen}>Open modal</Button>
-      <Modal
-        open={open}
-        onClose={handleClose}
-        aria-labelledby="modal-modal-title"
-        aria-describedby="modal-modal-description"
-        sx={{
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-          overflow: "scroll",
-        }}
+    <Modal
+      title={data.jobTitle}
+      open={isModalVisible}
+      onCancel={handleCancel}
+      centered
+      footer={[
+        <Button key="close" onClick={handleCancel}>
+          Close
+        </Button>,
+      ]}
+    >
+      <div
+        style={{ maxHeight: "400px", overflowY: "auto", overflowX: "hidden" }}
       >
-        <Box
-          sx={{
-            bgcolor: "background.paper",
-            boxShadow: 24,
-            p: 4,
-            width: "90%",
-            maxWidth: "600px",
-            maxHeight: "80%",
-            overflowY: "auto",
-          }}
-        ></Box>
-      </Modal>
-    </div>
+        <div className="row mb-2">
+          <div className="col-10 text-lower">
+            <CiMail /> {data?.email}
+          </div>
+        </div>
+        {/* //phone number */}
+        <div className="row mb-2">
+          <div className="col-10 text-lower">
+            <CiMail /> {data?.email}
+          </div>
+        </div>
+        {/* //locatino  */}
+        <div className="row mb-2">
+          <div className="col-10 text-lower">
+            <FaLocationPin /> {data?.location}
+          </div>
+        </div>
+      </div>
+    </Modal>
   );
-}
+};
+export default AgentModal;

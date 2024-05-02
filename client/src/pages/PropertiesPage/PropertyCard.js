@@ -98,12 +98,19 @@ export default function PropertyCard({ data }) {
                 </div>
                 <div className="row">
                   <div className="col-6">
-                    <p className="text-muted">
+                    <p
+                      className="text-muted"
+                      style={{
+                        width: "100%",
+                        overflow: "hidden",
+                        textOverflow: "ellipsis",
+                        whiteSpace: "nowrap",
+                        right: "0",
+                      }}
+                    >
                       <FaLocationPin
                         style={{
                           color: "#3f51b5",
-                          textOverflow: "ellipsis",
-                          whiteSpace: "nowrap",
                         }}
                       />{" "}
                       {location}

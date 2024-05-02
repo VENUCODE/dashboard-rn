@@ -1,0 +1,76 @@
+/*----  Main Style  ----*/
+.service-card {
+    text-align: center;
+    background: #F7F7F7;
+    object-fit: contain;
+}
+
+.service-card .card-flyer {
+    border-radius: 5px 10px 10px 0px;
+}
+
+.service-card .card-flyer .image-box {
+    background: #ffffff;
+    overflow: hidden;
+    border-radius: 5px;
+}
+
+.service-card .card-flyer .image-box img {
+    transition: all .9s ease;
+    -webkit-transition: all .9s ease;
+    -moz-transition: all .9s ease;
+    -o-transition: all .9s ease;
+    -ms-transition: all .9s ease;
+    width: 100%;
+    object-fit: cover;
+    height: 100px;
+}
+
+.service-card .card-flyer:hover .image-box img {
+    opacity: 0.7;
+    -webkit-transform: scale(1.15);
+    -moz-transform: scale(1.15);
+    -ms-transform: scale(1.15);
+    -o-transform: scale(1.15);
+    transform: scale(1.15);
+}
+
+
+
+.service-card .card-flyer {
+    background: #FFFFFF;
+    -webkit-transition: all 0.2s ease-in;
+    -moz-transition: all 0.2s ease-in;
+    -ms-transition: all 0.2s ease-in;
+    -o-transition: all 0.2s ease-in;
+    transition: all 0.2s ease-in;
+}
+
+.service-card .card-flyer:hover {
+    background: #fff;
+
+    -webkit-transition: all 0.2s ease-in;
+    -moz-transition: all 0.2s ease-in;
+    -ms-transition: all 0.2s ease-in;
+    -o-transition: all 0.2s ease-in;
+    transition: all 0.2s ease-in;
+
+}
+
+.service-card .card-flyer .text-box p {
+
+    font-size: 10px;
+    text-transform: capitalize;
+    color: #000000;
+}
+
+.service-card .card-flyer .text-box h6 {
+    margin-top: 0px;
+    margin-bottom: 4px;
+    font-size: 14px;
+    font-weight: bold;
+    text-transform: uppercase;
+    font-family: 'Roboto Black', sans-serif;
+    letter-spacing: 1px;
+    color: #c17400;
+}

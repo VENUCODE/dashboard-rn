@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import AgentFilter from "./AgentFilter";
-import { Grid } from "@mui/material";
+import { Grid, LinearProgress } from "@mui/material";
 import AgentCard from "./AgentsCard";
 import { useAgents } from "../../context/useAgents";
 import { Spin, message } from "antd";
@@ -75,7 +75,7 @@ const AgentsList = () => {
           xs={12}
           className="d-flex justify-content-center align-items-center "
         >
-          {loading && <Spin />}
+          {loading && <LinearProgress color="secondary" />}
         </Grid>
 
         <Grid

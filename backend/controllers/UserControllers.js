@@ -37,12 +37,16 @@ const LoginRoute = async (req, res, next) => {
     const { email, password } = req.body;
     const user = await User.findOne({ email, usertype: "admin" });
     if (!user) {
-      return next(new CreateError("User not found !", 404));
+      res
+        .status(400)
+        .json({ status: "failure", message: "Invalid Credentials" });
     }
     const isPasswordValid = user.password === password;
     //  await bcrypt.compare(password, user.password);
     if (!isPasswordValid) {
-      return next(new CreateError("Incorrects Email or Password", 400));
+      res
+        .status(400)
+        .json({ status: "failure", message: "Invalid Credentials" });
     }
     const token = jwt.sign({ _id: user._id }, SECRET_KEY);
     // console.log({ loginController: user });

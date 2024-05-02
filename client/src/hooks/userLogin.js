@@ -20,17 +20,17 @@ const useLogin = () => {
         body: JSON.stringify(values),
       });
 
-      const data = await result.json(); // Wait for response body to be parsed as JSON
-
+      const data = await result.json();
+      console.log(data);
       if (result.ok) {
         message.success("Login successful", 3);
         login(data.token, data.user);
       } else {
-        // If the response status is not ok, set error state with error message
         message.error(data.message);
         setError(data.message || "Login failed");
       }
     } catch (error) {
+      console.log(error);
       message.error(error.message);
       setError(error.message || "An error occurred");
     } finally {

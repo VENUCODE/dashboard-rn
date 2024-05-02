@@ -14,6 +14,9 @@ import { JobProvider } from "./context/useJobPosts";
 import { AgentsProvider } from "./context/useAgents";
 import Asidebar from "./statics/Asidebar";
 import PropertiesPage from "./pages/PropertiesPage";
+import { PropertiesProvider } from "./context/useProperties";
+import { ServiceProvider } from "./context/useServices";
+import ServicePage from "./pages/ServicesPage";
 const App = () => {
   const { isAuthenticated } = useAuth();
   useEffect(() => {
@@ -56,7 +59,14 @@ const App = () => {
             )
           }
         />
-        <Route path="/properties" element={<PropertiesPage />} />
+        <Route
+          path="/properties"
+          element={
+            <PropertiesProvider>
+              <PropertiesPage />
+            </PropertiesProvider>
+          }
+        />
 
         <Route
           path="/agents"
@@ -65,6 +75,18 @@ const App = () => {
               <AgentsProvider>
                 <AgentsPage />
               </AgentsProvider>
+            ) : (
+              <Navigate to={"/login"} />
+            )
+          }
+        />
+        <Route
+          path="/services"
+          element={
+            isAuthenticated ? (
+              <ServiceProvider>
+                <ServicePage />
+              </ServiceProvider>
             ) : (
               <Navigate to={"/login"} />
             )

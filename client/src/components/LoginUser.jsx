@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Grid, TextField, Button, CircularProgress } from "@mui/material";
 import { AccountCircle, Lock } from "@mui/icons-material";
 import useLogin from "../hooks/userLogin";
@@ -9,11 +9,24 @@ const LoginUser = () => {
 
   const onFinish = (event) => {
     event.preventDefault();
-    console.log(event);
     const formData = new FormData(event.target);
     const email = formData.get("email");
     const password = formData.get("password");
     loginUser({ email, password });
+  };
+  const validateEmail = (email) => {
+    const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return regex.test(email);
+  };
+  const [emailError, setEmailError] = useState("");
+
+  const handleEmailChange = (event) => {
+    const email = event.target.value;
+    if (!validateEmail(email)) {
+      setEmailError("Enter a valid email address");
+    } else {
+      setEmailError("");
+    }
   };
 
   const onFinishFailed = async (data) => {
@@ -47,6 +60,9 @@ const LoginUser = () => {
                   variant="outlined"
                   label="Email"
                   name="email"
+                  onChange={handleEmailChange}
+                  error={!!emailError}
+                  helperText={emailError}
                   required
                   InputProps={{
                     startAdornment: <AccountCircle />,

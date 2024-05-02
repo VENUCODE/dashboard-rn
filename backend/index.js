@@ -27,6 +27,10 @@ app.get("/", (req, res) => {
 app.use("/api/user", UserRoutes);
 app.use("/api/agents", AgentRoutes);
 app.use("/api/jobs", JobsRouters);
+
+const ServiceRoutes = require("./routes/ServiceRoutes");
+app.use("/api/services", ServiceRoutes);
+
 const PropertyRoutes = require("./routes/PropertyStatsRoute");
 app.use("/api/stats/property", PropertyRoutes);
 const ProductRoutes = require("./routes/ProductRoutes");
