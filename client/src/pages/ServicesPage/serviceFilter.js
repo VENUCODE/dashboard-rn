@@ -9,15 +9,23 @@ import { useServices } from "../../context/useServices";
 const ServiceFilter = ({ setCurrent, count }) => {
   const { services } = useServices();
   const [categories, setCategories] = useState([]);
+  const [cities, setCities] = useState([]);
+  const [selectedCities, setSelectedCities] = useState([]);
+
   const [selectedCategories, setSelectedCategories] = useState([]);
   const [filtersVisible, setFiltersVisible] = useState(false);
   const [sortOrder, setSortOrder] = useState("desc");
 
   const [searchInput, setSearchInput] = useState("");
   useEffect(() => {
-    const uniqueCategories = services.map(
-      (category) => Object.keys(category)[0]
-    );
+    const allCategories = [
+      ...new Set(services.map((service) => service.categoryName.toLowerCase())),
+    ];
+    const allCities = [...new Set(services.map((service) => service.city))];
+    const uniqueCategories = [
+      ...new Set(allCategories.map((category) => category.toLowerCase())),
+    ];
+    setCities(allCities);
     setCategories(uniqueCategories);
   }, [services]);
 
@@ -25,20 +33,58 @@ const ServiceFilter = ({ setCurrent, count }) => {
     const handleFilter = () => {
       let filteredServices = [...services];
 
+      //NOTE -  Apply category filter
       if (selectedCategories.length > 0) {
-        filteredServices = filteredServices.filter((serviceObj) => {
-          const serviceKeys = Object.keys(serviceObj);
-          return serviceKeys.some((key) =>
-            selectedCategories.includes(key.toLowerCase())
-          );
+        filteredServices = filteredServices.filter((service) =>
+          selectedCategories.some((category) =>
+            [
+              service.serviceName.toLowerCase(),
+              service.categoryName.toLowerCase(),
+              service.serviceDescription.toLowerCase(),
+            ]
+              .map((str) => str.toLowerCase())
+              .includes(category.toLowerCase())
+          )
+        );
+      }
+
+      //NOTE -    Apply city filter
+      if (selectedCities.length > 0) {
+        filteredServices = filteredServices.filter((service) => {
+          return selectedCities.includes(service.city);
         });
+      }
+
+      //NOTE -  Sort based on sortOrder
+      if (sortOrder === "asc") {
+        filteredServices.sort(
+          (a, b) => new Date(a.timestamp) - new Date(b.timestamp)
+        );
+      } else {
+        filteredServices.sort(
+          (a, b) => new Date(b.timestamp) - new Date(a.timestamp)
+        );
+      }
+
+      //NOTE -  Apply search filter
+      if (searchInput.trim()) {
+        filteredServices = filteredServices.filter((service) =>
+          service.serviceName.toLowerCase().includes(searchInput.toLowerCase())
+        );
       }
 
       setCurrent(filteredServices);
     };
 
     handleFilter();
-  }, [selectedCategories, services, setCurrent]);
+  }, [
+    selectedCategories,
+    services,
+    setCurrent,
+    searchInput,
+    sortOrder,
+    selectedCities,
+  ]);
 
   const handleSearchInputChange = (event) => {
     setSearchInput(event.target.value);
@@ -80,6 +126,9 @@ const ServiceFilter = ({ setCurrent, count }) => {
       </div>
       <ServiceFilterModal
         categories={categories}
+        cities={cities}
+        selectedCities={selectedCities}
+        setSelectedCities={setSelectedCities}
         selectedCategories={selectedCategories}
         setSelectedCategories={setSelectedCategories}
         isOpen={filtersVisible}

@@ -1,12 +1,12 @@
 /*----  Main Style  ----*/
 .service-card {
-    text-align: center;
+
     background: #F7F7F7;
     object-fit: contain;
 }
 
 .service-card .card-flyer {
-    border-radius: 5px 10px 10px 0px;
+    border-radius: 10px;
 }
 
 .service-card .card-flyer .image-box {
@@ -72,5 +72,5 @@
     text-transform: uppercase;
     font-family: 'Roboto Black', sans-serif;
     letter-spacing: 1px;
-    color: #c17400;
+    color: #9b7c4d;
 }
