@@ -13,7 +13,7 @@ const AgentSchema = new mongoose.Schema(
       required: [true, "Name of agent is required"],
     },
     approvedBy: {
-      type: String,
+      type: mongoose.Schema.Types.ObjectId,
       required: [true, "ApprovedBy requird"],
     },
     role: {
@@ -37,13 +37,16 @@ const AgentSchema = new mongoose.Schema(
     },
     managerId: {
       type: mongoose.Schema.Types.ObjectId,
-      required: [true, "Manager ID is required"],
     },
-    place: {
+    location: {
       type: String,
       required: [true, "Place can't be empty"],
     },
-    location: {
+    occupation: {
+      type: String,
+      required: [true, "occupation can't be empty"],
+    },
+    coordinates: {
       lat: { type: Number, required: [true, "Latitude is required"] },
       long: { type: Number, required: [true, "Longitude is required"] },
     },
