@@ -1,5 +1,6 @@
 // AgentContext.js
 import React, { createContext, useContext, useEffect, useState } from "react";
+import { endpoints, hostUri } from "../fetch";
 
 const ServicesContext = createContext();
 
@@ -10,7 +11,7 @@ export const ServiceProvider = ({ children }) => {
   const getServices = async () => {
     try {
       setLoading(true);
-      const response = await fetch("http://localhost:3300/api/services/all", {
+      const response = await fetch(hostUri + endpoints.getAllServices, {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
