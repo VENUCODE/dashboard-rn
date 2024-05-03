@@ -1,7 +1,7 @@
 // JobContext.js
 import { message } from "antd";
 import React, { createContext, useContext, useEffect, useState } from "react";
-
+import { hostUri, endpoints } from "../fetch";
 const JobContext = createContext();
 
 export const JobProvider = ({ children }) => {
@@ -14,7 +14,7 @@ export const JobProvider = ({ children }) => {
   const getJobs = async () => {
     try {
       setLoading(true);
-      const response = await fetch("http://localhost:3300/api/jobs/get-posts");
+      const response = await fetch(`${hostUri}${endpoints.getAllJobs}`);
       const data = await response.json();
       if (response.ok) {
         const sortedJobPosts = data.data.sort((a, b) => {

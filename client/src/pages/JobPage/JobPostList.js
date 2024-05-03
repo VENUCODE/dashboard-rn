@@ -3,8 +3,8 @@ import { useJobs } from "../../context/useJobPosts";
 import { Spin, message } from "antd";
 import JobCard from "./Jobcard";
 import JobFilter from "./JobFilter";
-import { Grid } from "@mui/material";
-
+import { Grid, LinearProgress } from "@mui/material";
+import { endpoints, hostUri } from "../../fetch";
 const JobPostList = () => {
   const { jobs, closeJob, deleteJob, loading } = useJobs();
   const [jobPosts, setJobPosts] = useState([...jobs]);
@@ -17,16 +17,13 @@ const JobPostList = () => {
   const handleCloseJob = async (jobId, status, setCloseLoading) => {
     try {
       setCloseLoading(true);
-      const response = await fetch(
-        "http://localhost:3300/api/jobs/update-status",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({ jobId, status }),
-        }
-      );
+      const response = await fetch(`${hostUri}${endpoints.updateJobStatus}`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ jobId, status }),
+      });
 
       if (response.ok) {
         console.log("Job closed successfully");
@@ -44,16 +41,13 @@ const JobPostList = () => {
   const handleDeleteJob = async (jobId, setDeleteLoading) => {
     try {
       setDeleteLoading(true);
-      const response = await fetch(
-        "http://localhost:3300/api/jobs/delete-job",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({ jobId }),
-        }
-      );
+      const response = await fetch(`${hostUri}${endpoints.deleteJobPost}`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ jobId }),
+      });
 
       if (response.ok) {
         console.log("Job deleted successfully");
@@ -71,6 +65,8 @@ const JobPostList = () => {
   return (
     <div className="container-fluid">
       <JobFilter jobs={jobs} count={current.length} setCurrent={setCurrent} />
+      {loading && <LinearProgress color="secondary" />}
+
       <Grid
         item
         xs={12}
@@ -93,9 +89,7 @@ const JobPostList = () => {
           item
           xs={12}
           className="d-flex justify-content-center align-items-center my-2 "
-        >
-          {loading && <Spin />}
-        </Grid>
+        ></Grid>
         {current.map((post) => (
           <JobCard
             key={post._id}

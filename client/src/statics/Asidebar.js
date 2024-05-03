@@ -5,14 +5,13 @@ import { BiBuildings } from "react-icons/bi";
 import { GrServices } from "react-icons/gr";
 import { FaBuildingUser } from "react-icons/fa6";
 import { LiaPersonBoothSolid } from "react-icons/lia";
-import { FaUserTag } from "react-icons/fa";
 import { FaUserTie } from "react-icons/fa";
 import { Tooltip } from "antd";
 
 import { useMediaQuery } from "@uidotdev/usehooks";
 import { Link } from "react-router-dom";
 import { useState } from "react";
-const Asidebar = () => {
+const Asidebar = ({ setNavToggle }) => {
   const showToolTip = useMediaQuery("(min-width : 769px)");
 
   const sidebarItems = [
@@ -25,73 +24,37 @@ const Asidebar = () => {
       title: "Properties",
       icon: <BiBuildings color="#E35A60" size={30} />,
       link: "/properties",
-      subMenu: [
-        { title: "Residential", link: "/properties/residential" },
-        { title: "Commercial", link: "/properties/commercial" },
-      ],
     },
     {
       title: "Services",
       icon: <GrServices color="#E35A60" size={30} />,
       link: "/services",
-      subMenu: [
-        { title: "Service A", link: "/services" },
-        { title: "Service B", link: "/services" },
-      ],
     },
     {
       title: "Products",
       icon: <AiOutlineShop color="#E35A60" size={30} />,
       link: "/products",
-      subMenu: [
-        { title: "Product A", link: "/products" },
-        { title: "Product B", link: "/products" },
-      ],
     },
     {
       title: "Jobs",
       icon: <RiBriefcase2Line color="#E35A60" size={30} />,
       link: "/jobs",
-      subMenu: [
-        { title: "Job A", link: "/jobs" },
-        { title: "Job B", link: "/jobs" },
-      ],
     },
     {
       title: "Agents",
       icon: <FaBuildingUser color="#E35A60" size={30} />,
       link: "agents",
-      subMenu: [
-        { title: "Agent A", link: "/agents" },
-        { title: "Agent B", link: "/agents" },
-      ],
     },
     {
       title: "Suppliers",
       icon: <LiaPersonBoothSolid color="#E35A60" size={30} />,
       link: "/suppliers",
-      subMenu: [
-        { title: "Supplier A", link: "/suppliers" },
-        { title: "Supplier B", link: "/suppliers" },
-      ],
     },
-    {
-      title: "Customers",
-      icon: <FaUserTag color="#E35A60" size={30} />,
-      link: "/customers",
-      subMenu: [
-        { title: "Customer A", link: "/customers" },
-        { title: "Customer B", link: "/customers" },
-      ],
-    },
+
     {
       title: "Manager",
       icon: <FaUserTie color="#E35A60" size={30} />,
       link: "/manager",
-      subMenu: [
-        { title: "Manager A", link: "/manager" },
-        { title: "Manager B", link: "/manager" },
-      ],
     },
   ];
   const [active, setActive] = useState(0);
@@ -99,7 +62,7 @@ const Asidebar = () => {
   return (
     <>
       <div className="deznav">
-        <div className="deznav-scroll">
+        <div className="deznav-scroll ">
           <ul className="metismenu" id="menu">
             {sidebarItems.map((item, index) => (
               <li
@@ -108,11 +71,12 @@ const Asidebar = () => {
                 area-expanded="false"
                 onClick={() => {
                   setActive(index);
+                  setNavToggle(false);
                 }}
               >
                 {showToolTip && (
                   <Link
-                    className="has-arrow ai-icon"
+                    // className="has-arrow ai-icon"
                     to={item.link}
                     aria-expanded="false"
                   >
@@ -129,7 +93,7 @@ const Asidebar = () => {
                 )}
                 {!showToolTip && (
                   <Link
-                    className="has-arrow ai-icon"
+                    // className="has-arrow ai-icon"
                     to={`${item.link}`}
                     aria-expanded="false"
                   >

@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useAuth } from "../context/useAuth";
 import { message } from "antd";
+import { hostUri, endpoints } from "../fetch";
 
 const useLogin = () => {
   const { login } = useAuth();
@@ -12,7 +13,7 @@ const useLogin = () => {
       setError(null);
       setLoading(true);
 
-      const result = await fetch("http://localhost:3300/api/user/login", {
+      const result = await fetch(`${hostUri}${endpoints.loginUser}`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

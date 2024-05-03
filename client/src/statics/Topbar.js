@@ -2,10 +2,10 @@ import React from "react";
 import Header from "./Header";
 import NavbarToggler from "./NavbarToggler";
 
-const Topbar = () => {
+const Topbar = ({ navToggle, setNavToggle }) => {
   return (
     <>
-      <NavbarToggler />
+      <NavbarToggler navToggle={navToggle} setNavToggle={setNavToggle} />
       <Header />
     </>
   );

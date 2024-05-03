@@ -1,5 +1,6 @@
-// AgentContext.js
+// AgentContext.
 import React, { createContext, useContext, useEffect, useState } from "react";
+import { endpoints } from "../fetch";
 
 const PropertiesContext = createContext();
 
@@ -10,15 +11,12 @@ export const PropertiesProvider = ({ children }) => {
   const getProperties = async () => {
     try {
       setLoading(true);
-      const response = await fetch(
-        "https://rightneeds.azurewebsites.net/properties",
-        {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
-      );
+      const response = await fetch(endpoints.getAllProperties, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
       const data = await response.json();
       setProperties(data);
       setLoading(false);

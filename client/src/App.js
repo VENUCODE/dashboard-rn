@@ -2,7 +2,7 @@ import "./assets/css/bootstrap-select.min.css";
 import LoginUser from "./components/LoginUser";
 import { Routes, Route, Navigate } from "react-router-dom";
 import { useAuth } from "./context/useAuth";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import AOS from "aos";
 import "aos/dist/aos.css";
 import JobsPage from "./pages/JobPage";
@@ -17,8 +17,10 @@ import PropertiesPage from "./pages/PropertiesPage";
 import { PropertiesProvider } from "./context/useProperties";
 import { ServiceProvider } from "./context/useServices";
 import ServicePage from "./pages/ServicesPage";
+import ManagerPage from "./pages/ManagerPage";
 const App = () => {
   const { isAuthenticated } = useAuth();
+  const [navToggle, setNavToggle] = useState(false);
   useEffect(() => {
     AOS.init({
       offset: 50,
@@ -28,12 +30,11 @@ const App = () => {
     });
   }, []);
   return (
-    <div id="main-wrapper" className="show ">
+    <div id="main-wrapper" className={`show ${navToggle && "menu-toggle"}`}>
       {isAuthenticated && (
         <>
-          <Topbar />
-          <Header />
-          <Asidebar />
+          <Topbar navToggle={navToggle} setNavToggle={setNavToggle} />
+          <Asidebar setNavToggle={setNavToggle} />
         </>
       )}
       <Routes>
@@ -47,6 +48,7 @@ const App = () => {
             isAuthenticated ? <LandingSection /> : <Navigate to={"/login"} />
           }
         />
+
         <Route
           path="/jobs"
           element={
@@ -74,6 +76,18 @@ const App = () => {
             isAuthenticated ? (
               <AgentsProvider>
                 <AgentsPage />
+              </AgentsProvider>
+            ) : (
+              <Navigate to={"/login"} />
+            )
+          }
+        />
+        <Route
+          path="/manager"
+          element={
+            isAuthenticated ? (
+              <AgentsProvider>
+                <ManagerPage />
               </AgentsProvider>
             ) : (
               <Navigate to={"/login"} />

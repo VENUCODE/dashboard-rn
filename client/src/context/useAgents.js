@@ -1,7 +1,7 @@
 // AgentContext.js
 import { message } from "antd";
 import React, { createContext, useContext, useEffect, useState } from "react";
-
+import { hostUri, endpoints } from "../fetch";
 const AgentContext = createContext();
 
 export const AgentsProvider = ({ children }) => {
@@ -15,13 +15,12 @@ export const AgentsProvider = ({ children }) => {
   const getAgents = async () => {
     try {
       setLoading(true);
-      const response = await fetch("http://localhost:3300/api/agents/all", {
+      const response = await fetch(`${hostUri}${endpoints.getAllAgents}`, {
         method: "GET",
       });
       const data = await response.json();
       if (response.ok) {
         setAgents(data);
-        console.log(data); // Changed to log fetched data, not the state
       } else {
         console.error("Failed to fetch Agents:", data.message);
         message.error("Failed to fetch Agents", 2);
@@ -49,7 +48,6 @@ export const AgentsProvider = ({ children }) => {
 
   useEffect(() => {
     getAgents();
-    // console.log(agents);
 
     return () => {};
   }, []);

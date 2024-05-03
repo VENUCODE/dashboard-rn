@@ -6,7 +6,6 @@ import { useAuth } from "../context/useAuth";
 import { deepOrange } from "@mui/material/colors";
 import { Link } from "react-router-dom";
 import { FaUser } from "react-icons/fa6";
-import { FaUserAltSlash } from "react-icons/fa";
 const Header = () => {
   const { userData, logout } = useAuth();
   return (
@@ -16,7 +15,7 @@ const Header = () => {
           <div className="collapse navbar-collapse justify-content-between">
             <div className="header-left">
               <div className="dashboard_bar">
-                <div className="search_bar dropdown">
+                {/* <div className="search_bar dropdown">
                   <div className="dropdown-menu p-0 m-0">
                     <form>
                       <div className="input-group search-area d-xl-inline-flex d-none">
@@ -46,12 +45,12 @@ const Header = () => {
                       </div>
                     </form>
                   </div>
-                </div>
+                </div> */}
               </div>
             </div>
 
             <ul className="navbar-nav header-right">
-              <li className="nav-item dropdown notification_dropdown">
+              {/* <li className="nav-item dropdown notification_dropdown">
                 <a
                   className="nav-link  ai-icon"
                   href="/"
@@ -59,8 +58,8 @@ const Header = () => {
                   data-bs-toggle="dropdown"
                 >
                   <BiBell />
-                  {/* //FIXME - active when notification is clicked */}
-                  {/* <div className="pulse-css"></div> */}
+                   //FIXME - active when notification is clicked 
+                  //</ul> <div className="pulse-css"></div> 
                 </a>
                 <div className="dropdown-menu dropdown-menu-end">
                   <div
@@ -160,7 +159,7 @@ const Header = () => {
                     See all notifications <i className="ti-arrow-right"></i>
                   </a>
                 </div>
-              </li>
+              </li> */}
 
               <li className="nav-item dropdown header-profile">
                 <a
