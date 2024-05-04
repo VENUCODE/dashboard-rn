@@ -17,6 +17,7 @@ import { skills, jobCategories } from "../../data/JobsData";
 import LocationInput from "./LocationInput";
 import { useAuth } from "../../context/useAuth";
 import { useJobs } from "../../context/useJobPosts";
+import { endpoints, hostUri } from "../../fetch";
 
 const JobForm = () => {
   const { userData } = useAuth();
@@ -137,7 +138,7 @@ const JobForm = () => {
       setLoading(true);
       console.log({ selectedSkills, formData });
       // return;
-      const response = await fetch("http://localhost:3300/api/jobs/add-post", {
+      const response = await fetch(hostUri + endpoints.addJobPost, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -147,8 +148,7 @@ const JobForm = () => {
       const data = await response.json();
       if (response.ok) {
         message.success(data.message);
-        console.log(data.data);
-        addJob(data.data);
+        addJob();
       } else {
         message.error(data.message);
       }
@@ -297,7 +297,7 @@ const JobForm = () => {
                   <MenuItem value="remote">Remote</MenuItem>
                   <MenuItem value="fulltime">Full-time</MenuItem>
                   <MenuItem value="hybrid">Hybrid</MenuItem>
-                  <MenuItem value="part-time">Part-time</MenuItem>
+                  <MenuItem value="parttime">Part-time</MenuItem>
                 </Select>
               </FormControl>
             </Grid>

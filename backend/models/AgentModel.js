@@ -42,6 +42,11 @@ const AgentSchema = new mongoose.Schema(
       type: String,
       required: [true, "Place can't be empty"],
     },
+    agentVerification: {
+      type: String,
+      enum: ["accepted", "requested", "rejected"],
+    },
+
     occupation: {
       type: String,
       required: [true, "occupation can't be empty"],
@@ -52,7 +57,7 @@ const AgentSchema = new mongoose.Schema(
     },
   },
 
-  { timestamps: true, collection: "UserInfo" }
+  { timestamps: true, collection: "UserInfo", statics: false }
 );
 
 module.exports = mongoose.model("Agent", AgentSchema);

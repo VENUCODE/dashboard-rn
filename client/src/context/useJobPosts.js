@@ -7,8 +7,8 @@ const JobContext = createContext();
 export const JobProvider = ({ children }) => {
   const [jobs, setJobs] = useState([]);
   const [loading, setLoading] = useState(false);
-  const addJob = (newJob) => {
-    setJobs([...jobs, newJob]);
+  const addJob = () => {
+    getJobs();
   };
 
   const getJobs = async () => {
@@ -20,7 +20,7 @@ export const JobProvider = ({ children }) => {
         const sortedJobPosts = data.data.sort((a, b) => {
           const dateA = new Date(a.createdAt);
           const dateB = new Date(b.createdAt);
-          return dateA - dateB;
+          return dateB - dateA;
         });
         setJobs(sortedJobPosts);
       } else {
@@ -34,19 +34,14 @@ export const JobProvider = ({ children }) => {
     }
   };
 
-  const closeJob = (jobId, status) => {
-    setJobs((prevJobs) =>
-      prevJobs.map((job) =>
-        job._id === jobId ? { ...job, status: status } : job
-      )
-    );
+  const closeJob = () => {
+    getJobs();
   };
-  const deleteJob = (jobId) => {
-    setJobs((prevJobs) => prevJobs.filter((job) => job._id !== jobId));
+  const deleteJob = () => {
+    getJobs();
   };
   useEffect(() => {
     getJobs();
-    // return () => {};
   }, []);
   return (
     <JobContext.Provider

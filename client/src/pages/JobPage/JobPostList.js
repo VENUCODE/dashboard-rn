@@ -28,7 +28,7 @@ const JobPostList = () => {
       if (response.ok) {
         console.log("Job closed successfully");
         message.success("Job closed successfully", 1);
-        closeJob(jobId, status);
+        closeJob();
       } else {
         console.error("Failed to close job");
       }
@@ -48,16 +48,18 @@ const JobPostList = () => {
         },
         body: JSON.stringify({ jobId }),
       });
-
+      const data = await response.json();
       if (response.ok) {
         console.log("Job deleted successfully");
-        message.success("Job deletd successfully", 1);
-        deleteJob(jobId);
+        message.success(data.message, 1);
+        deleteJob();
       } else {
+        message.error(data.message);
         console.error("Failed to delete job");
       }
     } catch (error) {
       console.error("Error delete job:", error);
+      message.error(error.message);
     } finally {
       setDeleteLoading(false);
     }

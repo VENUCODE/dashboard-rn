@@ -8,10 +8,12 @@ const createJobPost = async (req, res, next) => {
     res.status(201).json({
       success: true,
       message: "Job post created successfully",
-      data: jobPost,
     });
   } catch (error) {
-    next(error);
+    res.status(400).json({
+      success: false,
+      message: error.message,
+    });
   }
 };
 
@@ -21,7 +23,7 @@ const getAllJobPosts = async (req, res, next) => {
     const jobPosts = await JobPost.find();
     res.status(200).json({ success: true, data: jobPosts });
   } catch (error) {
-    next(error);
+    res.status(400).json({ success: false, message: error.message });
   }
 };
 const getJobCategories = async (req, res, next) => {
@@ -29,7 +31,7 @@ const getJobCategories = async (req, res, next) => {
     const jobCategories = await JobPost.distinct("category");
     res.status(200).json({ data: jobCategories });
   } catch (error) {
-    next(error);
+    res.status(400).json({ success: false, message: error.message });
   }
 };
 

@@ -42,8 +42,10 @@ const AgentsPage = () => {
           </div>
         </div>
         {showAddAgentForm && <AddAgent />}
+      </div>
+      <div>
+        <AgentsList />
       </div>{" "}
-      <AgentsList />
     </div>
   );
 };

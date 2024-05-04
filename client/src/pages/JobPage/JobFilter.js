@@ -3,7 +3,8 @@ import Chip from "@mui/material/Chip";
 import IconButton from "@mui/material/IconButton";
 import { AiOutlineControl } from "react-icons/ai";
 import FilterModal from "./JobFilterModal";
-import { Input } from "antd";
+import { Input, message } from "antd";
+import { endpoints, hostUri } from "../../fetch";
 const JobFilter = ({ jobs, setCurrent, count }) => {
   const [categories, setCategories] = useState([]);
   const [jobTypes, setJobTypes] = useState([]);
@@ -14,13 +15,11 @@ const JobFilter = ({ jobs, setCurrent, count }) => {
   useEffect(() => {
     const fetchCategories = async () => {
       try {
-        const response = await fetch(
-          "http://localhost:3300/api/jobs/categories"
-        );
-        if (!response.ok) {
-          throw new Error("Failed to fetch categories");
-        }
+        const response = await fetch(hostUri + endpoints.getJobCategories);
         const data = await response.json();
+        if (!response.ok) {
+          message.error(data.messaeg);
+        }
         setCategories(data.data);
       } catch (error) {
         console.log(error);
@@ -35,7 +34,7 @@ const JobFilter = ({ jobs, setCurrent, count }) => {
       let filteredJobs = [...jobs];
       if (jobTypes.length > 0) {
         filteredJobs = filteredJobs.filter((job) =>
-          jobTypes.includes(job.jobType)
+          jobTypes.includes(job.jobType.toLowerCase())
         );
       }
       if (selectedCategory.length > 0) {

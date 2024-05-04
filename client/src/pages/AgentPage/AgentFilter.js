@@ -5,6 +5,7 @@ import { AiOutlineControl } from "react-icons/ai";
 import FilterModal from "./AgentFilterModal";
 import { Input } from "antd";
 import { useAgents } from "../../context/useAgents";
+import { endpoints, hostUri } from "../../fetch";
 const AgentFilter = ({ setCurrent, count }) => {
   const { agents } = useAgents();
   const [Occupation, setOccupation] = useState([]);
@@ -15,9 +16,7 @@ const AgentFilter = ({ setCurrent, count }) => {
   useEffect(() => {
     const fetchOccupation = async () => {
       try {
-        const response = await fetch(
-          "http://localhost:3300/api/agents/occupation"
-        );
+        const response = await fetch(hostUri + endpoints.getAgentOccupations);
         if (!response.ok) {
           throw new Error("Failed to fetch Occupation");
         }

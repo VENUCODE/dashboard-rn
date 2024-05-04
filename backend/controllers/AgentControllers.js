@@ -12,7 +12,10 @@ const CreateError = require("../utils/CreateError");
 // };
 const GetAllAgents = async (req, res, next) => {
   try {
-    const agents = await AgentModel.find({ usertype: "agent" });
+    const agents = await AgentModel.find({
+      usertype: "agent",
+      agentVerification: "accepted",
+    });
     res.status(200).json(agents);
   } catch (error) {
     next(error);
@@ -28,14 +31,15 @@ const updateAgentStatus = async (req, res, next) => {
       { new: true }
     );
     if (!updatedAgent) {
-      return res.status(404).json({ error: "Agent not found" });
+      return res.status(404).json({ message: "Agent not found" });
     }
     console.log(updatedAgent);
-    res.status(200).json(updatedAgent);
+    res.status(200).json({ message: "agent status updated" });
   } catch (error) {
     next(error);
   }
 };
+
 // const deleteAgent = async (req, res, next) => {
 //   try {
 //     const { agentId, status } = req.body;
@@ -55,7 +59,10 @@ const updateAgentStatus = async (req, res, next) => {
 // };
 const getAgentOccupations = async (req, res, next) => {
   try {
-    const AgentOccupations = await AgentModel.distinct("occupation");
+    const AgentOccupations = await AgentModel.distinct("occupation", {
+      agentVerification: "accepted",
+      usertype: "agent",
+    });
     res.status(200).json({ data: AgentOccupations });
   } catch (error) {
     next(error);
@@ -90,9 +97,45 @@ const addAgent = async (req, res, next) => {
     const newAgent = await AgentModel.create(req.body);
 
     // Send the new agent data as the response
-    res.status(201).json({ message: "Agent Added successfull", newAgent });
+    res.status(201).json({ message: "Agent Added successfull" });
   } catch (error) {
     // Pass the error to the error handling middleware
+    next(error);
+  }
+};
+//SECTION- REQUESTED AGENTS
+const agentRequest = async (req, res) => {
+  try {
+    const users = await AgentModel.find({
+      usertype: "agent",
+      agentVerification: "requested",
+    });
+    res.status(200).json({ data: users });
+  } catch (error) {
+    console.error("Error fetching user details:", error);
+    res.status(500).json({ message: "Error fetching user details" });
+  }
+};
+const verifyAgent = async (req, res, next) => {
+  try {
+    const { agentId } = req.body;
+    const updatedAgent = await AgentModel.findByIdAndUpdate(
+      agentId,
+      {
+        $set: {
+          usertype: "agent",
+
+          agentVerification: "accepted",
+        },
+      },
+      { new: true }
+    );
+    if (!updatedAgent) {
+      return res.status(404).json({ message: "Agent not found" });
+    }
+    console.log({ msg: "verfied agent", updatedAgent });
+    res.status(200).json({ message: "Agent verified" });
+  } catch (error) {
     next(error);
   }
 };
@@ -101,7 +144,9 @@ module.exports = {
   // GetAgentDetailById,
   // GetAgentList,
   // GetAgentByLocation,
+  agentRequest,
   addAgent,
+  verifyAgent,
   getAgentOccupations,
   updateAgentStatus,
   GetAllAgents,

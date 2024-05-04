@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Button, Card, Divider, Modal } from "antd";
 import { FaCircleDot, FaIndianRupeeSign } from "react-icons/fa6";
 import { FiCalendar } from "react-icons/fi";
@@ -28,6 +28,9 @@ const JobCard = ({ data, handleCloseJob, handleDeleteJob }) => {
   const handleCancel = () => {
     setIsModalVisible(false);
   };
+  useEffect(() => {
+    console.log(data);
+  });
 
   return (
     <Grid item xs={12} sm={12} md={6}>
@@ -74,7 +77,7 @@ const JobCard = ({ data, handleCloseJob, handleDeleteJob }) => {
                 type="contained"
                 loading={deleteLoading}
                 className="btn btn-outline-danger bg-danger-subtle light mb-2 col-5"
-                onClick={() => handleDeleteJob(data._id, setDeleteLoading)}
+                onClick={() => handleDeleteJob(data?._id, setDeleteLoading)}
               >
                 Delete
               </Button>
@@ -88,13 +91,13 @@ const JobCard = ({ data, handleCloseJob, handleDeleteJob }) => {
                 loading={closeLoading}
                 onClick={() =>
                   handleCloseJob(
-                    data._id,
-                    data.status === "open" ? "closed" : "open",
+                    data?._id,
+                    data?.status === "open" ? "closed" : "open",
                     setCloseLoading
                   )
                 }
               >
-                {data.status === "open" ? "Close" : "Open"}
+                {data?.status === "open" ? "Close" : "Open"}
               </Button>{" "}
               <Button
                 type="contained"

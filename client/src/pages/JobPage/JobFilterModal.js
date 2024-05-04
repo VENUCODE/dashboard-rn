@@ -1,6 +1,5 @@
 import { Chip } from "@mui/material";
 import React from "react";
-
 const FilterModal = ({
   categories,
   selectedCategory,
@@ -66,27 +65,25 @@ const FilterModal = ({
               <div className="job-type">
                 <h3>Job Type</h3>
                 <div className="chip-container">
-                  {["remote", "full-time", "part-time", "hybrid"].map(
-                    (type) => (
-                      <Chip
-                        size="small"
-                        key={type}
-                        label={type.charAt(0).toUpperCase() + type.slice(1)}
-                        className={` px-1 mx-1 py-1 ${
-                          jobTypes.includes(type)
-                            ? "bg-dark text-white"
-                            : "bg-gray"
-                        }`}
-                        onClick={() =>
-                          setJobTypes((prevJobTypes) =>
-                            prevJobTypes.includes(type)
-                              ? prevJobTypes.filter((t) => t !== type)
-                              : [...prevJobTypes, type]
-                          )
-                        }
-                      />
-                    )
-                  )}
+                  {["remote", "fulltime", "parttime", "hybrid"].map((type) => (
+                    <Chip
+                      size="small"
+                      key={type}
+                      label={type.charAt(0).toUpperCase() + type.slice(1)}
+                      className={` px-1 mx-1 py-1 ${
+                        jobTypes.includes(type)
+                          ? "bg-dark text-white"
+                          : "bg-gray"
+                      }`}
+                      onClick={() =>
+                        setJobTypes((prevJobTypes) =>
+                          prevJobTypes.includes(type)
+                            ? prevJobTypes.filter((t) => t !== type)
+                            : [...prevJobTypes, type]
+                        )
+                      }
+                    />
+                  ))}
                 </div>
               </div>
             </div>

@@ -18,6 +18,7 @@ export default function AddAgent() {
     dob: "",
     occupation: "",
     approvedBy: `${userData.id}`,
+    agentVerification: "accepted",
     status: "running",
     role: "agent",
     usertype: "agent",
@@ -70,8 +71,8 @@ export default function AddAgent() {
         message.error(data.message);
       } else {
         const data = await response.json();
-        console.log(data.newAgent);
-        addAgent(data.newAgent);
+        message.success(data.message, 1);
+        addAgent();
       }
     } catch (err) {
       console.log(err.message);

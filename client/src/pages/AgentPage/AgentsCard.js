@@ -13,16 +13,15 @@ import { FaPause, FaPlay, FaRegTrashAlt } from "react-icons/fa";
 import { Button } from "antd";
 import { useState } from "react";
 import AgentModal from "./AgentModal";
-export default function AgentCard({ agent, handleHoldAgent, ...props }) {
+import { useAgents } from "../../context/useAgents";
+export default function AgentCard({ agent }) {
   const {
-    _id = "1234",
     name = "name",
-    status,
     location = "location",
     occupation = "no occup",
     image = "https://placehold.co/100x100.png",
   } = agent;
-
+  const { holdAgent } = useAgents();
   const [holdLoading, setHoldLoading] = useState(false);
   const [isModalVisible, setIsModalVisible] = useState(false);
 
@@ -33,7 +32,7 @@ export default function AgentCard({ agent, handleHoldAgent, ...props }) {
           <Chip
             size="small"
             style={{
-              fontSize: "6px",
+              fontSize: "0.8rem",
               width: "13ch",
               overflow: "hidden",
               textOverflow: "ellipsis",
@@ -46,7 +45,7 @@ export default function AgentCard({ agent, handleHoldAgent, ...props }) {
           <Chip
             size="small"
             style={{
-              fontSize: "6px",
+              fontSize: "0.8rem",
               width: "13ch",
               overflow: "hidden",
               textOverflow: "ellipsis",
@@ -54,11 +53,11 @@ export default function AgentCard({ agent, handleHoldAgent, ...props }) {
               left: "0",
             }}
             className={`bg-${
-              status === "running" ? "success" : "primary"
+              agent.status === "running" ? "success" : "primary"
             }-subtle text-${
-              status === "running" ? "success" : "primary"
+              agent.status === "running" ? "success" : "primary"
             } text-capitalize py-0 px-1  position-absolute mx-1 `}
-            label={status}
+            label={agent.status}
           />
           <div
             style={{
@@ -112,21 +111,21 @@ export default function AgentCard({ agent, handleHoldAgent, ...props }) {
               variant="outlined"
               loading={holdLoading}
               onClick={() =>
-                handleHoldAgent(
-                  _id,
-                  status === "running" ? "hold" : "running",
+                holdAgent(
+                  agent._id,
+                  agent.status === "running" ? "hold" : "running",
                   setHoldLoading
                 )
               }
               className={`bg-${
-                status === "running" ? "success" : "primary"
+                agent.status === "running" ? "success" : "primary"
               }-subtle px-4 shadow-sm py-1 rounded-4`}
             >
-              {status === "running" ? (
+              {agent.status === "running" ? (
                 <FaPause
                   size={15}
                   className={`text-${
-                    status === "running" ? "success" : "primary"
+                    agent.status === "running" ? "success" : "primary"
                   }`}
                 />
               ) : (
