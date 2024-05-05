@@ -1,10 +1,22 @@
-const Product = require("../models/Product.model");
+const { Product, Categories } = require("../models/Product.model");
 const getAllProducts = async (req, res, next) => {
   try {
-    const result = await Product.find({});
-    res.status(200).json(result);
+    const products = await Product.find({});
+    res.status(200).json({ message: "products fetched", data: products });
   } catch (error) {
-    next(error);
+    res.status(500).json({
+      message: "Failed to fetch the products:" + error.message,
+    });
   }
 };
-module.exports = { getAllProducts };
+const getProductCategories = async (req, res) => {
+  try {
+    const categories = await Categories.find({}, { categoryName: 1, _id: 0 });
+    res.status(200).json({ message: "products fetched", data: categories });
+  } catch (error) {
+    res.status(500).json({
+      message: "Failed to fetch the products:" + error.message,
+    });
+  }
+};
+module.exports = { getAllProducts, getProductCategories };

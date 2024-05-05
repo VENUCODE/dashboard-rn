@@ -12,12 +12,18 @@ const endpoints = {
   //requested agents
   verifyAgent: "/api/agents/verify-agent",
   getAllJobs: "/api/jobs/get-posts",
+  //manager endpoints
+  getAllManagers: "/api/managers/all",
+  addManager: "/api/managers/add-manager",
   addJobPost: "/api/jobs/add-post",
   updateJobStatus: "/api/jobs/update-status",
   getJobCategories: "/api/jobs/categories",
   deleteJobPost: "/api/jobs/delete-job",
   getAllServices: "/api/services/all",
   getAllProperties: "https://rightneeds.azurewebsites.net/properties",
+  //Product endpoints
+  getAllProducts: "/api/products/all",
+  getProductCategories: "/api/products/categories",
 };
 
 module.exports = { hostUri, endpoints };

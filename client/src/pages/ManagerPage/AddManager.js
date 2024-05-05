@@ -1,27 +1,25 @@
 import { useState } from "react";
 import LocationAutoComplete from "./LocationAutoComplete";
-import { Divider, Form, message } from "antd";
+import { Divider, Form, Spin, message } from "antd";
 import { Button } from "@mui/material";
 import { FaUserPlus } from "react-icons/fa";
 import { LoadingOutlined } from "@ant-design/icons";
 import { useAuth } from "../../context/useAuth";
 import { endpoints, hostUri } from "../../fetch";
-import { useAgents } from "../../context/useAgents";
-export default function AddAgent() {
+import { useManager } from "../../context/useManager";
+export default function AddManager() {
   const { userData } = useAuth();
-  const { addAgent } = useAgents();
+  const { getManagers } = useManager();
   const [loading, setLoading] = useState(false);
   const initialState = {
     name: "",
     email: "",
     password: "",
     dob: "",
-    occupation: "",
     approvedBy: `${userData.id}`,
-    agentVerification: "accepted",
     status: "running",
-    role: "agent",
-    usertype: "agent",
+    role: "manager",
+    usertype: "manager",
     location: "",
     coordinates: {
       lat: "",
@@ -59,7 +57,8 @@ export default function AddAgent() {
 
     try {
       setLoading(true);
-      const response = await fetch(`${hostUri}${endpoints.addAgent}`, {
+
+      const response = await fetch(`${hostUri}${endpoints.addManager}`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -69,10 +68,11 @@ export default function AddAgent() {
       if (!response.ok) {
         const data = await response.json();
         message.error(data.message);
+        console.log(data.message);
       } else {
         const data = await response.json();
-        message.success(data.message, 1);
-        addAgent();
+        console.log(data.message);
+        getManagers();
       }
     } catch (err) {
       console.log(err.message);
@@ -142,18 +142,6 @@ export default function AddAgent() {
                       onChange={handleChange}
                     />
                   </div>
-                  <div className="mb-3 col-lg-4 col-md-6">
-                    <label className="form-label">Occupation</label>
-                    <input
-                      required
-                      type="text"
-                      className="form-control"
-                      placeholder="Agent's Occupation"
-                      name="occupation"
-                      value={formData.occupation}
-                      onChange={handleChange}
-                    />
-                  </div>
 
                   <div className="mb-3 col-lg-4 col-md-6">
                     <label className="form-label">Location</label>
@@ -181,7 +169,7 @@ export default function AddAgent() {
                           }}
                         />
                       )}{" "}
-                      Add agent
+                      Add Manager
                     </Button>
                   </div>
                   <div className="mb-3 col-lg-3 col-md-4 col-6">

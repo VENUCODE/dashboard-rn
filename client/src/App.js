@@ -18,6 +18,10 @@ import { PropertiesProvider } from "./context/useProperties";
 import { ServiceProvider } from "./context/useServices";
 import ServicePage from "./pages/ServicesPage";
 import ManagerPage from "./pages/ManagerPage";
+import { ManagersProvider } from "./context/useManager";
+import SupplierPage from "./pages/SupplierPage";
+import ProductPage from "./pages/ProductPage";
+import { ProductProvider } from "./context/useProducts";
 const App = () => {
   const { isAuthenticated } = useAuth();
   const [navToggle, setNavToggle] = useState(false);
@@ -86,12 +90,30 @@ const App = () => {
           path="/manager"
           element={
             isAuthenticated ? (
-              <AgentsProvider>
+              <ManagersProvider>
                 <ManagerPage />
-              </AgentsProvider>
+              </ManagersProvider>
             ) : (
               <Navigate to={"/login"} />
             )
+          }
+        />
+        <Route
+          path="/products"
+          element={
+            isAuthenticated ? (
+              <ProductProvider>
+                <ProductPage />
+              </ProductProvider>
+            ) : (
+              <Navigate to={"/login"} />
+            )
+          }
+        />
+        <Route
+          path="/suppliers"
+          element={
+            isAuthenticated ? <SupplierPage /> : <Navigate to={"/login"} />
           }
         />
         <Route

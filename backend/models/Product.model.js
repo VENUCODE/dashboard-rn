@@ -15,4 +15,19 @@ const ProductSchema = new mongoose.Schema(
   }
 );
 const ProductModel = mongoose.model("Products", ProductSchema);
-module.exports = ProductModel;
+const ProductCategories = new mongoose.Schema(
+  {
+    categoryName: String,
+    agentId: { type: mongoose.Schema.Types.ObjectId, ref: "UserInfo" },
+  },
+  {
+    timestamp: true,
+    collection: "ProductCategories",
+  }
+);
+const ProductCategoriesModel = mongoose.model(
+  "ProductCategory",
+  ProductCategories
+);
+
+module.exports = { Product: ProductModel, Categories: ProductCategoriesModel };

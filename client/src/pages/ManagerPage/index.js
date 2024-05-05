@@ -1,12 +1,12 @@
 import React, { useState } from "react";
-import AddAgent from "./AddAgent";
+import AddManager from "./AddManager";
 import { Button } from "@mui/material";
-import AgentsList from "./AgentsList";
+import ManagersList from "./ManagersList";
 
 const ManagerPage = () => {
-  const [showAddAgentForm, setShowAddAgentForm] = useState(false);
+  const [showAddManager, setShowAddAgentForm] = useState(false);
   const toggleAddAgentForm = () => {
-    setShowAddAgentForm(!showAddAgentForm);
+    setShowAddAgentForm(!showAddManager);
   };
 
   return (
@@ -17,14 +17,14 @@ const ManagerPage = () => {
             <h2 className="text-black font-w600">Manager's Page</h2>
           </div>
           <div>
-            {!showAddAgentForm ? (
+            {!showAddManager ? (
               <Button
                 variant="outlined"
                 color="success"
                 className=" shadow w-100 "
                 onClick={toggleAddAgentForm}
               >
-                Add agent
+                Add Manager
               </Button>
             ) : (
               <>
@@ -40,9 +40,9 @@ const ManagerPage = () => {
             )}
           </div>
         </div>
-        {showAddAgentForm && <AddAgent />}
+        {showAddManager && <AddManager />}
       </div>{" "}
-      <AgentsList />
+      <ManagersList />
     </div>
   );
 };

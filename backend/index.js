@@ -34,8 +34,13 @@ app.use("/api/services", ServiceRoutes);
 
 const PropertyRoutes = require("./routes/PropertyStatsRoute");
 app.use("/api/stats/property", PropertyRoutes);
+
 const ProductRoutes = require("./routes/ProductRoutes");
 app.use("/api/products", ProductRoutes);
+
+const ManagerRoutes = require("./routes/ManagerRoutes");
+app.use("/api/managers", ManagerRoutes);
+
 app.post("/upload_img", upload.any(), function (req, res, next) {
   try {
     console.log(req.body);

@@ -18,7 +18,7 @@ const AgentSchema = new mongoose.Schema(
     },
     role: {
       type: String,
-      enum: ["agent", "manager"],
+      enum: ["agent", "manager", "normal_user"],
       default: "agent",
     },
     usertype: {
@@ -49,7 +49,6 @@ const AgentSchema = new mongoose.Schema(
 
     occupation: {
       type: String,
-      required: [true, "occupation can't be empty"],
     },
     coordinates: {
       lat: { type: Number, required: [true, "Latitude is required"] },
