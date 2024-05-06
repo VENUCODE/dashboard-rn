@@ -4,6 +4,7 @@ import { IoMdPerson } from "react-icons/io";
 import { TbPhoneCalling } from "react-icons/tb";
 import { CiMail } from "react-icons/ci";
 import { MdOutlineWorkOutline } from "react-icons/md";
+import { hostUri } from "../../fetch";
 
 const AgentModal = ({ data, isModalVisible, handleCancel }) => {
   return (
@@ -28,7 +29,7 @@ const AgentModal = ({ data, isModalVisible, handleCancel }) => {
         className="px-2"
       >
         <div>
-          <img src="https://placehold.co/100x100/png" alt="profile" />
+          <img src={hostUri + "/" + data.profileImage} alt="profile" />
         </div>
         <div>
           <div className="row mb-2">

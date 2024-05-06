@@ -11,9 +11,10 @@ import {
 } from "@mui/material";
 import { FaPause, FaPlay, FaRegTrashAlt } from "react-icons/fa";
 import { Button } from "antd";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import AgentModal from "./AgentModal";
 import { useAgents } from "../../context/useAgents";
+import { hostUri } from "../../fetch";
 export default function AgentCard({ agent }) {
   const {
     name = "name",
@@ -67,7 +68,7 @@ export default function AgentCard({ agent }) {
           >
             <Avatar
               alt={agent.name.toUpperCase()}
-              src={agent.profileImage}
+              src={hostUri + "/" + agent.profileImage}
               sx={{ width: 100, height: 100 }}
             />
           </div>

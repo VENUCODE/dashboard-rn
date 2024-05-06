@@ -18,7 +18,7 @@ const Asidebar = ({ setNavToggle }) => {
     {
       title: "Dash Board",
       icon: <MdOutlineDashboard color="#E35A60" size={30} />,
-      link: "/",
+      link: "/upload",
     },
     {
       title: "Properties",

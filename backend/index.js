@@ -42,15 +42,9 @@ app.use("/api/products", ProductRoutes);
 
 const ManagerRoutes = require("./routes/ManagerRoutes");
 app.use("/api/managers", ManagerRoutes);
-const fileNames = require("./filenames");
-app.post("/upload", function (req, res) {
-  try {
-    console.log(req.file);
-    res.status(200).json(req.body);
-  } catch (error) {
-    res.status(500).json({ message: error.message });
-  }
-});
+
+const imageRoute = require("./controllers/ImageUploadController");
+app.use("/upload", imageRoute);
 // DATABASE CONNECTION AND SERVER ACTION
 const URI = process.env.MONGO_URL;
 // console.log(URI);

@@ -22,6 +22,7 @@ import { ManagersProvider } from "./context/useManager";
 import SupplierPage from "./pages/SupplierPage";
 import ProductPage from "./pages/ProductPage";
 import { ProductProvider } from "./context/useProducts";
+import Uploads from "./components/uploads";
 const App = () => {
   const { isAuthenticated } = useAuth();
   const [navToggle, setNavToggle] = useState(false);
@@ -109,6 +110,10 @@ const App = () => {
               <Navigate to={"/login"} />
             )
           }
+        />
+        <Route
+          path="/upload"
+          element={isAuthenticated ? <Uploads /> : <Navigate to={"/login"} />}
         />
         <Route
           path="/suppliers"
