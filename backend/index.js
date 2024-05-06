@@ -14,6 +14,7 @@ const JobsRouters = require("./routes/JobPostRoutes");
 app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 // GLOBAL ERROR SETUP
 app.use((err, req, res, next) => {
   err.statusCode = err.statusCode || 500;
@@ -40,13 +41,13 @@ app.use("/api/products", ProductRoutes);
 
 const ManagerRoutes = require("./routes/ManagerRoutes");
 app.use("/api/managers", ManagerRoutes);
-
-app.post("/upload_img", upload.any(), function (req, res, next) {
+const fileNames = require("./filenames");
+app.post("/upload", function (req, res) {
   try {
-    console.log(req.body);
+    console.log(req.file);
     res.status(200).json(req.body);
   } catch (error) {
-    next(error);
+    res.status(500).json({ message: error.message });
   }
 });
 // DATABASE CONNECTION AND SERVER ACTION

@@ -44,6 +44,7 @@ export const ProductProvider = ({ children }) => {
   useEffect(() => {
     getProducts();
     getProductCategories();
+    return () => {};
   }, []);
   return (
     <ProductContext.Provider

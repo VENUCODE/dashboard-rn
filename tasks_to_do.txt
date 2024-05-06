@@ -1,0 +1,36 @@
+property requests(number of users (icon and modal)),verification
+properties rejected
+properties list
+property filters(type,city,price(range))
+
+---products--
+add products
+add product category
+your added products(my addons)
+verified products(verified)
+all products(all)
+
+--services---
+add servies
+add service category
+your added service(my addons)
+verified service(verified)
+all service(all)
+
+---jobs-----
+
+changes-->jobId and password (objectId,password(company name 4 characters, jobId last 4 number/characters)
+Total number of job requests
+Date of expiry
+
+job panel--->
+company details 
+applicants
+
+company login
+
+
+company panel
+-->profile
+jobs posted
+job detail->click->job page->applicants-->view

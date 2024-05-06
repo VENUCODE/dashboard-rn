@@ -29,6 +29,7 @@ export const ServiceProvider = ({ children }) => {
   };
   useEffect(() => {
     getServices();
+    return () => {};
   }, []);
   return (
     <ServicesContext.Provider value={{ services, loading }}>

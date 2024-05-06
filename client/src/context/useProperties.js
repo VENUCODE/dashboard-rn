@@ -28,6 +28,7 @@ export const PropertiesProvider = ({ children }) => {
   };
   useEffect(() => {
     getProperties();
+    return () => {};
   }, []);
   return (
     <PropertiesContext.Provider value={{ properties, loading }}>

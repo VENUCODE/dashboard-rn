@@ -19,7 +19,6 @@ export default function AgentCard({ agent }) {
     name = "name",
     location = "location",
     occupation = "no occup",
-    image = "https://placehold.co/100x100.png",
   } = agent;
   const { holdAgent } = useAgents();
   const [holdLoading, setHoldLoading] = useState(false);
@@ -67,8 +66,8 @@ export default function AgentCard({ agent }) {
             }}
           >
             <Avatar
-              alt="Profile"
-              src={image}
+              alt={agent.name.toUpperCase()}
+              src={agent.profileImage}
               sx={{ width: 100, height: 100 }}
             />
           </div>

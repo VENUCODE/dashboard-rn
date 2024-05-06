@@ -31,6 +31,7 @@ export const ManagersProvider = ({ children }) => {
 
   useEffect(() => {
     getManagers();
+    return () => {};
   }, []);
 
   return (

@@ -116,6 +116,7 @@ export const AgentsProvider = ({ children }) => {
   useEffect(() => {
     getAgents();
     getReqAgents();
+    return () => {};
   }, []);
 
   return (

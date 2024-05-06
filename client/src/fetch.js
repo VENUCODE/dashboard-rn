@@ -1,5 +1,5 @@
-// const hostUri = "https://dashboard-react-nodejs-mongodb.onrender.com";
-const hostUri = "http://localhost:3300";
+const hostUri = "https://dashboard-react-nodejs-mongodb.onrender.com";
+// const hostUri = "http://localhost:3300";
 
 const endpoints = {
   loginUser: "/api/user/login",
