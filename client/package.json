@@ -2,6 +2,7 @@
   "name": "dashboard",
   "version": "0.1.0",
   "private": true,
+  "proxy": "https://dashboard-react-nodejs-mongodb.onrender.com",
   "dependencies": {
     "@ant-design/icons": "^5.3.6",
     "@emotion/react": "^11.11.4",
