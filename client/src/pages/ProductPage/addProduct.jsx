@@ -1,7 +1,16 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import ImageUpload from "../../components/ImageUpload";
 import { endpoints, hostUri } from "../../fetch";
-import { TextField, Button, Grid, Typography, Container } from "@mui/material";
+import {
+  TextField,
+  Button,
+  Grid,
+  Container,
+  FormControl,
+  Select,
+  MenuItem,
+  InputLabel,
+} from "@mui/material";
 const initialFormData = {
   productName: "",
   productPrice: "",
@@ -9,7 +18,9 @@ const initialFormData = {
   categoryName: "",
 };
 import { message } from "antd";
+import { useProducts } from "../../context/useProducts";
 export const AddProduct = () => {
+  const { getProducts, categories } = useProducts();
   const [fileList, setFileList] = useState([]);
 
   const [product, setProduct] = useState(initialFormData);
@@ -37,6 +48,7 @@ export const AddProduct = () => {
         message.success(responseData.message, 1);
         setProduct(initialFormData);
         setFileList([]);
+        getProducts();
       } else {
         console.error("Error adding product:", responseData.message);
       }
@@ -95,16 +107,23 @@ export const AddProduct = () => {
               />
             </Grid>
             <Grid item xs={12} sm={6}>
-              <TextField
-                required
-                fullWidth
-                id="categoryName"
-                label="product Category"
-                name="categoryName"
-                value={product.categoryName}
-                onChange={handleChange}
-                variant="outlined"
-              />
+              <FormControl fullWidth size="small" className="h-100">
+                <InputLabel className="bg-white">Job Category</InputLabel>
+                <Select
+                  name="categoryName"
+                  size="small"
+                  className="h-100"
+                  value={product.categoryName}
+                  onChange={handleChange}
+                  required
+                >
+                  {categories.map((item, index) => (
+                    <MenuItem key={index} value={item.categoryName}>
+                      {item.categoryName}
+                    </MenuItem>
+                  ))}
+                </Select>
+              </FormControl>
             </Grid>
             <Grid item xs={12} sm={6}>
               <div className="text-muted ms-3">Product Images</div>

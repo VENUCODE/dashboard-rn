@@ -9,6 +9,7 @@ const getAllProducts = async (req, res, next) => {
     });
   }
 };
+
 const getProductCategories = async (req, res) => {
   try {
     const categories = await Categories.find({}, { categoryName: 1, _id: 0 });
@@ -16,6 +17,31 @@ const getProductCategories = async (req, res) => {
   } catch (error) {
     res.status(500).json({
       message: "Failed to fetch the products:" + error.message,
+    });
+  }
+};
+
+const addProductCategory = async (req, res) => {
+  try {
+    const { categoryName, agentId } = req.body;
+    const existingCategory = await Categories.findOne({ categoryName });
+
+    if (existingCategory) {
+      return res.status(400).json({
+        message: categoryName + " already exists",
+      });
+    }
+
+    const newCategory = await Categories.create({ categoryName, agentId });
+
+    if (newCategory) {
+      return res.status(200).json({
+        message: categoryName + " added successfully",
+      });
+    }
+  } catch (error) {
+    return res.status(500).json({
+      message: "Failed to add the product category: " + error.message,
     });
   }
 };
@@ -46,4 +72,9 @@ const addProduct = async (req, res) => {
   }
 };
 
-module.exports = { getAllProducts, getProductCategories, addProduct };
+module.exports = {
+  getAllProducts,
+  getProductCategories,
+  addProduct,
+  addProductCategory,
+};

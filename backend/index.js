@@ -16,6 +16,8 @@ app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));
+app.use("/products", express.static(path.join(__dirname, "products")));
+
 // GLOBAL ERROR SETUP
 app.use((err, req, res, next) => {
   err.statusCode = err.statusCode || 500;

@@ -1,13 +1,17 @@
-import React from "react";
+import React, { useEffect } from "react";
+import { hostUri } from "../../fetch";
 
 const ProductCard = ({ data }) => {
+  useEffect(() => {
+    console.log(hostUri + "/" + data.images[0]);
+  });
   return (
     <div class="col-lg-6 col-md-6 col-sm-12 mb-2 rounded-3">
       <div class="card rounded-1   bg-glass mx-1 ">
         <div class="row g-0">
           <div class=" card-left col-12 col-md-6 col-sm-12 ">
             <img
-              src="https://wallpapercave.com/wp/wp6724318.jpg"
+              src={hostUri + "/" + data.images[0]}
               class="img-fluid img-thumbnail"
               alt="..."
               style={{ maxHeight: "250px", width: "100%" }}

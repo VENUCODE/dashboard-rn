@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import ProductList from "./ProductList";
 import { Button } from "@mui/material";
 import AddProduct from "./addProduct";
+import AddProductCategory from "./addProductCategory";
+import { Card } from "antd";
 
 const ProductPage = () => {
   const [show, toggleShow] = useState(false);
@@ -23,9 +25,20 @@ const ProductPage = () => {
             </Button>
           </div>
         </div>
-        <div className="container-fluid">
-          <AddProduct />
-        </div>
+        {show && (
+          <>
+            <div className="container-fluid">
+              <Card>
+                <AddProduct />
+              </Card>
+            </div>
+            <div className="container-fluid">
+              <Card>
+                <AddProductCategory />
+              </Card>
+            </div>
+          </>
+        )}
         <div className="container-fluid">
           <ProductList />
         </div>

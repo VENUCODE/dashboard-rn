@@ -22,6 +22,7 @@ const ProductCategories = new mongoose.Schema(
   },
   {
     timestamp: true,
+    statics: false,
     collection: "ProductCategories",
   }
 );
