@@ -28,9 +28,6 @@ const JobCard = ({ data, handleCloseJob, handleDeleteJob }) => {
   const handleCancel = () => {
     setIsModalVisible(false);
   };
-  useEffect(() => {
-    console.log(data);
-  });
 
   return (
     <Grid item xs={12} sm={12} md={6}>

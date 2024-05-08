@@ -1,8 +1,7 @@
-// const hostUri = "https://dashboard-react-nodejs-mongodb.onrender.com";
-const hostUri = "http://localhost:3300";
-// const hostUri = "";
+// export const hostUri = "https://dashboard-react-nodejs-mongodb.onrender.com";
+export const hostUri = "http://localhost:3300";
 
-const endpoints = {
+export const endpoints = {
   loginUser: "/api/user/login",
   //agent endpoints
   getAllAgents: "/api/agents/verified-agents",
@@ -25,6 +24,6 @@ const endpoints = {
   //Product endpoints
   getAllProducts: "/api/products/all",
   getProductCategories: "/api/products/categories",
+  addProductCategory: "/api/products/add-category",
+  addProduct: "/api/products/add-product",
 };
-
-module.exports = { hostUri, endpoints };

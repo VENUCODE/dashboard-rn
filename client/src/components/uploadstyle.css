@@ -1,0 +1,13 @@
+.ant-upload-list-item-container {
+    height: 50px !important;
+    width: 50px !important;
+    object-fit: contain !important;
+}
+
+.ant-upload {
+    height: 60px !important;
+    width: 60px !important;
+    border-radius: 10px;
+    background-color: rgba(119, 146, 255, 0.534);
+    object-fit: contain !important;
+}

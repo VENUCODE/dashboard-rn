@@ -37,17 +37,17 @@ const PropertySaleCount = ({
     },
   };
   return (
-    <div class="col-sm-12 col-md-6">
-      <div class="card property-card">
-        <div class="card-body">
-          <div class="media align-items-center">
-            <div class="media-body me-3">
-              <h2 class="fs-28 text-black font-w600">{saleCount}</h2>
-              <p class="property-p mb-0 text-black font-w500">{title}</p>
-              <span class="fs-13">{targetText}</span>
+    <div className="col-sm-12 col-md-6">
+      <div className="card property-card">
+        <div className="card-body">
+          <div className="media align-items-center">
+            <div className="media-body me-3">
+              <h2 className="fs-28 text-black font-w600">{saleCount}</h2>
+              <p className="property-p mb-0 text-black font-w500">{title}</p>
+              <span className="fs-13">{targetText}</span>
             </div>
-            <div class="d-inline-block position-relative donut-chart-sale">
-              <span class="donut1 ">
+            <div className="d-inline-block position-relative donut-chart-sale">
+              <span className="donut1 ">
                 <Chart
                   options={donutData.options}
                   series={donutData.series}
@@ -55,8 +55,8 @@ const PropertySaleCount = ({
                   width="150"
                 />
               </span>
-              <small class={`text-${styleClass}`}>{percetage}</small>
-              <span class={`circle bgl-${styleClass}`}></span>
+              <small className={`text-${styleClass}`}>{percetage}</small>
+              <span className={`circle bgl-${styleClass}`}></span>
             </div>
           </div>
         </div>

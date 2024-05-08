@@ -19,4 +19,31 @@ const getProductCategories = async (req, res) => {
     });
   }
 };
-module.exports = { getAllProducts, getProductCategories };
+
+const addProduct = async (req, res) => {
+  try {
+    const { productName, productPrice, productDescription, categoryName } =
+      req.body;
+
+    const images = req.files.map((file) => file.path);
+
+    const responseData = {
+      productName,
+      productPrice,
+      productDescription,
+      categoryName,
+      images,
+    };
+    const newProduct = await Product.create(responseData);
+    if (newProduct) {
+      res.status(200).json({ data: newProduct, message: "success" });
+    } else {
+      res.status(400).json({ message: "Failed to add prodcut" });
+    }
+  } catch (error) {
+    console.error("Error uploading form data:", error);
+    res.status(500).json({ message: error.message });
+  }
+};
+
+module.exports = { getAllProducts, getProductCategories, addProduct };

@@ -38,13 +38,38 @@ const PropertyRoutes = require("./routes/PropertyStatsRoute");
 app.use("/api/stats/property", PropertyRoutes);
 
 const ProductRoutes = require("./routes/ProductRoutes");
+const uploadMiddleware = require("./middleware/imageUploadMiddleware");
+
 app.use("/api/products", ProductRoutes);
 
+const multer = require("multer");
+const fs = require("fs");
+
+const destinationDirectory = "products";
+if (!fs.existsSync(destinationDirectory)) {
+  fs.mkdirSync(destinationDirectory);
+}
+
+const storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, destinationDirectory);
+  },
+  filename: function (req, file, cb) {
+    cb(null, Date.now() + path.extname(file.originalname));
+  },
+});
+
+const fileUpload = multer({ storage });
+
+const { addProduct } = require("./controllers/ProductControllers");
+app.post(
+  "/api/products/add-product",
+  fileUpload.array("images", 5),
+  addProduct
+);
 const ManagerRoutes = require("./routes/ManagerRoutes");
 app.use("/api/managers", ManagerRoutes);
 
-const imageRoute = require("./controllers/ImageUploadController");
-app.use("/upload", imageRoute);
 // DATABASE CONNECTION AND SERVER ACTION
 const URI = process.env.MONGO_URL;
 // console.log(URI);

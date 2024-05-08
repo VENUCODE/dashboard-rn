@@ -7,7 +7,7 @@ const PropertyCount = () => {
   return (
     <>
       <div className="col-xl-6 col-xxl-6">
-        <div class="row">
+        <div className="row">
           <TotalPropertiesCount />
           <PropertySaleCount
             saleCount="2306"

@@ -1,5 +1,6 @@
 import React from "react";
 import { Carousel, Image } from "antd";
+import imgurl from "../../assets/img/sky.jpg";
 
 const ImageCarousel = ({ images }) => (
   <Carousel autoplay dotPosition="bottom">
@@ -13,7 +14,7 @@ const ImageCarousel = ({ images }) => (
             key={index}
             width={300}
             className="carousel-img"
-            src={`https://rightneeds.azurewebsites.net/${img}`}
+            src={imgurl}
             alt={img}
           />
         </div>

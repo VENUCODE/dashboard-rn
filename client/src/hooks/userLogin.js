@@ -13,7 +13,7 @@ const useLogin = () => {
       setError(null);
       setLoading(true);
 
-      const result = await fetch(`${hostUri}${endpoints.loginUser}`, {
+      const result = await fetch(hostUri + endpoints.loginUser, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

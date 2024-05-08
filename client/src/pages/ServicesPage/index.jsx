@@ -6,6 +6,7 @@ import ServiceCard from "./serviceCard";
 import categorizeServices from "./helper";
 import { IoIosMore } from "react-icons/io";
 import { Divider } from "antd";
+import ServiceDummy from "./Scontainer";
 
 const ServicePage = () => {
   const { services, loading } = useServices();
@@ -32,6 +33,7 @@ const ServicePage = () => {
   return (
     <div className="content-body">
       <div className="container-fluid">
+        <ServiceDummy />
         <ServiceFilter setCurrent={setCurrent} count={current.length} />
         {loading && <LinearProgress color="secondary" />}
         {Object.keys(servicesByCategory).map((categoryName) => (

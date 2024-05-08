@@ -42,8 +42,8 @@ const TotalServicesArrival = ({ color }) => {
                     y2="45.9686"
                     gradientUnits="userSpaceOnUse"
                   >
-                    <stop stop-color="#37D159" offset="0" />
-                    <stop offset="1" stop-color="#37D159" stop-opacity="0" />
+                    <stop stopColor="#37D159" offset="0" />
+                    <stop offset="1" stopColor="#37D159" stopOpacity="0" />
                   </linearGradient>
                 </defs>
               </svg>

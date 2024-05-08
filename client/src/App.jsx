@@ -8,7 +8,6 @@ import "aos/dist/aos.css";
 import JobsPage from "./pages/JobPage";
 import AgentsPage from "./pages/AgentPage";
 import Topbar from "./statics/Topbar";
-import Header from "./statics/Header";
 import LandingSection from "./statics/Landing/LandingSection";
 import { JobProvider } from "./context/useJobPosts";
 import { AgentsProvider } from "./context/useAgents";
@@ -22,7 +21,7 @@ import { ManagersProvider } from "./context/useManager";
 import SupplierPage from "./pages/SupplierPage";
 import ProductPage from "./pages/ProductPage";
 import { ProductProvider } from "./context/useProducts";
-import Uploads from "./components/uploads";
+
 const App = () => {
   const { isAuthenticated } = useAuth();
   const [navToggle, setNavToggle] = useState(false);
@@ -111,10 +110,7 @@ const App = () => {
             )
           }
         />
-        <Route
-          path="/upload"
-          element={isAuthenticated ? <Uploads /> : <Navigate to={"/login"} />}
-        />
+
         <Route
           path="/suppliers"
           element={
