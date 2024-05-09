@@ -71,10 +71,24 @@ const addProduct = async (req, res) => {
     res.status(500).json({ message: error.message });
   }
 };
+const deleteProductById = async (req, res) => {
+  try {
+    const { pid } = req.body;
+    const response = await Product.findByIdAndDelete(pid);
+    if (!response) {
+      res.status(400).json({ message: "bad request" });
+    }
+    res.status(200).json({ message: "Deleted product" });
+  } catch (error) {
+    res.status(400).json({ message: "bad request" });
+    console.log(error);
+  }
+};
 
 module.exports = {
   getAllProducts,
   getProductCategories,
   addProduct,
+  deleteProductById,
   addProductCategory,
 };
