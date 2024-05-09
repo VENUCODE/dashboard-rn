@@ -41,7 +41,7 @@ const JobPostList = () => {
   const handleDeleteJob = async (jobId, setDeleteLoading) => {
     try {
       setDeleteLoading(true);
-      const response = await fetch(`${hostUri}${endpoints.deleteJobPost}`, {
+      const response = await fetch(hostUri + endpoints.deleteJobPost, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

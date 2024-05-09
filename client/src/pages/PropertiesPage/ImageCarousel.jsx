@@ -1,8 +1,7 @@
 import React from "react";
 import { Carousel, Image } from "antd";
 import imgurl from "../../assets/img/sky.jpg";
-
-const ImageCarousel = ({ images }) => (
+const ImageCarousel = ({ images, path = "" }) => (
   <Carousel autoplay dotPosition="bottom">
     {images.map((img, index) => {
       return (
@@ -14,7 +13,7 @@ const ImageCarousel = ({ images }) => (
             key={index}
             width={300}
             className="carousel-img"
-            src={imgurl}
+            src={path + img}
             alt={img}
           />
         </div>

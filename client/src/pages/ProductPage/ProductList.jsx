@@ -1,13 +1,18 @@
 import React from "react";
-import ProductCard from "./productCard";
 import { useProducts } from "../../context/useProducts";
+import { Row } from "antd";
+import ProductCard from "./ProductCard";
 const ProductList = () => {
   const { products } = useProducts();
   return (
-    <div class="d-flex flex-wrap px-2 ">
-      {products.map((a) => {
-        return <ProductCard key={a.productName} data={a} />;
-      })}
+    <div className="container-fluid">
+      <div className="ser-container">
+        <Row gutter={[16, 16]}>
+          {products.map((a) => {
+            return <ProductCard key={a.productName} data={a} />;
+          })}
+        </Row>
+      </div>
     </div>
   );
 };

@@ -32,7 +32,7 @@ export const ServiceProvider = ({ children }) => {
     return () => {};
   }, []);
   return (
-    <ServicesContext.Provider value={{ services, loading }}>
+    <ServicesContext.Provider value={{ services, loading, getServices }}>
       {children}
     </ServicesContext.Provider>
   );

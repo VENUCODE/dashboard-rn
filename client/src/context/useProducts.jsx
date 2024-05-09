@@ -14,7 +14,11 @@ export const ProductProvider = ({ children }) => {
       const response = await fetch(hostUri + endpoints.getAllProducts);
       const data = await response.json();
       if (response.ok) {
-        setProducts(data.data);
+        setProducts(
+          data.data.sort(
+            (a, b) => new Date(b.timestamp) - new Date(a.timestamp)
+          )
+        );
       } else {
         message.error(data.message);
       }

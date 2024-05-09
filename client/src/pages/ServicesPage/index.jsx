@@ -6,13 +6,16 @@ import ServiceCard from "./serviceCard";
 import categorizeServices from "./helper";
 import { IoIosMore } from "react-icons/io";
 import { Divider } from "antd";
-import ServiceDummy from "./Scontainer";
+import { Button } from "@mui/material";
 
+import AddService from "./addService";
+import AddServiceCategory from "./addServiceCategory";
 const ServicePage = () => {
   const { services, loading } = useServices();
   const [current, setCurrent] = useState([]);
   const [servicesByCategory, setServicesByCategory] = useState([]);
   const [expandedCategories, setExpandedCategories] = useState([]);
+  const [addService, setAddService] = useState(false);
   const [limit, setlimit] = useState(5);
   const toggleExpand = (categoryName) => {
     setExpandedCategories((prevExpanded) =>
@@ -33,7 +36,31 @@ const ServicePage = () => {
   return (
     <div className="content-body">
       <div className="container-fluid">
-        <ServiceDummy />
+        <div className=" my-2">
+          <div className=" bg-white  shadow-sm d-flex justify-content-between p-2 align-items-center">
+            <div>
+              <h2 className="text-black font-w600">Service's Page</h2>
+            </div>
+            <div>
+              <Button
+                variant="outlined"
+                color={!addService ? "success" : "error"}
+                className="shadow w-100"
+                onClick={() => setAddService((prevShow) => !prevShow)}
+              >
+                {!addService ? "Add Service" : "Hide Form"}
+              </Button>
+            </div>
+          </div>
+        </div>
+        <div className="my-2">
+          {addService && (
+            <div className="d-flex gap-2 flex-column">
+              <AddService />
+              <AddServiceCategory />
+            </div>
+          )}
+        </div>
         <ServiceFilter setCurrent={setCurrent} count={current.length} />
         {loading && <LinearProgress color="secondary" />}
         {Object.keys(servicesByCategory).map((categoryName) => (

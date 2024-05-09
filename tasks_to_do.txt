@@ -34,3 +34,6 @@ company panel
 -->profile
 jobs posted
 job detail->click->job page->applicants-->view
+
+
+===========================Remaining tasks=====================

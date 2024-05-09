@@ -5,15 +5,22 @@ import { FaCalendarTimes, FaCity, FaRegTrashAlt } from "react-icons/fa";
 import { BsBodyText } from "react-icons/bs";
 import { LuView } from "react-icons/lu";
 import Time from "../../components/TimeAgo";
+import ImageCarousel from "../PropertiesPage/ImageCarousel";
 const ServiceCard = ({ service }) => {
   return (
-    <div class="col-lg-3 col-md-4 col-sm-6  mb-4 mb-lg-0">
+    <div
+      class="col-lg-3 col-md-4 col-sm-6  mb-4 mb-lg-0"
+      data-aos="zoom-in"
+      data-aos-delay="100"
+    >
       <div class="card-flyer shadow">
         <div class="text-box pb-2">
           <div class="image-box">
-            <img
-              src="https://cdn.pixabay.com/photo/2018/03/30/15/11/deer-3275594_960_720.jpg"
-              alt=""
+            <ImageCarousel
+              images={["", "", "", ""]}
+              path={
+                "https://laghui.tech/static/media/vaajlab.d38a1e7b08b1df8bae00c7c413257ff5.svg"
+              }
             />
           </div>
           <div class="text-container  ps-3">

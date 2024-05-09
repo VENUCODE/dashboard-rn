@@ -21,7 +21,7 @@ const ImageUpload = ({ fileList, setFileList }) => {
 
   return (
     <div className="d-flex flex-row">
-      <div className="p-4">
+      <div>
         <ImgCrop rotationSlider>
           <Upload
             listType="picture-card"

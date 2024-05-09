@@ -108,7 +108,7 @@ export const AddProduct = () => {
             </Grid>
             <Grid item xs={12} sm={6}>
               <FormControl fullWidth size="small" className="h-100">
-                <InputLabel className="bg-white">Job Category</InputLabel>
+                <InputLabel className="bg-white">Product Category</InputLabel>
                 <Select
                   name="categoryName"
                   size="small"

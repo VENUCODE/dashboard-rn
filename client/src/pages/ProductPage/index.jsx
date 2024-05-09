@@ -17,7 +17,7 @@ const ProductPage = () => {
           <div>
             <Button
               variant="outlined"
-              color={!show ? "success" : "error"} // Assuming "error" is used for danger
+              color={!show ? "success" : "error"}
               className="shadow w-100"
               onClick={() => toggleShow((prevShow) => !prevShow)}
             >

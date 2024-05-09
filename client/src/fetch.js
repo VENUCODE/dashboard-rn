@@ -20,10 +20,12 @@ export const endpoints = {
   getJobCategories: "/api/jobs/categories",
   deleteJobPost: "/api/jobs/delete-job",
   getAllServices: "/api/services/all",
+  addService: "/api/services/add-service",
   getAllProperties: "https://rightneeds.azurewebsites.net/properties",
   //Product endpoints
   getAllProducts: "/api/products/all",
   getProductCategories: "/api/products/categories",
   addProductCategory: "/api/products/add-category",
   addProduct: "/api/products/add-product",
+  deleteProduct: "/api/products/delete-product",
 };
