@@ -37,3 +37,14 @@ job detail->click->job page->applicants-->view
 
 
 ===========================Remaining tasks=====================
+
+properties page:
+propeties filter and display and add
+
+products filter 
+
+agents Delete 
+
+Suppliers page
+
+Manager Filters 

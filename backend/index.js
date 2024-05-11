@@ -9,14 +9,20 @@ const app = express();
 //CUSTOM MODULE IMPORTS
 const UserRoutes = require("./routes/UserRoutes");
 const AgentRoutes = require("./routes/AgentRoutes");
-const upload = require("./controllers/FileUploadController");
 const JobsRouters = require("./routes/JobPostRoutes");
 // MIDDLEWARE SETUP
 app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));
-app.use("/products", express.static(path.join(__dirname, "products")));
+app.use(
+  "/productImages",
+  express.static(path.join(__dirname, "productImages"))
+);
+app.use(
+  "/serviceImages",
+  express.static(path.join(__dirname, "serviceImages"))
+);
 
 // GLOBAL ERROR SETUP
 app.use((err, req, res, next) => {
@@ -29,46 +35,28 @@ app.use((err, req, res, next) => {
 app.get("/", (req, res) => {
   res.status(200).json("server is running");
 });
+//NOTE -  User Route
 app.use("/api/user", UserRoutes);
+
+//NOTE -  Agent Route
 app.use("/api/agents", AgentRoutes);
+
+//NOTE -  Jobs Route
 app.use("/api/jobs", JobsRouters);
 
+//NOTE -  Service Route
 const ServiceRoutes = require("./routes/ServiceRoutes");
 app.use("/api/services", ServiceRoutes);
 
+//NOTE -  Property Route
 const PropertyRoutes = require("./routes/PropertyStatsRoute");
 app.use("/api/stats/property", PropertyRoutes);
 
+//NOTE -  Products Route
 const ProductRoutes = require("./routes/ProductRoutes");
-const uploadMiddleware = require("./middleware/imageUploadMiddleware");
-
 app.use("/api/products", ProductRoutes);
 
-const multer = require("multer");
-const fs = require("fs");
-
-const destinationDirectory = "products";
-if (!fs.existsSync(destinationDirectory)) {
-  fs.mkdirSync(destinationDirectory);
-}
-
-const storage = multer.diskStorage({
-  destination: function (req, file, cb) {
-    cb(null, destinationDirectory);
-  },
-  filename: function (req, file, cb) {
-    cb(null, Date.now() + path.extname(file.originalname));
-  },
-});
-
-const fileUpload = multer({ storage });
-
-const { addProduct } = require("./controllers/ProductControllers");
-app.post(
-  "/api/products/add-product",
-  fileUpload.array("images", 5),
-  addProduct
-);
+//NOTE -  Manger Route
 const ManagerRoutes = require("./routes/ManagerRoutes");
 app.use("/api/managers", ManagerRoutes);
 

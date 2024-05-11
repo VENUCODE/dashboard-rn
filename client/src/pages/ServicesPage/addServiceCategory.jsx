@@ -1,21 +1,36 @@
 import { useState } from "react";
-import { TextField, Button, Grid, Container } from "@mui/material";
+import {
+  TextField,
+  Button,
+  Grid,
+  Container,
+  CircularProgress,
+} from "@mui/material";
 import { useAuth } from "../../context/useAuth";
 import { endpoints, hostUri } from "../../fetch";
 import { Card, message } from "antd";
+import { useServices } from "../../context/useServices";
 const AddServiceCategory = () => {
   const { userData } = useAuth();
+  const { getServiceCategories } = useServices();
   const [serviceCategory, setServiceCategory] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     console.log(userData);
-    P;
+    if (!serviceCategory.trim()) {
+      message.info("Category can't be empty");
+      setServiceCategory("");
+      return;
+    }
+
     try {
       const data = {
-        categoryName: serviceCategory,
+        categoryName: serviceCategory.trim(),
         agentId: userData.id,
       };
+      setLoading(true);
       const response = await fetch(hostUri + endpoints.addServiceCategory, {
         method: "POST",
         headers: {
@@ -27,13 +42,16 @@ const AddServiceCategory = () => {
       console.log(result);
       if (response.ok) {
         message.success(result.message, 1);
-        getProductCategories();
+        getServiceCategories();
       } else {
         message.error(result.message, 1);
       }
     } catch (error) {
       console.error(error);
-      message.error(error.message, 1); // Assuming message is an antd notification, you may need to handle it differently
+      message.error(error.message, 1);
+    } finally {
+      setLoading(false);
+      setServiceCategory("");
     }
   };
 
@@ -54,7 +72,6 @@ const AddServiceCategory = () => {
                 onChange={(e) => {
                   setServiceCategory(e.target.value);
                 }}
-                variant="outlined"
               />
             </Grid>
             <Grid
@@ -65,10 +82,12 @@ const AddServiceCategory = () => {
             >
               <Button
                 type="submit"
-                className="py-3 btn light btn-primary btn-outline-primary"
+                variant="contained"
+                disabled={loading}
+                className="py-3 btn light btn-primary "
                 fullWidth
               >
-                Add Category
+                {loading && <CircularProgress size={25} />}Add Category
               </Button>
             </Grid>
           </Grid>

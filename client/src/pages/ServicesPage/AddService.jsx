@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import ImageUpload from "../../components/ImageUpload";
 import { endpoints, hostUri } from "../../fetch";
 import {
@@ -10,13 +10,17 @@ import {
   Select,
   MenuItem,
   InputLabel,
+  CircularProgress,
 } from "@mui/material";
 import { Card, message } from "antd";
 import { useServices } from "../../context/useServices";
 import LocationInput from "../JobPage/LocationInput";
 import { useAuth } from "../../context/useAuth";
+
 const AddService = () => {
   const { userData } = useAuth();
+  const [loading, setLoading] = useState(false);
+  const [reset, setReset] = useState(false);
   const initialFormData = {
     coordinates: {
       latitude: 0,
@@ -28,26 +32,31 @@ const AddService = () => {
     location: "",
     images: [],
     categoryName: "",
-    agentId: userData.id,
   };
+
   const [fileList, setFileList] = useState([]);
-  const { getServices } = useServices();
-  const [service, setServices] = useState(initialFormData);
+  const { getServices, serviceCategories } = useServices();
+  const [service, setService] = useState(initialFormData);
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    setServices((prevProduct) => ({
-      ...prevProduct,
-    }));
+
     try {
       const formData = new FormData();
       formData.append("serviceName", service.serviceName);
       formData.append("servicePrice", service.servicePrice);
       formData.append("serviceDescription", service.serviceDescription);
       formData.append("categoryName", service.categoryName);
+      formData.append("coordinates[latitude]", service.coordinates.latitude);
+      formData.append("coordinates[longitude]", service.coordinates.longitude);
+      formData.append("agentId", userData.id);
+      formData.append("location", service.location);
+
       fileList.forEach((file) => {
         formData.append("images", file.originFileObj);
       });
+
+      setLoading(true);
       const response = await fetch(hostUri + endpoints.addService, {
         method: "POST",
         body: formData,
@@ -55,18 +64,26 @@ const AddService = () => {
       const responseData = await response.json();
       if (response.ok) {
         message.success(responseData.message, 1);
-        setServices(initialFormData);
+        getServices();
+        setService(initialFormData);
         setFileList([]);
       } else {
+        message.error(responseData.message, 1);
         console.error("Error adding service:", responseData.message);
       }
     } catch (error) {
       console.error("Error adding service:", error);
+    } finally {
+      setReset((p) => !p);
+      setService(initialFormData);
+      setLoading(false);
+      setFileList([]);
     }
   };
+
   const handlePlaceSelected = (place) => {
-    setFormData({
-      ...formData,
+    setService({
+      ...service,
       location: place.name,
       coordinates: {
         latitude: place.lat,
@@ -74,10 +91,11 @@ const AddService = () => {
       },
     });
   };
+
   const handleChange = (event) => {
     const { name, value } = event.target;
-    setProduct((prevProduct) => ({
-      ...prevProduct,
+    setService((prevService) => ({
+      ...prevService,
       [name]: value,
     }));
   };
@@ -92,7 +110,7 @@ const AddService = () => {
                 required
                 fullWidth
                 id="serviceName"
-                label="service name"
+                label="Service name"
                 name="serviceName"
                 value={service.serviceName}
                 onChange={handleChange}
@@ -104,7 +122,7 @@ const AddService = () => {
                 required
                 fullWidth
                 id="servicePrice"
-                label="service price"
+                label="Service price"
                 name="servicePrice"
                 value={service.servicePrice}
                 onChange={handleChange}
@@ -116,42 +134,42 @@ const AddService = () => {
                 required
                 fullWidth
                 id="serviceDescription"
-                label="service description"
+                label="Service description"
                 name="serviceDescription"
                 value={service.serviceDescription}
                 onChange={handleChange}
                 variant="outlined"
               />
-            </Grid>{" "}
-            <Grid item xs={12} sm={6}>
-              <LocationInput onPlaceSelected={handlePlaceSelected} />
             </Grid>
-            <Grid
-              item
-              xs={12}
-              sm={6}
-              className="d-flex align-items-center gap-2"
-            >
-              <InputLabel className="bg-white">Images</InputLabel>
-
+            <Grid item xs={12} sm={6}>
+              <LocationInput
+                onPlaceSelected={handlePlaceSelected}
+                reset={reset}
+              />
+            </Grid>
+            <Grid item xs={12} sm={6} className="d-flex my-2">
+              <div className="text-muted ms-3 justify-content-center align-items-center d-flex me-2">
+                Images
+              </div>
               <ImageUpload fileList={fileList} setFileList={setFileList} />
             </Grid>
-            <Grid item xs={12} sm={6}>
-              <FormControl fullWidth size="small" className="h-100">
-                <InputLabel className="bg-white">service Category</InputLabel>
+            <Grid item xs={12} sm={6} className=" py-0 my-1 ">
+              <FormControl fullWidth required className="h-100">
+                <InputLabel className="bg-white">Service category</InputLabel>
                 <Select
                   name="categoryName"
                   size="small"
-                  className="h-100"
+                  className="h-100 py-2 "
+                  label="Service category"
                   value={service.categoryName}
                   onChange={handleChange}
                   required
                 >
-                  {/* {categories.map((item, index) => (
-                    <MenuItem key={index} value={item.categoryName}>
-                      {item.categoryName}
+                  {serviceCategories?.map((cat, index) => (
+                    <MenuItem value={cat} key={index}>
+                      {cat}
                     </MenuItem>
-                  ))} */}
+                  ))}
                 </Select>
               </FormControl>
             </Grid>
@@ -159,15 +177,17 @@ const AddService = () => {
               item
               xs={12}
               sm={6}
-              className="d-flex flex-row align-items-center"
+              className="d-flex flex-row align-items-center  py-0 my-1"
             >
               <Button
                 type="submit"
-                className="py-3 btn light btn-danger btn-outline-danger"
+                disabled={loading}
                 fullWidth
-                color="error"
+                variant="contained"
+                className="btn btn-danger light h-100 "
+                color="primary"
               >
-                Add Product
+                {loading && <CircularProgress size={25} />} Add Service
               </Button>
             </Grid>
           </Grid>
@@ -176,4 +196,5 @@ const AddService = () => {
     </Card>
   );
 };
+
 export default AddService;

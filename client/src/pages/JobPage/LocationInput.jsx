@@ -3,11 +3,13 @@ import { Loader } from "@googlemaps/js-api-loader";
 
 import { TextField } from "@mui/material";
 
-const LocationInput = ({ onPlaceSelected, ...props }) => {
+const LocationInput = ({ onPlaceSelected, reset = false, ...props }) => {
   const apiKey = "AIzaSyDoHTfjnTnbU_EPSxffAB7ZP18PMp0jcog";
   const [autocomplete, setAutocomplete] = useState(null);
   const [location, setLocation] = useState("");
-
+  useEffect(() => {
+    setLocation("");
+  }, [reset]);
   useEffect(() => {
     const loader = new Loader({
       apiKey: apiKey,
@@ -29,9 +31,7 @@ const LocationInput = ({ onPlaceSelected, ...props }) => {
   const handlePlaceChanged = (result, onPlaceSelected) => {
     if (result) {
       const place = result.getPlace();
-      console.log(result);
 
-      console.log(place);
       const { name, formatted_address, geometry } = place;
       const { lat, lng } = geometry.location;
 
@@ -39,7 +39,6 @@ const LocationInput = ({ onPlaceSelected, ...props }) => {
       onPlaceSelected({ name, formatted_address, lat: lat(), lng: lng() });
     }
   };
-
   return (
     <div>
       <TextField

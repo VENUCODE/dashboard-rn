@@ -129,6 +129,14 @@ const App = () => {
             )
           }
         />
+        <Route
+          path="*"
+          element={
+            <div className="content-body container">
+              <h1>Page not found</h1>
+            </div>
+          }
+        />
       </Routes>
     </div>
   );

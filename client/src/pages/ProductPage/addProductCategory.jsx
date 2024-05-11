@@ -1,5 +1,11 @@
 import { useState } from "react";
-import { TextField, Button, Grid, Container } from "@mui/material";
+import {
+  TextField,
+  Button,
+  Grid,
+  Container,
+  CircularProgress,
+} from "@mui/material";
 import { useAuth } from "../../context/useAuth";
 import { endpoints, hostUri } from "../../fetch";
 import { message } from "antd";
@@ -7,16 +13,22 @@ import { useProducts } from "../../context/useProducts";
 const AddProductCategory = () => {
   const { userData } = useAuth();
   const { getProductCategories } = useProducts();
+  const [loading, setLoading] = useState(false);
   const [productCategory, setProductCategory] = useState("");
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log(userData);
+    if (!productCategory.trim()) {
+      message.info("Category can't be empty");
+      setProductCategory("");
+      return;
+    }
     try {
       const data = {
         categoryName: productCategory,
         agentId: userData.id,
       };
+      setLoading(true);
       const response = await fetch(hostUri + endpoints.addProductCategory, {
         method: "POST",
         headers: {
@@ -34,7 +46,10 @@ const AddProductCategory = () => {
       }
     } catch (error) {
       console.error(error);
-      message.error(error.message, 1); // Assuming message is an antd notification, you may need to handle it differently
+      message.error(error.message, 1);
+    } finally {
+      setProductCategory("");
+      setLoading(false);
     }
   };
 
@@ -65,10 +80,11 @@ const AddProductCategory = () => {
           >
             <Button
               type="submit"
+              disabled={loading}
               className="py-3 btn light btn-primary btn-outline-primary"
               fullWidth
             >
-              Add Category
+              {loading && <CircularProgress size={25} />}Add Category
             </Button>
           </Grid>
         </Grid>

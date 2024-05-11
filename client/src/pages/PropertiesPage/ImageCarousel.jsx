@@ -8,9 +8,9 @@ const ImageCarousel = ({ images, path = "" }) => (
         <div
           className="w-100 h-100 position-relative"
           style={{ maxHeight: "100px", objectFit: "cover" }}
+          key={index}
         >
           <Image
-            key={index}
             width={300}
             className="carousel-img"
             src={path + img}

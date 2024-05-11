@@ -6,8 +6,8 @@ const ServicesContext = createContext();
 
 export const ServiceProvider = ({ children }) => {
   const [services, setServices] = useState([]);
+  const [serviceCategories, setServiceCategories] = useState([]);
   const [loading, setLoading] = useState(false);
-
   const getServices = async () => {
     try {
       setLoading(true);
@@ -27,12 +27,38 @@ export const ServiceProvider = ({ children }) => {
       setLoading(false);
     }
   };
+  const getServiceCategories = async () => {
+    try {
+      setLoading(true);
+      const response = await fetch(hostUri + endpoints.getServiceCategories);
+      const data = await response.json();
+      if (response.ok) {
+        setServiceCategories(data);
+      } else {
+        message.error(data.message);
+      }
+    } catch (error) {
+      message.error(error.message);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   useEffect(() => {
     getServices();
+    getServiceCategories();
     return () => {};
   }, []);
   return (
-    <ServicesContext.Provider value={{ services, loading, getServices }}>
+    <ServicesContext.Provider
+      value={{
+        services,
+        loading,
+        getServices,
+        serviceCategories,
+        getServiceCategories,
+      }}
+    >
       {children}
     </ServicesContext.Provider>
   );

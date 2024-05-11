@@ -1,5 +1,5 @@
-export const hostUri = "https://dashboard-react-nodejs-mongodb.onrender.com";
-// export const hostUri = "http://localhost:3300";
+// export const hostUri = "https://dashboard-react-nodejs-mongodb.onrender.com";
+export const hostUri = "http://localhost:3300";
 
 export const endpoints = {
   loginUser: "/api/user/login",
@@ -19,8 +19,13 @@ export const endpoints = {
   updateJobStatus: "/api/jobs/update-status",
   getJobCategories: "/api/jobs/categories",
   deleteJobPost: "/api/jobs/delete-job",
+  //services endpoints
   getAllServices: "/api/services/all",
+  getServiceCategories: "/api/services/categories",
+  addServiceCategory: "/api/services/add-category",
   addService: "/api/services/add-service",
+  deleteService: "/api/services/delete-service",
+  //properties endpoints
   getAllProperties: "https://rightneeds.azurewebsites.net/properties",
   //Product endpoints
   getAllProducts: "/api/products/all",

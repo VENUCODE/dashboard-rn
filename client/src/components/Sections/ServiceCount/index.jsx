@@ -7,7 +7,7 @@ const ServiceCount = () => {
   return (
     <>
       <div className="col-xl-6 col-xxl-6">
-        <div class="row">
+        <div className="row">
           <TotalPropertiesCount
             title={"Total Services available"}
             subtitle={"Active services"}
