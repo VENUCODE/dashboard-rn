@@ -56,7 +56,7 @@ const AgentSchema = new mongoose.Schema(
     },
   },
 
-  { timestamps: true, collection: "UserInfo", statics: false }
+  { timestamps: true, collection: "UserInfo", strict: false }
 );
 
 module.exports = mongoose.model("Agent", AgentSchema);

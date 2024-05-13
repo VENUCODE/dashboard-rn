@@ -14,8 +14,9 @@ export const JobProvider = ({ children }) => {
   const getJobs = async () => {
     try {
       setLoading(true);
-      const response = await fetch(`${hostUri}${endpoints.getAllJobs}`);
+      const response = await fetch(hostUri + endpoints.getAllJobs);
       const data = await response.json();
+
       if (response.ok) {
         const sortedJobPosts = data.data.sort((a, b) => {
           const dateA = new Date(a.createdAt);
@@ -28,7 +29,7 @@ export const JobProvider = ({ children }) => {
         message.error("Failed to fetch jobs", 2);
       }
     } catch (error) {
-      console.error("Error fetching job posts:", error);
+      console.log("Error fetching job posts:", error.message);
     } finally {
       setLoading(false);
     }
@@ -42,6 +43,7 @@ export const JobProvider = ({ children }) => {
   };
   useEffect(() => {
     getJobs();
+    console.log(hostUri + endpoints.getAllJobs);
     return () => {};
   }, []);
   return (

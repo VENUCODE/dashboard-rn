@@ -75,6 +75,7 @@ const jobPostSchema = new mongoose.Schema(
   {
     timestamps: true,
     collection: "JobPosts",
+    strict: false,
   }
 );
 

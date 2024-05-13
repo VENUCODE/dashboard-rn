@@ -14,6 +14,7 @@ const JobsRouters = require("./routes/JobPostRoutes");
 app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+//STATIC path resolution
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 app.use(
   "/productImages",
@@ -23,7 +24,6 @@ app.use(
   "/serviceImages",
   express.static(path.join(__dirname, "serviceImages"))
 );
-
 // GLOBAL ERROR SETUP
 app.use((err, req, res, next) => {
   err.statusCode = err.statusCode || 500;
@@ -48,10 +48,13 @@ app.use("/api/jobs", JobsRouters);
 const ServiceRoutes = require("./routes/ServiceRoutes");
 app.use("/api/services", ServiceRoutes);
 
-//NOTE -  Property Route
-const PropertyRoutes = require("./routes/PropertyStatsRoute");
-app.use("/api/stats/property", PropertyRoutes);
+//NOTE -  statistic Route
+const PropertyStatRoutes = require("./routes/PropertyStatsRoute");
+app.use("/api/stats/property", PropertyStatRoutes);
 
+//NOTE - Property Routes
+const PropertyRoutes = require("./routes/PropertyRoutes");
+app.use("/api/properties", PropertyRoutes);
 //NOTE -  Products Route
 const ProductRoutes = require("./routes/ProductRoutes");
 app.use("/api/products", ProductRoutes);
@@ -60,6 +63,9 @@ app.use("/api/products", ProductRoutes);
 const ManagerRoutes = require("./routes/ManagerRoutes");
 app.use("/api/managers", ManagerRoutes);
 
+//NOTE - Supplier Routes
+const SupplierRoutes = require("./routes/SupplierRoutes");
+app.use("/api/suppliers/", SupplierRoutes);
 // DATABASE CONNECTION AND SERVER ACTION
 const URI = process.env.MONGO_URL;
 // console.log(URI);

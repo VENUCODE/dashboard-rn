@@ -21,7 +21,7 @@ const Map = ({ zoom = 4, data = [] }) => {
       data.forEach((user) => {
         if (user.coordinates && user.coordinates.lat && user.coordinates.long) {
           const marker = new window.google.maps.Marker({
-            url: "../assets/img/man.png",
+            icon: { url: "https://icons8.com/icon/21441/user" },
             position: { lat: user.coordinates.lat, lng: user.coordinates.long },
             map: map,
             title: `${user.name} from ${user.location}`,

@@ -22,7 +22,7 @@ const ProductCategories = new mongoose.Schema(
   },
   {
     timestamp: true,
-    statics: false,
+    strict: false,
     collection: "ProductCategories",
   }
 );

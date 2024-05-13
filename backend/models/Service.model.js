@@ -41,7 +41,7 @@ const serviceSchema = new mongoose.Schema(
       type: Date,
     },
   },
-  { collection: "Services", timestamps: true, statics: false }
+  { collection: "Services", timestamps: true, strict: false }
 );
 // Compile the schema into a model
 const Services = mongoose.model("Service", serviceSchema);

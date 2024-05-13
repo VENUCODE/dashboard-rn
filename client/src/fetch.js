@@ -1,5 +1,6 @@
-// export const hostUri = "https://dashboard-react-nodejs-mongodb.onrender.com";
 export const hostUri = "http://localhost:3300";
+// "https://dashboard-react-nodejs-mongodb.onrender.com";
+// export const hostUri = "https://893c-103-157-149-171.ngrok-free.app";
 
 export const endpoints = {
   loginUser: "/api/user/login",
