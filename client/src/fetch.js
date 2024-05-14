@@ -27,7 +27,11 @@ export const endpoints = {
   addService: "/api/services/add-service",
   deleteService: "/api/services/delete-service",
   //properties endpoints
-  getAllProperties: "https://rightneeds.azurewebsites.net/properties",
+  getAllProperties: "/api/properties/verified",
+  getUnverifiedProperties: "/api/properties/unverified",
+  getRejectedProperties: "/api/properties/rejected",
+  verifyProperty: "/api/properties/verify",
+  rejectProperty: "/api/properties/reject",
   //Product endpoints
   getAllProducts: "/api/products/all",
   getProductCategories: "/api/products/categories",

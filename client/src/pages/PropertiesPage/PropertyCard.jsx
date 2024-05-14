@@ -1,3 +1,4 @@
+import { useState } from "react";
 import {
   FaChartArea,
   FaBuilding,
@@ -8,24 +9,28 @@ import {
 } from "react-icons/fa6";
 import { FaRupeeSign } from "react-icons/fa";
 import ImageCarousel from "./ImageCarousel";
-import { Chip, Grid } from "@mui/material";
-import { Button, Card } from "antd";
+import { Chip, Grid, Button } from "@mui/material";
+import { Card, Modal } from "antd";
 import Time from "../../components/TimeAgo";
-export default function PropertyCard({ data }) {
+export default function PropertyCard({ data, buttons }) {
   const {
     description = "description",
     propertyType = "Rent",
     city = "City",
     availableFrom = "12-03-2024",
     expectedPrice = "12345",
-    images = ["https=//placehold.co/400"],
+    images = ["https://picsum.photos/seed/picsum/200/300"],
     pLength = 23,
     transactionTypes = ["nothing"],
     pWidth = 21,
     papproved,
     location,
     pfloorsAllowed = 14,
+    landmark = "landmark",
   } = data;
+  const [isModalVisible, setIsModalVisible] = useState(false);
+  const handleCancel = () => setIsModalVisible(false);
+
   return (
     <>
       <Grid item xs={12} sm={12} md={6}>
@@ -36,7 +41,13 @@ export default function PropertyCard({ data }) {
         >
           <div className="row d-flex ">
             <div className="col-12 col-md-5 ">
-              <ImageCarousel images={images} />
+              <ImageCarousel
+                images={[
+                  "https://picsum.photos/200/300?grayscale",
+                  "https://picsum.photos/200/300?grayscale",
+                  "https://picsum.photos/200/300?grayscale",
+                ]}
+              />
               <Chip
                 size={"small"}
                 className={papproved ? "bg-success-subtle" : "bg-danger-subtle"}
@@ -49,100 +60,111 @@ export default function PropertyCard({ data }) {
               />
             </div>
             <div className="col-12 col-md-7 d-flex flex-column justify-content-between">
-              <div>
-                <div className="row">
-                  <div className="col-12">
-                    <h3 className="text-capitalize">{description}</h3>
-                  </div>
+              <div className="row">
+                <div className="col-12">
+                  <h3 className="text-capitalize">{landmark || description}</h3>
                 </div>
-                <div className="row">
-                  <div className="col-6">
-                    <p className="text-muted">
-                      <FaCity style={{ color: "#3f51b5" }} /> {city}
-                    </p>
-                  </div>
-                  <div className="col-6">
-                    <p className="text-muted">
-                      <FaLandmarkDome style={{ color: "#3f51b5" }} />{" "}
-                      {propertyType}
-                    </p>
-                  </div>
+              </div>
+              <div className="row">
+                <div className="col-6">
+                  <p className="text-muted">
+                    <FaCity style={{ color: "#3f51b5" }} /> {city}
+                  </p>
                 </div>
-                <div className="row">
-                  <div className="col-6">
-                    <p className="text-muted">
-                      <FaChartArea style={{ color: "#3f51b5" }} /> {pWidth} x{" "}
-                      {pLength}
-                    </p>
-                  </div>
-                  <div className="col-6">
-                    <p className="text-muted">
-                      <FaBuilding style={{ color: "#3f51b5" }} />{" "}
-                      {pfloorsAllowed}
-                    </p>
-                  </div>
+                <div className="col-6">
+                  <p className="text-muted">
+                    <FaLandmarkDome style={{ color: "#3f51b5" }} />{" "}
+                    {propertyType}
+                  </p>
                 </div>
-                <div className="row">
-                  <div className="col-6">
-                    <p className="text-muted">
-                      <FaRupeeSign style={{ color: "#3f51b5" }} />{" "}
-                      {expectedPrice}
-                    </p>
-                  </div>
-                  <div className="col-6">
-                    <p className="text-muted">
-                      <FaCalendar style={{ color: "#3f51b5" }} />{" "}
-                      <Time date={availableFrom} />
-                    </p>
-                  </div>
+              </div>
+              <div className="row">
+                <div className="col-6">
+                  <p className="text-muted">
+                    <FaChartArea style={{ color: "#3f51b5" }} /> {pWidth} x{" "}
+                    {pLength}
+                  </p>
                 </div>
-                <div className="row">
-                  <div className="col-6">
-                    <p
-                      className="text-muted"
+                <div className="col-6">
+                  <p className="text-muted">
+                    <FaBuilding style={{ color: "#3f51b5" }} /> {pfloorsAllowed}
+                  </p>
+                </div>
+              </div>
+              <div className="row">
+                <div className="col-6">
+                  <p className="text-muted">
+                    <FaRupeeSign style={{ color: "#3f51b5" }} /> {expectedPrice}
+                  </p>
+                </div>
+                <div className="col-6">
+                  <p className="text-muted">
+                    <FaCalendar style={{ color: "#3f51b5" }} />{" "}
+                    <Time date={availableFrom} />
+                  </p>
+                </div>
+              </div>
+              <div className="row">
+                <div className="col-6">
+                  <p
+                    className="text-muted"
+                    style={{
+                      width: "100%",
+                      overflow: "hidden",
+                      textOverflow: "ellipsis",
+                      whiteSpace: "nowrap",
+                      right: "0",
+                    }}
+                  >
+                    <FaLocationPin
                       style={{
-                        width: "100%",
-                        overflow: "hidden",
-                        textOverflow: "ellipsis",
-                        whiteSpace: "nowrap",
-                        right: "0",
+                        color: "#3f51b5",
                       }}
-                    >
-                      <FaLocationPin
-                        style={{
-                          color: "#3f51b5",
-                        }}
-                      />{" "}
-                      {location}
-                    </p>
-                  </div>
-                  <div className="col-6">
-                    <p className="text-muted">
-                      <FaLandmarkDome style={{ color: "#3f51b5" }} />{" "}
-                      {propertyType}
-                    </p>
-                  </div>
+                    />{" "}
+                    {location}
+                  </p>
+                </div>
+                <div className="col-6">
+                  <p className="text-muted">
+                    <FaLandmarkDome style={{ color: "#3f51b5" }} />{" "}
+                    {propertyType}
+                  </p>
                 </div>
               </div>
-
-              <div>
-                <Grid container spacing={1}>
-                  <Grid item xs={6}>
-                    <Button variant="contained" fullWidth color="error">
-                      Delete
-                    </Button>
-                  </Grid>
-                  <Grid item xs={6}>
-                    <Button variant="contained" fullWidth color="success">
-                      View More
-                    </Button>
-                  </Grid>
+              <Grid classsName="row text-center" container spacing={1}>
+                {buttons}
+                <Grid classsName="row text-center" item xs={12}>
+                  <Button
+                    onClick={() => setIsModalVisible(true)}
+                    fullWidth
+                    variant="outlined"
+                    color="primary"
+                  >
+                    View
+                  </Button>
                 </Grid>
-              </div>
+              </Grid>
             </div>
           </div>
         </Card>
       </Grid>
+      <Modal
+        title={data.description || data.landmark}
+        open={isModalVisible}
+        onCancel={handleCancel}
+        centered
+        footer={[
+          <Button key="close" onClick={handleCancel}>
+            Close
+          </Button>,
+        ]}
+      >
+        <div
+          style={{ maxHeight: "400px", overflowY: "auto", overflowX: "hidden" }}
+        >
+          {data.landmark || data.description}
+        </div>
+      </Modal>
     </>
   );
 }
