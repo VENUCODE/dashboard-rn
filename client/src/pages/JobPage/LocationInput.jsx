@@ -10,23 +10,31 @@ const LocationInput = ({ onPlaceSelected, reset = false, ...props }) => {
   useEffect(() => {
     setLocation("");
   }, [reset]);
+
   useEffect(() => {
     const loader = new Loader({
       apiKey: apiKey,
       version: "weekly",
       libraries: ["places"],
     });
-    loader.load().then((google) => {
-      const autocompleteInstance = new google.maps.places.Autocomplete(
-        document.getElementById("locationInput")
-      );
-      setAutocomplete(autocompleteInstance);
 
-      autocompleteInstance.addListener("place_changed", () =>
-        handlePlaceChanged(autocompleteInstance, onPlaceSelected)
-      );
-    });
-  }, [onPlaceSelected]);
+    loader
+      .load()
+      .then((google) => {
+        const autocompleteInstance = new google.maps.places.Autocomplete(
+          document.getElementById("locationInput")
+        );
+
+        setAutocomplete(autocompleteInstance);
+
+        autocompleteInstance.addListener("place_changed", () =>
+          handlePlaceChanged(autocompleteInstance, onPlaceSelected)
+        );
+      })
+      .catch((error) => {
+        console.error("Error loading Google Maps API:", error);
+      });
+  }, [onPlaceSelected, props?.location]);
 
   const handlePlaceChanged = (result, onPlaceSelected) => {
     if (result) {
@@ -40,19 +48,18 @@ const LocationInput = ({ onPlaceSelected, reset = false, ...props }) => {
     }
   };
   return (
-    <div>
-      <TextField
-        id="locationInput"
-        value={location}
-        {...props}
-        label="Location"
-        onChange={(e) => {
-          setLocation(e.target.value);
-        }}
-        placeholder="Search location"
-        className="form-control"
-      />
-    </div>
+    <TextField
+      size="small"
+      id="locationInput"
+      value={location}
+      {...props}
+      label="Search Location"
+      onChange={(e) => {
+        setLocation(e.target.value);
+      }}
+      placeholder="Search location"
+      className="h-100 form-control rounded-0"
+    />
   );
 };
 

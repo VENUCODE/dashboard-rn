@@ -131,9 +131,9 @@ export default function PropertyCard({ data, buttons }) {
                   </p>
                 </div>
               </div>
-              <Grid classsName="row text-center" container spacing={1}>
+              <Grid className="row text-center" container spacing={1}>
                 {buttons}
-                <Grid classsName="row text-center" item xs={12}>
+                <Grid className="row text-center" item xs={12}>
                   <Button
                     onClick={() => setIsModalVisible(true)}
                     fullWidth

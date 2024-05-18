@@ -7,7 +7,7 @@ const ProductCount = () => {
   return (
     <>
       <div className="col-xl-6 col-xxl-6">
-        <div class="row">
+        <div className="row">
           <TotalPropertiesCount
             title={"Total Products available"}
             subtitle={"Products Sold till date"}

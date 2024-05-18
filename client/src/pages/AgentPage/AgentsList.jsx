@@ -5,7 +5,7 @@ import AgentCard from "./AgentsCard";
 import { useAgents } from "../../context/useAgents";
 import { Divider, message } from "antd";
 import RequestAgentCard from "./RequestAgentCard";
-import Map from "../../components/googleMap";
+import GoogleMap from "../../components/googleMap";
 const AgentsList = ({ showMap }) => {
   const { agents, loading, reqAgents } = useAgents();
   const [current, setCurrent] = useState(agents);
@@ -20,7 +20,7 @@ const AgentsList = ({ showMap }) => {
 
   return (
     <div className="container-fluid">
-      <div>{showMap && <Map data={agents} />}</div>
+      <div>{showMap && <GoogleMap data={agents} />}</div>
       <AgentFilter setCurrent={setCurrent} />
       {loading && <LinearProgress color="secondary" />}
 

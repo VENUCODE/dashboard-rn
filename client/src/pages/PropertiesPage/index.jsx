@@ -6,6 +6,7 @@ import LinearProgress from "@mui/material/LinearProgress";
 import { useProperties } from "../../context/useProperties";
 import { endpoints, hostUri } from "../../fetch";
 import { message } from "antd";
+import PropertyAddForm from "./PropertyForm";
 const PropertiesPage = () => {
   const {
     properties,
@@ -149,7 +150,7 @@ const PropertiesPage = () => {
       <div className="container-fluid">
         <h1>Properties Page</h1>
         <div>{loading && <LinearProgress color="secondary" />}</div>
-
+        <PropertyAddForm />
         <Grid container>
           <Grid item xs={12} className="text-center my-2">
             <Badge

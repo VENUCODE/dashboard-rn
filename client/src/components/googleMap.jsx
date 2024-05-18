@@ -1,40 +1,72 @@
-import React, { useEffect, useRef } from "react";
-import { Loader } from "@googlemaps/js-api-loader";
 const apiKey = "AIzaSyDoHTfjnTnbU_EPSxffAB7ZP18PMp0jcog";
-
-const Map = ({ zoom = 4, data = [] }) => {
-  const mapContainerRef = useRef(null);
-
+import {
+  APIProvider,
+  ControlPosition,
+  Map,
+  MapControl,
+  Marker,
+} from "@vis.gl/react-google-maps";
+import { Suspense, useEffect, useRef, useState } from "react";
+import { Circle } from "./Circle";
+import AutoComplete from "../pages/PropertiesPage/PropertyForm/AutoComplete";
+const GoogleMap = ({ markerPosition, markerChanged = null }) => {
+  const [markerPos, setMarkerPos] = useState(markerPosition);
+  const mapRef = useRef(null);
   useEffect(() => {
-    const loader = new Loader({
-      apiKey: apiKey,
-      version: "weekly",
-      libraries: ["places"],
-    });
-
-    loader.load().then(() => {
-      const map = new window.google.maps.Map(mapContainerRef.current, {
-        center: { lat: 20.593684, lng: 78.96288 },
-        zoom: zoom,
-      });
-
-      data.forEach((user) => {
-        if (user.coordinates && user.coordinates.lat && user.coordinates.long) {
-          const marker = new window.google.maps.Marker({
-            icon: { url: "https://icons8.com/icon/21441/user" },
-            position: { lat: user.coordinates.lat, lng: user.coordinates.long },
-            map: map,
-            title: `${user.name} from ${user.location}`,
-          });
-        }
-      });
-      //  ------
-    });
-  }, [zoom, data]);
+    setMarkerPos(markerPosition);
+  }, [markerPosition]);
 
   return (
-    <div ref={mapContainerRef} style={{ width: "100%", height: "400px" }} />
+    <APIProvider apiKey={apiKey}>
+      <Suspense fallback={<div>Loading map.....</div>}>
+        <Map
+          ref={mapRef}
+          style={{ width: "100%", height: "400px" }}
+          defaultCenter={{ lat: 22, lng: 77 } || markerPos}
+          defaultZoom={8}
+          gestureHandling={"greedy"}
+          onClick={(e) => {
+            setMarkerPos(e.detail.latLng);
+            markerChanged(markerPos);
+          }}
+        >
+          <MapControl position={ControlPosition.TOP_CENTER}>
+            <AutoComplete
+              onPlaceSelect={(place) => {
+                console.log(place);
+              }}
+            />
+          </MapControl>
+          {markerPosition && (
+            <>
+              <Marker
+                position={markerPos}
+                draggable={true}
+                onDragEnd={(e) => {
+                  const newPosition = {
+                    lat: e.latLng.lat(),
+                    lng: e.latLng.lng(),
+                  };
+                  setMarkerPos(newPosition);
+                  markerChanged ? markerChanged(newPosition) : "";
+                }}
+              />
+              <Circle
+                center={markerPos}
+                radius={1000}
+                options={{
+                  fillColor: "lightblue",
+                  fillOpacity: 0.4,
+                  strokeColor: "red",
+                  strokeOpacity: 1,
+                  strokeWeight: 1,
+                }}
+              />
+            </>
+          )}
+        </Map>
+      </Suspense>
+    </APIProvider>
   );
 };
-
-export default Map;
+export default GoogleMap;
