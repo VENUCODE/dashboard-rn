@@ -3,12 +3,8 @@ import { Grid, LinearProgress } from "@mui/material";
 
 import { useManager } from "../../context/useManager";
 import ManagerCard from "./ManagerCard";
-const ManagersList = () => {
-  const { managers, loading } = useManager();
-  const [current, setCurrent] = useState(managers);
-  useEffect(() => {
-    setCurrent(managers);
-  }, [managers]);
+const ManagersList = ({ current }) => {
+  const { loading } = useManager();
 
   return (
     <div className="container-fluid">

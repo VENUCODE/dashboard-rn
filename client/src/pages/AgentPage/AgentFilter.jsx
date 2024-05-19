@@ -12,7 +12,7 @@ const AgentFilter = ({ setCurrent, count }) => {
   const [selectedOccupation, setSelectedOccupation] = useState([]);
   const [filtersVisible, setFiltersVisible] = useState(false);
   const [sortOrder, setSortOrder] = useState("asc");
-
+  const [sortStatus, setStatus] = useState("all");
   useEffect(() => {
     const fetchOccupation = async () => {
       try {
@@ -30,15 +30,29 @@ const AgentFilter = ({ setCurrent, count }) => {
   }, []);
 
   const [searchInput, setSearchInput] = useState("");
+
   useEffect(() => {
     const handleFilter = () => {
       let filteredAgents = [...agents];
-
+      if (sortStatus === "all") {
+        filteredAgents = [...agents];
+      } else if (sortStatus === "running") {
+        filteredAgents = filteredAgents.filter(
+          (agent) => agent.status === "running"
+        );
+      } else if (sortStatus === "hold") {
+        filteredAgents = filteredAgents.filter(
+          (agent) => agent.status === "hold"
+        );
+      }
+      // Filter by selectedOccupation
       if (selectedOccupation.length > 0) {
         filteredAgents = filteredAgents.filter((agent) =>
           selectedOccupation.includes(agent.occupation)
         );
       }
+
+      // Filter by searchInput
       if (searchInput) {
         const searchTerm = searchInput.toLowerCase();
         filteredAgents = filteredAgents.filter(
@@ -47,20 +61,28 @@ const AgentFilter = ({ setCurrent, count }) => {
             agent.occupation?.toLowerCase().includes(searchTerm)
         );
       }
-      // if (sortOrder === "asc") {
-      //   filteredAgents.sort(
-      //     (a, b) => new Date(a.createdAt) - new Date(b.createdAt)
-      //   );
-      // } else if (sortOrder === "desc") {
-      //   filteredAgents.sort(
-      //     (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
-      //   );
-      // }
+
+      // Filter by sortStatus
+
+      // Sort by name
+      if (sortOrder === "asc") {
+        filteredAgents.sort((a, b) => a.name.localeCompare(b.name));
+      } else if (sortOrder === "desc") {
+        filteredAgents.sort((a, b) => b.name.localeCompare(a.name));
+      }
+
       setCurrent(filteredAgents);
     };
 
     handleFilter();
-  }, [selectedOccupation, agents, setCurrent, searchInput]);
+  }, [
+    selectedOccupation,
+    agents,
+    setCurrent,
+    searchInput,
+    sortOrder,
+    sortStatus,
+  ]);
 
   const handleSelectedOccupation = (newOccup) => {
     if (selectedOccupation.includes(newOccup)) {
@@ -89,15 +111,39 @@ const AgentFilter = ({ setCurrent, count }) => {
           />
         </div>
 
-        <div className="justify-content-center align-items-center d-flex">
+        <div className="justify-content-center align-items-center d-flex gap-1">
           <Chip
             size="small"
             className="bg-primary text-white"
-            label={sortOrder === "asc" ? "Oldest" : "Newest"}
+            label={"sort" + (sortOrder !== "asc" ? "(A-Z)" : "(Z-A)")}
             onClick={() => {
               setSortOrder((prevSortOrder) =>
                 prevSortOrder === "asc" ? "desc" : "asc"
               );
+            }}
+          />
+          <Chip
+            size="small"
+            className={
+              sortStatus === "all"
+                ? "bg-primary text-white"
+                : "bg-primary-subtle text-primary"
+            }
+            label={"All"}
+            onClick={() => {
+              setStatus("all");
+            }}
+          />
+          <Chip
+            size="small"
+            className={
+              sortStatus !== "all"
+                ? "bg-primary text-white"
+                : "bg-primary-subtle text-primary"
+            }
+            label={sortStatus === "running" ? "Hold" : "Running"}
+            onClick={() => {
+              setStatus((p) => (p === "running" ? "hold" : "running"));
             }}
           />
           <IconButton

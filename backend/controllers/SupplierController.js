@@ -15,8 +15,6 @@ const getSupplierSupplies = async (req, res) => {
     const { sid } = req.params;
     const properties = await Properties.find({ user_id: sid });
     const services = await Services.find({ user_id: sid });
-
-    // res.status(200).json({ properties });
   } catch (error) {
     res
       .status(500)

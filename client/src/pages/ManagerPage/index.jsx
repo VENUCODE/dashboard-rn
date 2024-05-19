@@ -1,10 +1,17 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import AddManager from "./AddManager";
 import { Button } from "@mui/material";
 import ManagersList from "./ManagersList";
+import ManagerFilter from "./ManagerFilter";
+import { useManager } from "../../context/useManager";
 
 const ManagerPage = () => {
   const [showAddManager, setShowAddAgentForm] = useState(false);
+  const { managers } = useManager();
+  const [current, setCurrent] = useState(managers);
+  useEffect(() => {
+    setCurrent(managers);
+  }, [managers]);
   const toggleAddAgentForm = () => {
     setShowAddAgentForm(!showAddManager);
   };
@@ -41,8 +48,11 @@ const ManagerPage = () => {
           </div>
         </div>
         {showAddManager && <AddManager />}
-      </div>{" "}
-      <ManagersList />
+
+        <ManagerFilter setCurrent={setCurrent} count={current.length} />
+
+        <ManagersList current={current} />
+      </div>
     </div>
   );
 };

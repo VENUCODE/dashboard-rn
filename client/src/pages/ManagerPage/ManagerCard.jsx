@@ -1,4 +1,4 @@
-import { BiLocationPlus } from "react-icons/bi";
+import { BiLocationPlus, BiMailSend } from "react-icons/bi";
 import { LuView } from "react-icons/lu";
 
 import {
@@ -9,10 +9,12 @@ import {
   Grid,
   Typography,
 } from "@mui/material";
-import { FaRegTrashAlt } from "react-icons/fa";
+import { FaMailchimp, FaRegTrashAlt } from "react-icons/fa";
 import { Button } from "antd";
 import { useState } from "react";
 import AgentModal from "./ManagerModal";
+import { CiMail } from "react-icons/ci";
+import { MdOutlinePersonPin, MdPersonPin, MdPinDrop } from "react-icons/md";
 export default function ManagerCard({ manager, ...props }) {
   const {
     name = "name",
@@ -85,6 +87,10 @@ export default function ManagerCard({ manager, ...props }) {
           >
             {name}
           </Typography>
+          <p className="text-muted text-center">
+            <CiMail size={18} className="me-2 text-primary" />
+            {manager.email}
+          </p>
           <Typography
             variant="body2"
             color="text.secondary"
@@ -95,7 +101,8 @@ export default function ManagerCard({ manager, ...props }) {
               whiteSpace: "nowrap",
             }}
           >
-            <BiLocationPlus style={{ color: "red" }} size={20} /> {location}
+            <MdPinDrop color="red" className="me-2" size={20} />
+            <span className="text-muted text-capitalize">{location}</span>
           </Typography>
 
           <div className=" d-flex col-12 justify-content-around align-items-center mt-2 bg-white border-2 border-gray border py-1 rounded-5">
@@ -124,7 +131,6 @@ export default function ManagerCard({ manager, ...props }) {
           setIsModalVisible(false);
         }}
       />
-      ;
     </Grid>
   );
 }
