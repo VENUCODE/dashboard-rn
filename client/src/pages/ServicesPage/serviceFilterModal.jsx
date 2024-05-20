@@ -2,10 +2,6 @@ import { Chip } from "@mui/material";
 import React, { useEffect } from "react";
 
 const serviceFilterModal = ({
-  cities,
-  selectedCities,
-  setSelectedCities,
-
   categories,
   selectedCategories,
   setSelectedCategories,
@@ -20,13 +16,6 @@ const serviceFilterModal = ({
       );
     } else {
       setSelectedCategories((preCategories) => [...preCategories, cat]);
-    }
-  };
-  const handleSelectedCities = (city) => {
-    if (selectedCities.includes(city)) {
-      setSelectedCities((prevCities) => prevCities.filter((c) => c !== city));
-    } else {
-      setSelectedCities((prevCities) => [...prevCities, city]);
     }
   };
 
@@ -69,24 +58,6 @@ const serviceFilterModal = ({
                           : "bg-gray"
                       }`}
                       onClick={() => handleSelectedCategories(category)}
-                    />
-                  ))}
-                </div>
-              </div>
-              <div className="cities">
-                <h3>Service Cities</h3>
-                <div className="chip-container">
-                  {cities.map((city) => (
-                    <Chip
-                      size="small"
-                      key={city}
-                      label={city}
-                      className={` m-1 ${
-                        selectedCities.includes(city)
-                          ? "bg-dark text-white"
-                          : "bg-gray"
-                      }`}
-                      onClick={() => handleSelectedCities(city)}
                     />
                   ))}
                 </div>

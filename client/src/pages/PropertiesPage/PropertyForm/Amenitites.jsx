@@ -50,15 +50,15 @@ const Amenities = ({ selectedAmenities, setSelectedAmenities }) => {
       <Typography variant="h6" gutterBottom>
         Amenities
       </Typography>
-      <Grid container>
+      <Grid container className="px-auto ">
         {amenitiesList.map((amenity) => (
           <Grid
             item
-            xs={6}
-            sm={6}
-            md={6}
+            xs={5}
+            sm={5}
+            md={5}
             key={amenity.name}
-            className={`rounded-3 p-0 my-1 ps-4 ${
+            className={`rounded-3 m-1 p-0 ps-4 ${
               selectedAmenities.includes(amenity.name)
                 ? "bg-primary-subtle"
                 : ""

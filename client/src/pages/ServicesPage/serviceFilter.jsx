@@ -9,7 +9,6 @@ import { useServices } from "../../context/useServices";
 const ServiceFilter = ({ setCurrent, count }) => {
   const { services } = useServices();
   const [categories, setCategories] = useState([]);
-  const [cities, setCities] = useState([]);
   const [selectedCities, setSelectedCities] = useState([]);
 
   const [selectedCategories, setSelectedCategories] = useState([]);
@@ -21,11 +20,9 @@ const ServiceFilter = ({ setCurrent, count }) => {
     const allCategories = [
       ...new Set(services.map((service) => service.categoryName.toLowerCase())),
     ];
-    const allCities = [...new Set(services.map((service) => service.city))];
     const uniqueCategories = [
       ...new Set(allCategories.map((category) => category.toLowerCase())),
     ];
-    setCities(allCities);
     setCategories(uniqueCategories);
   }, [services]);
 
@@ -47,14 +44,6 @@ const ServiceFilter = ({ setCurrent, count }) => {
           )
         );
       }
-
-      //NOTE -    Apply city filter
-      if (selectedCities.length > 0) {
-        filteredServices = filteredServices.filter((service) => {
-          return selectedCities.includes(service.city);
-        });
-      }
-
       //NOTE -  Sort based on sortOrder
       if (sortOrder === "asc") {
         filteredServices.sort(
@@ -77,14 +66,7 @@ const ServiceFilter = ({ setCurrent, count }) => {
     };
 
     handleFilter();
-  }, [
-    selectedCategories,
-    services,
-    setCurrent,
-    searchInput,
-    sortOrder,
-    selectedCities,
-  ]);
+  }, [selectedCategories, services, setCurrent, searchInput, sortOrder]);
 
   const handleSearchInputChange = (event) => {
     setSearchInput(event.target.value);
@@ -126,9 +108,6 @@ const ServiceFilter = ({ setCurrent, count }) => {
       </div>
       <ServiceFilterModal
         categories={categories}
-        cities={cities}
-        selectedCities={selectedCities}
-        setSelectedCities={setSelectedCities}
         selectedCategories={selectedCategories}
         setSelectedCategories={setSelectedCategories}
         isOpen={filtersVisible}

@@ -30,13 +30,13 @@ const GoogleMap = ({ markerPosition, markerChanged = null }) => {
             markerChanged(markerPos);
           }}
         >
-          <MapControl position={ControlPosition.TOP_CENTER}>
+          {/* <MapControl position={ControlPosition.TOP_CENTER}>
             <AutoComplete
               onPlaceSelect={(place) => {
                 console.log(place);
               }}
             />
-          </MapControl>
+          </MapControl> */}
           {markerPosition && (
             <>
               <Marker

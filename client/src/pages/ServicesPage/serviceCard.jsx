@@ -9,7 +9,11 @@ import ImageCarousel from "../PropertiesPage/ImageCarousel";
 import { hostUri, endpoints } from "../../fetch";
 import { useServices } from "../../context/useServices";
 import { message } from "antd";
+import { Modal, Row, Col, Image } from "antd";
+import { Typography } from "@mui/material";
+
 const ServiceCard = ({ service }) => {
+  const [isModalVisible, setIsModalVisible] = useState(false);
   const { getServices } = useServices();
   const [deleteLoading, setDeleteLoading] = useState(false);
   const handleDeleteService = async (pid) => {
@@ -84,6 +88,7 @@ const ServiceCard = ({ service }) => {
             <Button
               variant="outlined"
               color="secondary"
+              onClick={() => setIsModalVisible(true)}
               className=" px-4 shadow-sm py-1 rounded-4 col-4"
             >
               <LuView size={15} className="text-secondary" />
@@ -91,6 +96,54 @@ const ServiceCard = ({ service }) => {
           </div>{" "}
         </div>
       </div>
+      <Modal
+        title={service.serviceName}
+        open={isModalVisible}
+        onCancel={() => setIsModalVisible(false)}
+        centered
+        footer={[
+          <Button key="close" onClick={() => setIsModalVisible(false)}>
+            Close
+          </Button>,
+        ]}
+      >
+        <div
+          style={{ maxHeight: "400px", overflowY: "auto", overflowX: "hidden" }}
+        >
+          <Row gutter={[16, 16]}>
+            <Col span={24}>
+              <div class="image-box">
+                <ImageCarousel images={service.images} path={hostUri + "/"} />
+              </div>
+            </Col>
+            <Col span={24}>
+              <Typography variant="h6">
+                Price: ₹{service.servicePrice}
+              </Typography>
+            </Col>
+            <Col span={24}>
+              <Typography variant="body1">
+                <strong>Description: </strong>
+                {service.serviceDescription !== "no des"
+                  ? service.serviceDescription
+                  : "No description available"}
+              </Typography>
+            </Col>
+            <Col span={24}>
+              <Typography variant="body1">
+                <strong>City: </strong>
+                {service.location}
+              </Typography>
+            </Col>
+            <Col span={24}>
+              <Typography variant="body1">
+                <strong>Category: </strong>
+                {service.categoryName}
+              </Typography>
+            </Col>
+          </Row>
+        </div>
+      </Modal>
     </div>
   );
 };
