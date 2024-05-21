@@ -8,7 +8,7 @@ import {
   FaWhatsapp,
   FaTrash,
 } from "react-icons/fa6";
-import { CircularProgress } from "@mui/material";
+import { Chip, CircularProgress } from "@mui/material";
 import { TiInfoLargeOutline } from "react-icons/ti";
 
 import ImageCarousel from "../PropertiesPage/ImageCarousel";
@@ -26,6 +26,7 @@ export default function ProductCard({ data }) {
     rating = "4",
     productDescription = "some description",
     nrat = 8,
+    categoryName = "category",
     address = "adress",
     phoneNumber = "1231231231",
   } = data;
@@ -103,6 +104,11 @@ export default function ProductCard({ data }) {
               <p className="overflow-hidden">
                 <FaLocationDot color="red" size={17} className="me-2" />
                 <span className="text-capitalize text-dark">{address}</span>
+                <Chip
+                  label={categoryName}
+                  size="small"
+                  className="mx-2 text-capitalize bg-success-subtle text-success"
+                />
               </p>
 
               {/* Row 5: Product Actions */}

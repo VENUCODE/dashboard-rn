@@ -19,8 +19,10 @@ const initialFormData = {
 };
 import { message } from "antd";
 import { useProducts } from "../../context/useProducts";
+import { useAuth } from "../../context/useAuth.jsx";
 export const AddProduct = () => {
   const { getProducts, categories } = useProducts();
+  const { userData } = useAuth();
   const [fileList, setFileList] = useState([]);
 
   const [product, setProduct] = useState(initialFormData);
@@ -36,6 +38,7 @@ export const AddProduct = () => {
       formData.append("productPrice", product.productPrice);
       formData.append("productDescription", product.productDescription);
       formData.append("categoryName", product.categoryName);
+      formData.append("agentId", userData.id);
       fileList.forEach((file) => {
         formData.append("images", file.originFileObj);
       });

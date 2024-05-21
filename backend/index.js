@@ -65,7 +65,7 @@ app.use("/api/managers", ManagerRoutes);
 
 //NOTE - Supplier Routes
 const SupplierRoutes = require("./routes/SupplierRoutes");
-app.use("/api/suppliers/", SupplierRoutes);
+app.use("/api/suppliers", SupplierRoutes);
 // DATABASE CONNECTION AND SERVER ACTION
 const URI = process.env.MONGO_URL;
 // console.log(URI);

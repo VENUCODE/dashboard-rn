@@ -1,14 +1,7 @@
 const apiKey = "AIzaSyDoHTfjnTnbU_EPSxffAB7ZP18PMp0jcog";
-import {
-  APIProvider,
-  ControlPosition,
-  Map,
-  MapControl,
-  Marker,
-} from "@vis.gl/react-google-maps";
+import { APIProvider, Map, Marker } from "@vis.gl/react-google-maps";
 import { Suspense, useEffect, useRef, useState } from "react";
 import { Circle } from "./Circle";
-import AutoComplete from "../pages/PropertiesPage/PropertyForm/AutoComplete";
 const GoogleMap = ({ markerPosition, markerChanged = null }) => {
   const [markerPos, setMarkerPos] = useState(markerPosition);
   const mapRef = useRef(null);
@@ -30,13 +23,6 @@ const GoogleMap = ({ markerPosition, markerChanged = null }) => {
             markerChanged(markerPos);
           }}
         >
-          {/* <MapControl position={ControlPosition.TOP_CENTER}>
-            <AutoComplete
-              onPlaceSelect={(place) => {
-                console.log(place);
-              }}
-            />
-          </MapControl> */}
           {markerPosition && (
             <>
               <Marker

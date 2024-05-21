@@ -11,6 +11,7 @@ const ProductSchema = new mongoose.Schema(
   },
   {
     timestamp: true,
+    strict: false,
     collection: "Products",
   }
 );
@@ -26,9 +27,33 @@ const ProductCategories = new mongoose.Schema(
     collection: "ProductCategories",
   }
 );
+const RequestedProducts = new mongoose.Schema(
+  {
+    productId: {
+      type: mongoose.Types.ObjectId,
+      ref: "Products",
+    },
+    userId: {
+      type: mongoose.Types.ObjectId,
+      ref: "UserInfo",
+    },
+    status: {
+      type: String,
+      default: "requested",
+    },
+
+    timestamp: { type: Date, default: Date.now },
+  },
+  { strict: false, timestamps: true, collection: "RequestedProducts" }
+);
+const ReqProModel = mongoose.model("RequestedProduct", RequestedProducts);
 const ProductCategoriesModel = mongoose.model(
   "ProductCategory",
   ProductCategories
 );
 
-module.exports = { Product: ProductModel, Categories: ProductCategoriesModel };
+module.exports = {
+  Product: ProductModel,
+  Categories: ProductCategoriesModel,
+  RequestedProducts: ReqProModel,
+};

@@ -48,3 +48,12 @@ agents Delete
 Suppliers page
 
 Manager Filters 
+
+
+
+====================UPDATES IN AZURE DEPLOYED BACKEND===============
+1.Agents Delete
+2.Managers Delete
+3.Properties Routes as segregated
+4.suppliers and managers location based filter
+5.Bulk data adding

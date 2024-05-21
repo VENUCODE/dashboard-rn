@@ -41,4 +41,5 @@ export const endpoints = {
   deleteProduct: "/api/products/delete-product",
   //Supplier endpoints
   getAllSuppliers: "/api/suppliers/all",
+  getSupplierAddons: "/api/suppliers/supplier-addons",
 };

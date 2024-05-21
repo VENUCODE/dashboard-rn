@@ -1,10 +1,9 @@
 const express = require("express");
 const {
   getAllSuppliers,
-  getSupplierSupplies,
+  getSupplierAddons,
 } = require("../controllers/SupplierController");
 const router = express.Router();
 router.get("/all", getAllSuppliers);
-router.get("/:sid/supplies", getSupplierSupplies);
-
+router.get("/supplier-addons", getSupplierAddons);
 module.exports = router;

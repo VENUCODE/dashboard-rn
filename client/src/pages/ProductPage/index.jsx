@@ -4,9 +4,13 @@ import { Button } from "@mui/material";
 import AddProduct from "./addProduct";
 import AddProductCategory from "./addProductCategory";
 import { Card } from "antd";
+import { useProducts } from "../../context/useProducts";
+import ProductFilter from "./ProductFilter";
 
 const ProductPage = () => {
   const [show, toggleShow] = useState(false);
+  const { products } = useProducts();
+  const [current, setCurrent] = useState(products);
   return (
     <div className="content-body">
       <div className="container-fluid ">
@@ -39,8 +43,11 @@ const ProductPage = () => {
             </div>
           </>
         )}
+        <div className="container-fluid px-0 ">
+          <ProductFilter setCurrent={setCurrent} />
+        </div>
         <div className="container-fluid">
-          <ProductList />
+          <ProductList current={current} />
         </div>
       </div>
     </div>
