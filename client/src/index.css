@@ -19,6 +19,12 @@ body {
   object-fit: cover;
 }
 
+.wrap-text {
+  overflow: hidden;
+  white-space: wrap;
+  text-overflow: ellipsis;
+}
+
 
 
 

@@ -62,7 +62,9 @@ export default function ProductCard({ data }) {
       <Card>
         <Row gutter={[16, 16]} align="middle">
           <Col xs={24} sm={24} lg={8} style={{ height: "240px" }}>
-            <ImageCarousel images={data.images} path={hostUri + "/"} />
+            <div className="m-auto justify-content-center align-items-center">
+              <ImageCarousel images={data.images} path={hostUri + "/"} />
+            </div>
           </Col>
           <Col xs={24} sm={16} lg={16} className="ps-3">
             <div>
@@ -79,7 +81,7 @@ export default function ProductCard({ data }) {
               </div>
 
               {/* Row 2: Product Description */}
-              <div className="fs-4 my-2 text-dark text-capitalize">
+              <div className="fs-4 my-2 text-dark text-capitalize wrap-text w-100 ">
                 {productDescription}
               </div>
 

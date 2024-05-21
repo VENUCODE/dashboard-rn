@@ -21,6 +21,8 @@ import { ManagersProvider } from "./context/useManager";
 import SupplierPage from "./pages/SupplierPage";
 import ProductPage from "./pages/ProductPage";
 import { ProductProvider } from "./context/useProducts";
+import { SupplierProvider } from "./context/useSupplier";
+import SupplierDetails from "./pages/SupplierPage/SupplierDetails";
 
 const App = () => {
   const { isAuthenticated } = useAuth();
@@ -114,7 +116,25 @@ const App = () => {
         <Route
           path="/suppliers"
           element={
-            isAuthenticated ? <SupplierPage /> : <Navigate to={"/login"} />
+            isAuthenticated ? (
+              <SupplierProvider>
+                <SupplierPage />
+              </SupplierProvider>
+            ) : (
+              <Navigate to={"/login"} />
+            )
+          }
+        />
+        <Route
+          path="/supplier/:sid"
+          element={
+            isAuthenticated ? (
+              <SupplierProvider>
+                <SupplierDetails />
+              </SupplierProvider>
+            ) : (
+              <Navigate to={"/login"} />
+            )
           }
         />
         <Route

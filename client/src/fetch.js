@@ -1,6 +1,7 @@
 export const hostUri = "http://localhost:3300";
-// "https://dashboard-react-nodejs-mongodb.onrender.com";
+// export const hostUri="https://dashboard-react-nodejs-mongodb.onrender.com";
 // export const hostUri = "https://893c-103-157-149-171.ngrok-free.app";
+// export const hostUri = "https://rightneed.azurewebsites.net";
 
 export const endpoints = {
   loginUser: "/api/user/login",
@@ -38,4 +39,6 @@ export const endpoints = {
   addProductCategory: "/api/products/add-category",
   addProduct: "/api/products/add-product",
   deleteProduct: "/api/products/delete-product",
+  //Supplier endpoints
+  getAllSuppliers: "/api/suppliers/all",
 };
