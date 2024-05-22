@@ -42,14 +42,13 @@ const LoginRoute = async (req, res, next) => {
         .json({ status: "failure", message: "Invalid Credentials" });
     }
     const isPasswordValid = user.password === password;
-    //  await bcrypt.compare(password, user.password);
+    await bcrypt.compare(password, user.password);
     if (!isPasswordValid) {
       res
         .status(400)
         .json({ status: "failure", message: "Invalid Credentials" });
     }
     const token = jwt.sign({ _id: user._id }, SECRET_KEY);
-    // console.log({ loginController: user });
     res.status(200).json({
       status: "success",
       token,

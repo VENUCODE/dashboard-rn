@@ -5,5 +5,5 @@ const {
 } = require("../controllers/SupplierController");
 const router = express.Router();
 router.get("/all", getAllSuppliers);
-router.get("/supplier-addons", getSupplierAddons);
+router.post("/supplier-addons", getSupplierAddons);
 module.exports = router;

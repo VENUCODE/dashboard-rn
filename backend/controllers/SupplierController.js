@@ -23,7 +23,6 @@ const getSupplierAddons = async (req, res) => {
     const userProductIds = userProducts.map((product) =>
       product._id.toString()
     );
-
     const productRequestCounts = userProductIds.reduce((acc, productId) => {
       acc[productId] = requestedProducts.filter(
         (requestedProduct) =>
@@ -38,8 +37,7 @@ const getSupplierAddons = async (req, res) => {
       requestCount: productRequestCounts[product._id.toString()] || 0,
     }));
 
-    // Step 4: Respond with the combined data
-    res.status(200).json(userProductsWithRequestCounts);
+    res.status(200).json({ data: userProductsWithRequestCounts });
   } catch (error) {
     console.error("Error getting user's requested products:", error);
     res
