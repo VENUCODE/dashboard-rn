@@ -1,4 +1,7 @@
 import { useState } from "react";
+import { FaMoneyBillWave } from "react-icons/fa";
+import ImageGallery from "react-image-gallery";
+import "react-image-gallery/styles/css/image-gallery.css";
 import {
   FaChartArea,
   FaBuilding,
@@ -12,6 +15,7 @@ import ImageCarousel from "./ImageCarousel";
 import { Chip, Grid, Button, CardMedia } from "@mui/material";
 import { Card, Modal } from "antd";
 import Time from "../../components/TimeAgo";
+import { hostUri } from "../../fetch";
 export default function PropertyCard({ data, buttons }) {
   const {
     description = "description",
@@ -42,14 +46,7 @@ export default function PropertyCard({ data, buttons }) {
           <div className="row d-flex ">
             <div className="col-12 col-md-5 ">
               <CardMedia className="justify-content-center">
-
-              <ImageCarousel
-                images={[
-                  "https://picsum.photos/200/300?grayscale",
-                  "https://picsum.photos/200/300?grayscale",
-                  "https://picsum.photos/200/300?grayscale",
-                ]}
-              />
+                <ImageCarousel images={images} path={hostUri + "/"} />
               </CardMedia>
               <Chip
                 size={"small"}
@@ -152,7 +149,7 @@ export default function PropertyCard({ data, buttons }) {
         </Card>
       </Grid>
       <Modal
-        title={data.description || data.landmark}
+        title={data.landmark || data.description}
         open={isModalVisible}
         onCancel={handleCancel}
         centered
@@ -165,7 +162,80 @@ export default function PropertyCard({ data, buttons }) {
         <div
           style={{ maxHeight: "400px", overflowY: "auto", overflowX: "hidden" }}
         >
-          {data.landmark || data.description}
+          <div>
+            <ImageGallery
+              items={data.images.map((item) => ({
+                original: hostUri + "/" + item,
+                thumbnail: hostUri + "/" + item,
+              }))}
+            />
+          </div>
+          <p>
+            <strong>Description:</strong> {data.description || data.landmark}
+          </p>
+          <p>
+            <strong>Property Type:</strong> {data.propertyType}
+          </p>
+          <p>
+            <strong>City:</strong> <FaCity /> {data.city}
+          </p>
+          <p>
+            <strong>Available From:</strong> <FaCalendar />{" "}
+            <Time date={data.availableFrom} />
+          </p>
+          <p>
+            <strong>Expected Price:</strong> <FaMoneyBillWave />{" "}
+            {data.expectedPrice}
+          </p>
+
+          <p>
+            <strong>Property Length:</strong> <FaChartArea /> {data.pLength}
+          </p>
+          <p>
+            <strong>Transaction Types:</strong>{" "}
+            {data.transactionTypes.map((type, index) => (
+              <span key={index}>
+                <FaBuilding /> {type}{" "}
+              </span>
+            ))}
+          </p>
+          <p>
+            <strong>Property Width:</strong> <FaChartArea /> {data.pWidth}
+          </p>
+          <p>
+            <strong>Floors Allowed:</strong> <FaBuilding />{" "}
+            {data.pfloorsAllowed}
+          </p>
+          <p>
+            <strong>Location:</strong> <FaLocationPin /> {data.location}
+          </p>
+          <p>
+            <strong>Landmark:</strong> <FaLandmarkDome /> {data.landmark}
+          </p>
+          {/* Render unknown properties */}
+          {Object.entries(data).map(
+            ([key, value]) =>
+              ![
+                "description",
+                "propertyType",
+                "city",
+                "availableFrom",
+                "expectedPrice",
+                "images",
+                "pLength",
+                "transactionTypes",
+                "pWidth",
+                "pfloorsAllowed",
+                "location",
+                "landmark",
+                "_id",
+              ].includes(key) && (
+                <p key={key}>
+                  <span className="text-dark text-capitalize">{key}:</span>{" "}
+                  <span className="text-capitalize">{value}</span>
+                </p>
+              )
+          )}
         </div>
       </Modal>
     </>

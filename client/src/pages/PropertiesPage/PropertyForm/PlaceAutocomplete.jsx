@@ -27,17 +27,12 @@ const PlaceAutocomplete = ({ onPlaceSelect }) => {
     };
 
     placeAutocomplete.addListener("place_changed", handlePlaceChanged);
-
-
   }, [onPlaceSelect, placeAutocomplete]);
 
   return (
-    <div
-      className="p-4"
-      style={{ backgroundColor: "rgba(0,0,0,0.2)", borderRadius: "0.5rem" }}
-    >
+    <div className="p-1 ">
       <input
-        className="form-control search-input h-100 w-100 fs-5"
+        className="form-control shadow rounded-3 h-100 w-100 fs-5"
         ref={inputRef}
       />
     </div>

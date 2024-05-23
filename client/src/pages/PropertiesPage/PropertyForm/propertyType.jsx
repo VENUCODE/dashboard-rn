@@ -29,10 +29,11 @@ import {
   FaTint,
 } from "react-icons/fa";
 
-const PropertyType = ({ propertyState, setPropertyState, setValid}) => {
+const PropertyType = ({ propertyState, setPropertyState, setValid }) => {
   const [propertyType, setPropertyType] = useState();
   const [subType, setSubType] = useState(null);
   const [buildingType, setBuildingType] = useState();
+  const [disabled, setDisabled] = useState(false);
   const handlePropertyChange = (event) => {
     const { name, value } = event.target;
 
@@ -83,10 +84,9 @@ const PropertyType = ({ propertyState, setPropertyState, setValid}) => {
     (e) => {
       setPropertyType(e.target.value);
       setSubType(null);
-      setBuildingType("")
+      setBuildingType("");
       setPropertyState({});
       setValid(false);
-
     },
     [setPropertyType, setSubType]
   );
@@ -96,7 +96,6 @@ const PropertyType = ({ propertyState, setPropertyState, setValid}) => {
       setSubType(e.target.value);
       setPropertyState({});
       setValid(false);
-
     },
     [setSubType]
   );
@@ -113,7 +112,7 @@ const PropertyType = ({ propertyState, setPropertyState, setValid}) => {
         return (
           <Grid container fullWidth className="">
             <Grid item xs={12}>
-              <FormControl component="fieldset">
+              <FormControl disabled={disabled} component="fieldset">
                 <FormLabel component="legend">Transaction Type</FormLabel>
                 <RadioGroup row value={subType} onChange={handleSubTypeChange}>
                   {["fullhouse", "pg/hostel"].map((type) => (
@@ -130,7 +129,7 @@ const PropertyType = ({ propertyState, setPropertyState, setValid}) => {
               </FormControl>
             </Grid>
             <Grid item xs={12}>
-              <FormControl className="w-100">
+              <FormControl disabled={disabled} className="w-100">
                 <FormLabel component="legend">Building Type</FormLabel>
                 <RadioGroup
                   value={buildingType || ""}
@@ -157,7 +156,7 @@ const PropertyType = ({ propertyState, setPropertyState, setValid}) => {
               <div className="d-flex w-100 flex-wrap">
                 {/* Accommodation Type */}
                 <Grid container className="d-flex mb-3">
-                  <FormControl component="fieldset">
+                  <FormControl disabled={disabled} component="fieldset">
                     <FormLabel component="legend">Accommodation Type</FormLabel>
                     <RadioGroup
                       row
@@ -179,7 +178,7 @@ const PropertyType = ({ propertyState, setPropertyState, setValid}) => {
 
                 {/* Tenant Type */}
                 <Grid container className="d-flex mb-3">
-                  <FormControl component="fieldset">
+                  <FormControl disabled={disabled} component="fieldset">
                     <FormLabel component="legend">Tenant Type</FormLabel>
                     <RadioGroup
                       row
@@ -201,19 +200,12 @@ const PropertyType = ({ propertyState, setPropertyState, setValid}) => {
 
                 {/* Room Type */}
                 <Grid container className="d-flex mb-3">
-                  <FormControl component="fieldset">
+                  <FormControl disabled={disabled} component="fieldset">
                     <FormLabel component="legend">Room Types</FormLabel>
-                    <RadioGroup
+                    <FormGroup
                       row
                       name="roomTypes"
                       value={propertyState.roomType || ""}
-                      // onChange={(e) => {
-                      //   handlePriceChange(e);
-                      // setPropertyState((prevState) => ({
-                      //   ...prevState,
-                      //   roomPrices: {},
-                      // }));
-                      // }}
                     >
                       {["single", "double", "triple", "four"].map((type) => (
                         <FormControlLabel
@@ -233,11 +225,15 @@ const PropertyType = ({ propertyState, setPropertyState, setValid}) => {
                           label={type.charAt(0).toUpperCase() + type.slice(1)}
                         />
                       ))}
-                    </RadioGroup>
+                    </FormGroup>
                   </FormControl>
                 </Grid>
                 <Grid item xs={12}>
-                  <FormControl component="fieldset" fullWidth>
+                  <FormControl
+                    disabled={disabled}
+                    component="fieldset"
+                    fullWidth
+                  >
                     <FormLabel component="legend" className="my-2">
                       Room Prices
                     </FormLabel>
@@ -246,6 +242,7 @@ const PropertyType = ({ propertyState, setPropertyState, setValid}) => {
                         propertyState.roomTypes.map((type) => (
                           <Grid item xs={6}>
                             <TextField
+                              disabled={disabled}
                               key={type}
                               name={type}
                               className="w-100"
@@ -266,7 +263,7 @@ const PropertyType = ({ propertyState, setPropertyState, setValid}) => {
 
                 {/* Amenities */}
                 <Grid container className="d-flex flex-wrap mb-3">
-                  <FormControl component="fieldset">
+                  <FormControl disabled={disabled} component="fieldset">
                     <FormLabel component="legend">Amenities</FormLabel>
                     <FormGroup row>
                       {[
@@ -305,7 +302,7 @@ const PropertyType = ({ propertyState, setPropertyState, setValid}) => {
 
                 {/* Shared Facilities */}
                 <Grid container className="d-flex mb-3">
-                  <FormControl component="fieldset">
+                  <FormControl disabled={disabled} component="fieldset">
                     <FormLabel component="legend">Shared Facilities</FormLabel>
                     <RadioGroup
                       row
@@ -327,7 +324,7 @@ const PropertyType = ({ propertyState, setPropertyState, setValid}) => {
 
                 {/* Security */}
                 <Grid container className="d-flex mb-3">
-                  <FormControl component="fieldset">
+                  <FormControl disabled={disabled} component="fieldset">
                     <FormLabel component="legend">Security</FormLabel>
                     <FormGroup row>
                       {["CCTV", "Security guard"].map((type) => (
@@ -353,7 +350,7 @@ const PropertyType = ({ propertyState, setPropertyState, setValid}) => {
 
                 {/* Rules and Regulations */}
                 <Grid container className="d-flex flex-wrap mb-3">
-                  <FormControl component="fieldset">
+                  <FormControl disabled={disabled} component="fieldset">
                     <FormLabel component="legend">
                       Rules and Regulations
                     </FormLabel>
@@ -385,7 +382,7 @@ const PropertyType = ({ propertyState, setPropertyState, setValid}) => {
                 {/* Parking Possibility */}
                 <Grid container className="d-flex mb-3" spacing={2}>
                   <Grid item xs={12}>
-                    <FormControl component="fieldset">
+                    <FormControl disabled={disabled} component="fieldset">
                       <FormLabel component="legend">
                         Parking Possibility
                       </FormLabel>
@@ -413,7 +410,7 @@ const PropertyType = ({ propertyState, setPropertyState, setValid}) => {
               <div className="d-flex w-100 flex-wrap">
                 {/* Property Type */}
                 <Grid container className="d-flex mb-3">
-                  <FormControl component="fieldset">
+                  <FormControl disabled={disabled} component="fieldset">
                     <FormLabel component="legend">Property type</FormLabel>
                     <RadioGroup
                       row
@@ -441,7 +438,7 @@ const PropertyType = ({ propertyState, setPropertyState, setValid}) => {
 
                 {/* BHK Type */}
                 <Grid container className="d-flex mb-3">
-                  <FormControl component="fieldset">
+                  <FormControl disabled={disabled} component="fieldset">
                     <FormLabel component="legend">BHK type</FormLabel>
                     <RadioGroup
                       row
@@ -464,7 +461,7 @@ const PropertyType = ({ propertyState, setPropertyState, setValid}) => {
                 </Grid>
                 {/* Number of bathrooms */}
                 <Grid container className="d-flex mb-3">
-                  <FormControl component="fieldset">
+                  <FormControl disabled={disabled} component="fieldset">
                     <FormLabel component="legend">No of bathrooms</FormLabel>
                     <RadioGroup
                       row
@@ -486,7 +483,7 @@ const PropertyType = ({ propertyState, setPropertyState, setValid}) => {
 
                 {/* Room Type */}
                 <Grid container className="d-flex mb-3">
-                  <FormControl component="fieldset">
+                  <FormControl disabled={disabled} component="fieldset">
                     <FormLabel component="legend">Furnish Status</FormLabel>
                     <RadioGroup
                       row
@@ -509,7 +506,7 @@ const PropertyType = ({ propertyState, setPropertyState, setValid}) => {
                 </Grid>
                 {/* Parking Type */}
                 <Grid container className="d-flex mb-3">
-                  <FormControl component="fieldset">
+                  <FormControl disabled={disabled} component="fieldset">
                     <FormLabel component="legend">Parking Status</FormLabel>
                     <RadioGroup
                       row
@@ -530,7 +527,7 @@ const PropertyType = ({ propertyState, setPropertyState, setValid}) => {
                 </Grid>
                 {/* water supply */}
                 <Grid container className="d-flex mb-3">
-                  <FormControl component="fieldset">
+                  <FormControl disabled={disabled} component="fieldset">
                     <FormLabel component="legend">Water supply</FormLabel>
                     <RadioGroup
                       row
@@ -552,9 +549,14 @@ const PropertyType = ({ propertyState, setPropertyState, setValid}) => {
                 {/* Description */}
                 <Grid container className="mb-2" spacing={2}>
                   <Grid item xs={12}>
-                    <FormControl component="fieldset" fullWidth>
+                    <FormControl
+                      disabled={disabled}
+                      component="fieldset"
+                      fullWidth
+                    >
                       <FormLabel component="legend">Description</FormLabel>
                       <TextField
+                        disabled={disabled}
                         required
                         size="small"
                         name="description"
@@ -568,9 +570,10 @@ const PropertyType = ({ propertyState, setPropertyState, setValid}) => {
                     </FormControl>
                   </Grid>
                   <Grid item xs={6}>
-                    <FormControl fullWidth>
+                    <FormControl disabled={disabled} fullWidth>
                       <FormLabel>AvailableFrom</FormLabel>
                       <TextField
+                        disabled={disabled}
                         required
                         type="date"
                         name="availableFrom"
@@ -583,9 +586,10 @@ const PropertyType = ({ propertyState, setPropertyState, setValid}) => {
                     </FormControl>
                   </Grid>
                   <Grid item xs={6}>
-                    <FormControl fullWidth>
+                    <FormControl disabled={disabled} fullWidth>
                       <FormLabel>Expected Price</FormLabel>
                       <TextField
+                        disabled={disabled}
                         required
                         type="number"
                         name="expectedPrice"
@@ -601,11 +605,11 @@ const PropertyType = ({ propertyState, setPropertyState, setValid}) => {
                     <FormControl component="fieldset">
                       <FormLabel component="legend">Price Negotiable</FormLabel>
                       <ToggleButtonGroup
+                        disabled={disabled}
                         value={propertyState.priceNegotiable}
                         exclusive
                         size="small"
                         color="primary"
-                        
                         onChange={handleToggleChange}
                         aria-label="Price Negotiable"
                       >
@@ -636,7 +640,7 @@ const PropertyType = ({ propertyState, setPropertyState, setValid}) => {
           <>
             <Grid container>
               <Grid item xs={12}>
-                <FormControl component="fieldset">
+                <FormControl disabled={disabled} component="fieldset">
                   <FormLabel component="legend">Transaction Type</FormLabel>
                   <RadioGroup
                     row
@@ -657,7 +661,7 @@ const PropertyType = ({ propertyState, setPropertyState, setValid}) => {
                 </FormControl>
               </Grid>
 
-              <Grid item xs={12} container alignItems="center">
+              <Grid item xs={12} spacing={1} container alignItems="center">
                 <Grid item xs={12}>
                   <Typography className="text-dark my-2" level={12}>
                     Property Dimensions
@@ -665,6 +669,7 @@ const PropertyType = ({ propertyState, setPropertyState, setValid}) => {
                 </Grid>
                 <Grid item xs={8}>
                   <TextField
+                    disabled={disabled}
                     required
                     fullWidth
                     label="Property Area"
@@ -675,7 +680,7 @@ const PropertyType = ({ propertyState, setPropertyState, setValid}) => {
                   />
                 </Grid>
                 <Grid item xs={4}>
-                  <FormControl fullWidth>
+                  <FormControl disabled={disabled} fullWidth>
                     <InputLabel className="bg-white" id="propertyAreaUnitLabel">
                       Unit
                     </InputLabel>
@@ -717,6 +722,7 @@ const PropertyType = ({ propertyState, setPropertyState, setValid}) => {
                 </Grid>
                 <Grid item xs={12} className="my-4">
                   <TextField
+                    disabled={disabled}
                     required
                     fullWidth
                     label="Number of FLoors"
@@ -728,7 +734,7 @@ const PropertyType = ({ propertyState, setPropertyState, setValid}) => {
                 </Grid>
               </Grid>
               <Grid item xs={12} className="d-flex flex-wrap mb-3">
-                <FormControl component="fieldset">
+                <FormControl disabled={disabled} component="fieldset">
                   <FormLabel component="legend">Property Features</FormLabel>
                   <FormGroup row>
                     {[
@@ -761,7 +767,7 @@ const PropertyType = ({ propertyState, setPropertyState, setValid}) => {
                 </FormControl>
               </Grid>
               <Grid item xs={12} className="d-flex flex-wrap mb-3">
-                <FormControl component="fieldset">
+                <FormControl disabled={disabled} component="fieldset">
                   <FormLabel component="legend">
                     Additional Facilities
                   </FormLabel>
@@ -796,9 +802,10 @@ const PropertyType = ({ propertyState, setPropertyState, setValid}) => {
               {subType === "sale" && (
                 <>
                   <Grid item xs={12}>
-                    <FormControl fullWidth>
+                    <FormControl disabled={disabled} fullWidth>
                       <FormLabel>Sale Amount</FormLabel>
                       <TextField
+                        disabled={disabled}
                         required
                         fullWidth
                         name="saleAmount"
@@ -813,7 +820,7 @@ const PropertyType = ({ propertyState, setPropertyState, setValid}) => {
               {subType === "rent" && (
                 <>
                   <Grid item xs={12}>
-                    <FormControl component="fieldset">
+                    <FormControl disabled={disabled} component="fieldset">
                       <FormLabel component="legend">Lease Type</FormLabel>
                       <RadioGroup
                         row
@@ -839,9 +846,10 @@ const PropertyType = ({ propertyState, setPropertyState, setValid}) => {
                     </FormControl>
                   </Grid>{" "}
                   <Grid item xs={12}>
-                    <FormControl fullWidth>
+                    <FormControl disabled={disabled} fullWidth>
                       <FormLabel>Rent Amount</FormLabel>
                       <TextField
+                        disabled={disabled}
                         required
                         fullWidth
                         name="rentAmount"
@@ -857,7 +865,7 @@ const PropertyType = ({ propertyState, setPropertyState, setValid}) => {
 
             <Grid container>
               <Grid item xs={12} className="mx-auto">
-                <FormControl fullWidth>
+                <FormControl disabled={disabled} fullWidth>
                   <FormLabel className="bg-white">Commercial Type</FormLabel>
                   <Select
                     required
@@ -891,7 +899,7 @@ const PropertyType = ({ propertyState, setPropertyState, setValid}) => {
         return (
           <Grid container spacing={1}>
             <Grid item xs={12}>
-              <FormControl component="fieldset">
+              <FormControl disabled={disabled} component="fieldset">
                 <FormLabel component="legend">Transaction Type</FormLabel>
                 <RadioGroup row value={subType} onChange={handleSubTypeChange}>
                   {["resale"].map((type) => (
@@ -916,6 +924,7 @@ const PropertyType = ({ propertyState, setPropertyState, setValid}) => {
                 </Grid>
                 <Grid item xs={8}>
                   <TextField
+                    disabled={disabled}
                     required
                     fullWidth
                     label="Property Area"
@@ -926,7 +935,7 @@ const PropertyType = ({ propertyState, setPropertyState, setValid}) => {
                   />
                 </Grid>
                 <Grid item xs={4}>
-                  <FormControl fullWidth>
+                  <FormControl disabled={disabled} fullWidth>
                     <InputLabel className="bg-white" id="propertyAreaUnitLabel">
                       Unit
                     </InputLabel>
@@ -969,6 +978,7 @@ const PropertyType = ({ propertyState, setPropertyState, setValid}) => {
 
                 <Grid item xs={6}>
                   <TextField
+                    disabled={disabled}
                     required
                     fullWidth
                     label="Width in feets"
@@ -980,6 +990,7 @@ const PropertyType = ({ propertyState, setPropertyState, setValid}) => {
                 </Grid>
                 <Grid item xs={6}>
                   <TextField
+                    disabled={disabled}
                     required
                     fullWidth
                     label="Height in feets"
@@ -992,6 +1003,7 @@ const PropertyType = ({ propertyState, setPropertyState, setValid}) => {
 
                 <Grid item xs={6}>
                   <TextField
+                    disabled={disabled}
                     required
                     fullWidth
                     label="Floors Allowed"
@@ -1002,7 +1014,7 @@ const PropertyType = ({ propertyState, setPropertyState, setValid}) => {
                   />
                 </Grid>
                 <Grid item xs={6}>
-                  <FormControl component="fieldset">
+                  <FormControl disabled={disabled} component="fieldset">
                     <FormLabel component="legend">Gated security</FormLabel>
                     <RadioGroup
                       row
@@ -1023,7 +1035,7 @@ const PropertyType = ({ propertyState, setPropertyState, setValid}) => {
                   </FormControl>
                 </Grid>
                 <Grid item xs={12} md={6}>
-                  <FormControl component="fieldset">
+                  <FormControl disabled={disabled} component="fieldset">
                     <FormLabel component="legend">
                       Inside Gated project
                     </FormLabel>
@@ -1046,30 +1058,37 @@ const PropertyType = ({ propertyState, setPropertyState, setValid}) => {
                   </FormControl>
                 </Grid>
                 <Grid item xs={12} md={6}>
-                  <FormControl component="fieldset">
+                  <FormControl disabled={disabled} component="fieldset">
                     <FormLabel component="legend">
-                      Approved By panchayat
+                      Approved by Panchayat
                     </FormLabel>
-                    <RadioGroup
-                      row
-                      name="panchayatApproval"
-                      value={propertyState.panchayatApproval || ""}
-                      onChange={handlePropertyChange}
+                    <ToggleButtonGroup
+                      disabled={disabled}
+                      value={propertyState.papproved}
+                      exclusive
+                      size="small"
+                      onChange={handleToggleChange}
+                      aria-label="Property Approval"
                     >
-                      {["Yes", "No"].map((type) => (
-                        <FormControlLabel
-                          key={type}
-                          value={type}
-                          control={<Radio required />}
-                          checked={propertyState.panchayatApproval === type}
-                          label={type.charAt(0).toUpperCase() + type.slice(1)}
-                        />
-                      ))}
-                    </RadioGroup>
+                      <ToggleButton
+                        name="papproved"
+                        value={true}
+                        aria-label="Yes"
+                      >
+                        Yes
+                      </ToggleButton>
+                      <ToggleButton
+                        name="papproved"
+                        value={false}
+                        aria-label="no"
+                      >
+                        No
+                      </ToggleButton>
+                    </ToggleButtonGroup>
                   </FormControl>
                 </Grid>
                 <Grid item xs={12}>
-                  <FormControl component="fieldset">
+                  <FormControl disabled={disabled} component="fieldset">
                     <FormLabel component="legend">Road Facing</FormLabel>
                     <RadioGroup
                       row
@@ -1090,7 +1109,7 @@ const PropertyType = ({ propertyState, setPropertyState, setValid}) => {
                   </FormControl>
                 </Grid>
                 <Grid item xs={12}>
-                  <FormControl component="fieldset">
+                  <FormControl disabled={disabled} component="fieldset">
                     <FormLabel component="legend">Sewage connection</FormLabel>
                     <RadioGroup
                       row
@@ -1111,7 +1130,7 @@ const PropertyType = ({ propertyState, setPropertyState, setValid}) => {
                   </FormControl>
                 </Grid>
                 <Grid item xs={12}>
-                  <FormControl component="fieldset">
+                  <FormControl disabled={disabled} component="fieldset">
                     <FormLabel component="legend">
                       Electricity connection
                     </FormLabel>
@@ -1136,7 +1155,7 @@ const PropertyType = ({ propertyState, setPropertyState, setValid}) => {
                   </FormControl>
                 </Grid>
                 <Grid item xs={12}>
-                  <FormControl component="fieldset">
+                  <FormControl disabled={disabled} component="fieldset">
                     <FormLabel component="legend">Water supply</FormLabel>
                     <RadioGroup
                       row
@@ -1159,9 +1178,10 @@ const PropertyType = ({ propertyState, setPropertyState, setValid}) => {
                   </FormControl>
                 </Grid>
                 <Grid item xs={6}>
-                  <FormControl fullWidth>
+                  <FormControl disabled={disabled} fullWidth>
                     <FormLabel>AvailableFrom</FormLabel>
                     <TextField
+                      disabled={disabled}
                       required
                       type="date"
                       name="availableFrom"
@@ -1174,9 +1194,10 @@ const PropertyType = ({ propertyState, setPropertyState, setValid}) => {
                   </FormControl>
                 </Grid>
                 <Grid item xs={6}>
-                  <FormControl fullWidth>
+                  <FormControl disabled={disabled} fullWidth>
                     <FormLabel>Expected Price</FormLabel>
                     <TextField
+                      disabled={disabled}
                       required
                       type="number"
                       name="expectedPrice"
@@ -1189,9 +1210,10 @@ const PropertyType = ({ propertyState, setPropertyState, setValid}) => {
                   </FormControl>
                 </Grid>
                 <Grid item xs={6}>
-                  <FormControl component="fieldset">
+                  <FormControl disabled={disabled} component="fieldset">
                     <FormLabel component="legend">Price Negotiable</FormLabel>
                     <ToggleButtonGroup
+                      disabled={disabled}
                       value={propertyState.priceNegotiable}
                       exclusive
                       size="small"
@@ -1216,11 +1238,12 @@ const PropertyType = ({ propertyState, setPropertyState, setValid}) => {
                   </FormControl>
                 </Grid>
                 <Grid item xs={6}>
-                  <FormControl component="fieldset">
+                  <FormControl disabled={disabled} component="fieldset">
                     <FormLabel component="legend">
                       Currently under loan
                     </FormLabel>
                     <ToggleButtonGroup
+                      disabled={disabled}
                       value={propertyState.underLoan}
                       exclusive
                       size="small"
@@ -1259,13 +1282,13 @@ const PropertyType = ({ propertyState, setPropertyState, setValid}) => {
       propertyType: propertyType,
       transactionTypes: [subType],
     }));
-    setValid(true);
-
+    setDisabled(true);
+    setValid(!disabled);
   };
   return (
     <div className="">
       <form onSubmit={handleSubmit}>
-        <FormControl component="fieldset">
+        <FormControl disabled={disabled} component="fieldset">
           <FormLabel component="legend">Propery Type</FormLabel>{" "}
           <RadioGroup
             row
@@ -1284,9 +1307,24 @@ const PropertyType = ({ propertyState, setPropertyState, setValid}) => {
         </FormControl>
         <div className="d-flex flex-column align-items-center gap-2 w-100">
           {renderSubTypeOptions()}
-          <Button type="submit" fullWidth variant="outlined" className="m-3">
-            Continue
-          </Button>
+          <div className="d-flex w-100 gap-1">
+            {!disabled && (
+              <Button type="submit" variant="outlined" className="w-100">
+                Continue
+              </Button>
+            )}
+            {disabled && (
+              <Button
+                onClick={() => {
+                  setDisabled((p) => !p);
+                }}
+                variant="outlined"
+                className="w-100"
+              >
+                Edit
+              </Button>
+            )}
+          </div>
         </div>
       </form>
     </div>

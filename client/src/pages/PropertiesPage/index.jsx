@@ -5,7 +5,7 @@ import { Grid, Button, Badge } from "@mui/material";
 import LinearProgress from "@mui/material/LinearProgress";
 import { useProperties } from "../../context/useProperties";
 import { endpoints, hostUri } from "../../fetch";
-import { message } from "antd";
+import { message, Card } from "antd";
 import PropertyAddForm from "./PropertyForm";
 const PropertiesPage = () => {
   const {
@@ -18,7 +18,7 @@ const PropertiesPage = () => {
     getUnverifiedProperties,
   } = useProperties();
   const [propertyType, setPropertyType] = useState("verified");
-
+  const [showAddForm, setShowAddForm] = useState(false);
   const verifyProperty = async (propertyId) => {
     try {
       const response = await fetch(hostUri + endpoints.verifyProperty, {
@@ -56,9 +56,7 @@ const PropertiesPage = () => {
     }
   };
   const deleteProperty = async (propertyId) => {
-    message.success("clicked", 2);
     try {
-      return;
       const response = await fetch(hostUri + endpoints.deleteProperty, {
         method: "DELETE",
         headers: {
@@ -79,7 +77,6 @@ const PropertiesPage = () => {
       <Grid item xs={12}>
         <Button
           onClick={() => {
-            message.info(propertyId);
             deleteProperty(propertyId);
           }}
           variant="contained"
@@ -147,53 +144,75 @@ const PropertiesPage = () => {
 
   return (
     <div className="content-body ">
-      <div className="container-fluid">
-        <h1>Properties Page</h1>
-        <div>{loading && <LinearProgress color="secondary" />}</div>
-        <PropertyAddForm />
-        <Grid container>
-          <Grid item xs={12} className="text-center my-2">
-            <Badge
-              showZero
-              anchorOrigin={{
-                vertical: "top",
-                horizontal: "left",
+      <div className="container-fluid ">
+        <div className=" bg-white  shadow-sm d-flex justify-content-between mb-2 p-2 align-items-center">
+          <div>
+            <h2 className="text-black font-w600">Properties Page</h2>
+          </div>
+
+          <div className="d-flex">
+            <Button
+              onClick={() => {
+                setShowAddForm((p) => !p);
               }}
-              badgeContent={properties.length}
-              color="error"
             >
-              <Button
-                size="small"
-                variant={propertyType === "verified" ? "contained" : "outlined"}
-                className="mx-2 rounded-4 "
-                onClick={() => setPropertyType("verified")}
+              {showAddForm ? "Close Form" : "Add Property"}
+            </Button>
+
+            <div>{loading && <LinearProgress color="secondary" />}</div>
+          </div>
+        </div>
+        {loading && <LinearProgress color="secondary" />}
+        {showAddForm && <PropertyAddForm />}
+        <Grid container>
+          <Grid item xs={12} className="text-center my-1 p-0">
+            <Card className="py-0 m-0">
+              <Badge
+                showZero
+                anchorOrigin={{
+                  vertical: "top",
+                  horizontal: "left",
+                }}
+                badgeContent={properties.length}
+                color="error"
               >
-                Verified
-              </Button>
-              <Badge showZero badgeContent={unverified.length} color="error">
                 <Button
                   size="small"
                   variant={
-                    propertyType === "notverified" ? "contained" : "outlined"
+                    propertyType === "verified" ? "contained" : "outlined"
                   }
                   className="mx-2 rounded-4 "
-                  onClick={() => setPropertyType("notverified")}
-                  label="Unverified"
+                  onClick={() => setPropertyType("verified")}
                 >
-                  Not verified
+                  Verified
+                </Button>
+                <Badge showZero badgeContent={unverified.length} color="error">
+                  <Button
+                    size="small"
+                    variant={
+                      propertyType === "notverified" ? "contained" : "outlined"
+                    }
+                    className="mx-2 rounded-4 "
+                    onClick={() => setPropertyType("notverified")}
+                    label="Unverified"
+                  >
+                    Not verified
+                  </Button>
+                </Badge>
+              </Badge>
+              <Badge showZero badgeContent={rejected.length} color="error">
+                <Button
+                  size="small"
+                  variant={
+                    propertyType === "rejected" ? "contained" : "outlined"
+                  }
+                  className="mx-2 rounded-4 "
+                  onClick={() => setPropertyType("rejected")}
+                >
+                  Rejected
                 </Button>
               </Badge>
-            </Badge>
-            <Badge showZero badgeContent={rejected.length} color="error">
-              <Button
-                size="small"
-                variant={propertyType === "rejected" ? "contained" : "outlined"}
-                className="mx-2 rounded-4 "
-                onClick={() => setPropertyType("rejected")}
-              >
-                Rejected
-              </Button>
-            </Badge>
+            </Card>
           </Grid>
           {(propertyType === "verified"
             ? properties

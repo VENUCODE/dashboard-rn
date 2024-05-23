@@ -33,6 +33,8 @@ export const endpoints = {
   getRejectedProperties: "/api/properties/rejected",
   verifyProperty: "/api/properties/verify",
   rejectProperty: "/api/properties/reject",
+  addProperty: "/api/properties/add",
+  deleteProperty: "/api/properties/delete",
   //Product endpoints
   getAllProducts: "/api/products/all",
   getProductCategories: "/api/products/categories",
