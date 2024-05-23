@@ -63,7 +63,7 @@ const PropertyDetails = () => {
         reset={reset}
         value={address}
       />
-      <GoogleMap markerPosition={location} markerChanged={markerChanged} />
+      {/* <GoogleMap markerPosition={location} markerChanged={markerChanged} /> */}
     </>
   );
 };

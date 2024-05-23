@@ -16,23 +16,10 @@ const PropertyAddForm = () => {
             <PropertyType />
           </Card>
         </Grid>
-        <Grid item xs={12} md={6}>
-          <Card className="h-100">
-            <PropertyLocality />
-          </Card>
-        </Grid>
-        <Grid item xs={12} md={6}>
-          <Card className="h-100">
-            <ProperyAmenities />
-          </Card>
-        </Grid>
+
         <Grid item xs={12} md={6}>
           <Card className="h-100">
             <PropertyDetails />
-          </Card>
-        </Grid>
-        <Grid item xs={12} md={6}>
-          <Card className="h-100">
             <PropertyPictures />
           </Card>
         </Grid>

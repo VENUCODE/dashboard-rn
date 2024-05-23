@@ -150,7 +150,6 @@ export default function AgentCard({ agent }) {
           setIsModalVisible(false);
         }}
       />
-      ;
     </Grid>
   );
 }

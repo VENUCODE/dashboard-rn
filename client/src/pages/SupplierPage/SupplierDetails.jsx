@@ -1,30 +1,72 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import ProfileCard from "./ProfileCard";
 import SupplierChart from "./SupplierChart";
 import { FloatButton, message } from "antd";
 import { useNavigate } from "react-router-dom";
 import { FaArrowLeft } from "react-icons/fa";
-import {
-  Grid,
-  ToggleButton,
-  ToggleButtonGroup,
-  FormControlLabel,
-  FormControl,
-  FormLabel,
-} from "@mui/material";
-
+import { endpoints, hostUri } from "../../fetch";
+import { Grid } from "@mui/material";
+import SuppliesCard from "./SuppliesCard";
+import SuppliesFilter from "./SuppliesFilter";
+import { useSuppliers } from "../../context/useSupplier";
 const SupplierDetails = () => {
-  const { sid } = useParams();
   const navigate = useNavigate();
-  const [selectedValue, setSelectedValue] = useState("products");
+  const { sid } = useParams();
+  const { suppliers } = useSuppliers();
+  const [products, setProducts] = useState([]);
+  const [current, setCurrent] = useState([]);
+  const [graphData, setGraphData] = useState([]);
+  const [supplier, setSupplier] = useState();
+  useEffect(() => {
+    setCurrent(products);
+    const categorySum = {};
+    products.forEach((item) => {
+      const { categoryName, requestCount } = item;
+      if (!categorySum[categoryName]) {
+        categorySum[categoryName] = 0;
+      }
+      categorySum[categoryName] += requestCount;
+    });
+    setGraphData(categorySum);
+  }, [products]);
+  useEffect(() => {
+    const getSupplierProducts = async (sid) => {
+      try {
+        const response = await fetch(
+          `${hostUri}${endpoints.getSupplierAddons}`,
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ userId: sid }),
+          }
+        );
 
-  const handleChange = (event, newValue) => {
-    if (newValue !== null) {
-      setSelectedValue(newValue);
-      message.info(`Selected: ${newValue}`);
+        if (!response.ok) {
+          throw new Error(`Error: ${response.status} ${response.statusText}`);
+        }
+
+        const data = await response.json();
+        setProducts(data.data);
+      } catch (error) {
+        message.error(error.message, 1);
+      }
+    };
+
+    if (sid) {
+      getSupplierProducts(sid);
     }
-  };
+    const filteredSupplier = suppliers.filter((sup) => sup._id === sid);
+    setSupplier(
+      filteredSupplier[0]
+        ? { ...filteredSupplier[0], status: true }
+        : { status: false }
+    );
+    console.log(supplier);
+  }, [sid]);
+
   return (
     <div className="content-body">
       <div className="container-fluid position-relative">
@@ -40,69 +82,23 @@ const SupplierDetails = () => {
             />
           </Grid>
           <Grid item xs={12} md={7}>
-            <ProfileCard />
+            <ProfileCard
+              supplier={supplier}
+              count={products.length}
+              reqCount={Object.values(graphData).reduce(
+                (acc, curr) => acc + curr,
+                0
+              )}
+            />
           </Grid>
           <Grid item xs={12} md={5}>
-            <SupplierChart />
+            <SupplierChart graphData={graphData} />
           </Grid>
           <Grid item xs={12}>
-            <Grid item xs={12}>
-              <ToggleButtonGroup
-                fullWidth
-                size="small"
-                color="warning"
-                value={selectedValue}
-                exclusive
-                onChange={handleChange}
-                aria-label="options"
-              >
-                <ToggleButton
-                  value="products"
-                  aria-label="products"
-                  sx={{
-                    borderBottom:
-                      selectedValue === "products"
-                        ? "2px solid orange"
-                        : "1px solid lightgray",
-                    "&:hover": {
-                      borderBottom: "2px solid orange",
-                    },
-                  }}
-                >
-                  Products
-                </ToggleButton>
-                <ToggleButton
-                  value="services"
-                  aria-label="services"
-                  sx={{
-                    borderBottom:
-                      selectedValue === "services"
-                        ? "2px solid orange"
-                        : "1px solid lightgray",
-                    "&:hover": {
-                      borderBottom: "2px solid orange",
-                    },
-                  }}
-                >
-                  Services
-                </ToggleButton>
-                <ToggleButton
-                  value="properties"
-                  aria-label="properties"
-                  sx={{
-                    borderBottom:
-                      selectedValue === "properties"
-                        ? "2px solid orange"
-                        : "1px solid lightgray",
-                    "&:hover": {
-                      borderBottom: "2px solid orange",
-                    },
-                  }}
-                >
-                  Properties
-                </ToggleButton>
-              </ToggleButtonGroup>
-            </Grid>
+            <SuppliesFilter setCurrent={setCurrent} products={products} />
+          </Grid>
+          <Grid item xs={12}>
+            <SuppliesCard products={current} />
           </Grid>
         </Grid>
       </div>

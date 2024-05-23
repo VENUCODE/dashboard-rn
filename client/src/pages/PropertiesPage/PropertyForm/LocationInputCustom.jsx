@@ -1,70 +1,63 @@
-import React, { useEffect, useState } from "react";
-import { Loader } from "@googlemaps/js-api-loader";
+import React, { useState, useEffect, useRef } from "react";
+import PlaceAutocomplete from "./PlaceAutocomplete";
+import {
+  APIProvider,
+  ControlPosition,
+  MapControl,
+  Map,
+  Marker,
+} from "@vis.gl/react-google-maps";
 
-import { TextField } from "@mui/material";
-const libraries = ["places"];
+const apiKey = "AIzaSyDoHTfjnTnbU_EPSxffAB7ZP18PMp0jcog";
+
 const LocationInput = ({
   onPlaceSelected,
   value = "",
   reset = false,
   ...props
 }) => {
-  const apiKey = "AIzaSyDoHTfjnTnbU_EPSxffAB7ZP18PMp0jcog";
-  const [autocomplete, setAutocomplete] = useState(null);
-  const [location, setLocation] = useState("");
+  const [selectedPlace, setSelectedPlace] = useState(null);
+  const [markerPosition, setMarkerPosition] = useState(null);
+  const [city, setCity] = useState();
+  const { Loading, setLoading } = useState(true);
   useEffect(() => {
-    setLocation(value);
-  }, [reset]);
-
-  useEffect(() => {
-    const loader = new Loader({
-      apiKey: apiKey,
-      version: "weekly",
-      libraries: libraries,
-    });
-
-    loader
-      .load()
-      .then((google) => {
-        const autocompleteInstance = new google.maps.places.Autocomplete(
-          document.getElementById("locationInput")
-        );
-
-        setAutocomplete(autocompleteInstance);
-
-        autocompleteInstance.addListener("place_changed", () =>
-          handlePlaceChanged(autocompleteInstance, onPlaceSelected)
-        );
-      })
-      .catch((error) => {
-        console.error("Error loading Google Maps API:", error);
-      });
-  }, [onPlaceSelected, props?.location]);
-
-  const handlePlaceChanged = (result, onPlaceSelected) => {
-    if (result) {
-      const place = result.getPlace();
-
-      const { name, formatted_address, geometry } = place;
-      const { lat, lng } = geometry.location;
-
-      setLocation(formatted_address);
-      onPlaceSelected({ name, formatted_address, lat: lat(), lng: lng() });
+    if (selectedPlace) {
+      setMarkerPosition(selectedPlace.geometry.location);
+      setCity(selectedPlace.name);
     }
-  };
+    console.log(selectedPlace);
+  }, [selectedPlace]);
+
   return (
-    <TextField
-      size="small"
-      id="locationInput"
-      value={location}
-      {...props}
-      label="Search Location"
-      onChange={(e) => {
-        setLocation(e.target.value);
-      }}
-      placeholder="Search location"
-      className="h-100 form-control rounded-0"
-    />
+    <>
+      {city && <div>{city}</div>}
+
+      {Loading && <div>Loading map</div>}
+
+      <APIProvider apiKey={apiKey}>
+        <Map
+          defaultZoom={8}
+          style={{ width: "100%", height: "400px" }}
+          center={markerPosition}
+          gestureHandling={"greedy"}
+        ></Map>
+        <MapControl position={ControlPosition.INLINE_START_BLOCK_CENTER}>
+          <div className="autocomplete-control">
+            <PlaceAutocomplete onPlaceSelect={setSelectedPlace} />
+          </div>
+        </MapControl>
+        {markerPosition && (
+          <Marker
+            position={markerPosition}
+            draggable
+            onDragEnd={(e) => {
+              const { lat, lng } = e.latLng;
+              console.log({ lat: lat(), lng: lng() });
+            }}
+          />
+        )}
+      </APIProvider>
+    </>
   );
 };
 
