@@ -1,7 +1,6 @@
 import React from "react";
-import { useProducts } from "../../context/useProducts";
 import { Row } from "antd";
-import ProductCard from "./ProductCard";
+import ProductCard from "./productCard";
 const ProductList = ({ current }) => {
   return (
     <div className="container-fluid">

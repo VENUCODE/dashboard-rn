@@ -1,4 +1,3 @@
-import { TextField } from "@mui/material";
 import { useMapsLibrary } from "@vis.gl/react-google-maps";
 import { useEffect, useRef, useState } from "react";
 
@@ -16,13 +15,22 @@ const PlaceAutocomplete = ({ onPlaceSelect }) => {
 
     setPlaceAutocomplete(new places.Autocomplete(inputRef.current, options));
   }, [places]);
+
   useEffect(() => {
     if (!placeAutocomplete) return;
 
-    placeAutocomplete.addListener("place_changed", () => {
-      onPlaceSelect(placeAutocomplete.getPlace());
-    });
+    const handlePlaceChanged = () => {
+      const place = placeAutocomplete.getPlace();
+      if (place && place.geometry) {
+        onPlaceSelect(place);
+      }
+    };
+
+    placeAutocomplete.addListener("place_changed", handlePlaceChanged);
+
+
   }, [onPlaceSelect, placeAutocomplete]);
+
   return (
     <div
       className="p-4"
@@ -35,4 +43,5 @@ const PlaceAutocomplete = ({ onPlaceSelect }) => {
     </div>
   );
 };
+
 export default PlaceAutocomplete;

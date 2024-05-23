@@ -8,7 +8,7 @@ import {
   FaWhatsapp,
   FaTrash,
 } from "react-icons/fa6";
-import { Chip, CircularProgress } from "@mui/material";
+import { CardMedia, Chip, CircularProgress } from "@mui/material";
 import { TiInfoLargeOutline } from "react-icons/ti";
 
 import ImageCarousel from "../PropertiesPage/ImageCarousel";
@@ -63,9 +63,12 @@ export default function ProductCard({ data }) {
       <Card>
         <Row gutter={[16, 16]} align="middle">
           <Col xs={24} sm={24} lg={8} style={{ height: "240px" }}>
-            <div className="m-auto justify-content-center align-items-center">
+            <CardMedia className="h-100" >
+
               <ImageCarousel images={data.images} path={hostUri + "/"} />
-            </div>
+    
+            </CardMedia>
+                
           </Col>
           <Col xs={24} sm={16} lg={16} className="ps-3">
             <div>

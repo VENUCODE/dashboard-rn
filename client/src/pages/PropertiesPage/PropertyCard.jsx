@@ -9,7 +9,7 @@ import {
 } from "react-icons/fa6";
 import { FaRupeeSign } from "react-icons/fa";
 import ImageCarousel from "./ImageCarousel";
-import { Chip, Grid, Button } from "@mui/material";
+import { Chip, Grid, Button, CardMedia } from "@mui/material";
 import { Card, Modal } from "antd";
 import Time from "../../components/TimeAgo";
 export default function PropertyCard({ data, buttons }) {
@@ -41,6 +41,8 @@ export default function PropertyCard({ data, buttons }) {
         >
           <div className="row d-flex ">
             <div className="col-12 col-md-5 ">
+              <CardMedia className="justify-content-center">
+
               <ImageCarousel
                 images={[
                   "https://picsum.photos/200/300?grayscale",
@@ -48,6 +50,7 @@ export default function PropertyCard({ data, buttons }) {
                   "https://picsum.photos/200/300?grayscale",
                 ]}
               />
+              </CardMedia>
               <Chip
                 size={"small"}
                 className={papproved ? "bg-success-subtle" : "bg-danger-subtle"}

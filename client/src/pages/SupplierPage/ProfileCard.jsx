@@ -1,11 +1,12 @@
 import React, { useEffect } from "react";
-import { Grid, Avatar } from "@mui/material";
+import { Grid, Avatar, CardMedia } from "@mui/material";
 import { FaUser, FaEnvelope, FaPhone, FaCartArrowDown } from "react-icons/fa";
 import Time from "../../components/TimeAgo";
 import { GrServices } from "react-icons/gr";
 import { BsClock } from "react-icons/bs";
 import { CiSquareQuestion } from "react-icons/ci";
 import { Card } from "antd";
+import { hostUri } from "../../fetch";
 
 const ProfileCard = ({ supplier = {}, count = 0, reqCount = 0 }) => {
   useEffect(() => {
@@ -15,14 +16,18 @@ const ProfileCard = ({ supplier = {}, count = 0, reqCount = 0 }) => {
     <Card className="w-100 ">
       <Grid container spacing={2} className="">
         <Grid item xs={12} md={4} className="text-center">
-          <Avatar
+          <CardMedia className="h-100">
+
+ <Avatar
             id="avatar"
             variant="rounded"
             className="h-100 w-100"
             sx={{ objectFit: "cover" }}
-            src="https://images.unsplash.com/photo-1483909796554-bb0051ab60ad?q=80&w=1000&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8Z2lybCUyMHByb2ZpbGV8ZW58MHx8MHx8fDA%3D"
-            alt="avatar"
-          />
+            src={ hostUri+"/"+supplier.profileImage}
+            alt={supplier.name}
+          /> 
+          </CardMedia>
+
         </Grid>
         <Grid
           item

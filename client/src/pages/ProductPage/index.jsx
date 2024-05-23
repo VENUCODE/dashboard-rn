@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import ProductList from "./ProductList";
 import { Button } from "@mui/material";
 import AddProduct from "./addProduct";
@@ -11,6 +11,9 @@ const ProductPage = () => {
   const [show, toggleShow] = useState(false);
   const { products } = useProducts();
   const [current, setCurrent] = useState(products);
+  useEffect(()=>{
+    setCurrent(products);
+  },[products])
   return (
     <div className="content-body">
       <div className="container-fluid ">

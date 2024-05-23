@@ -28,13 +28,11 @@ import {
   FaBroom,
   FaTint,
 } from "react-icons/fa";
-import { SizeContextProvider } from "antd/es/config-provider/SizeContext";
 
-const PropertyType = () => {
+const PropertyType = ({ propertyState, setPropertyState, setValid}) => {
   const [propertyType, setPropertyType] = useState();
   const [subType, setSubType] = useState(null);
   const [buildingType, setBuildingType] = useState();
-  const [propertyState, setPropertyState] = useState({});
   const handlePropertyChange = (event) => {
     const { name, value } = event.target;
 
@@ -85,7 +83,10 @@ const PropertyType = () => {
     (e) => {
       setPropertyType(e.target.value);
       setSubType(null);
+      setBuildingType("")
       setPropertyState({});
+      setValid(false);
+
     },
     [setPropertyType, setSubType]
   );
@@ -94,6 +95,8 @@ const PropertyType = () => {
     (e) => {
       setSubType(e.target.value);
       setPropertyState({});
+      setValid(false);
+
     },
     [setSubType]
   );
@@ -130,7 +133,7 @@ const PropertyType = () => {
               <FormControl className="w-100">
                 <FormLabel component="legend">Building Type</FormLabel>
                 <RadioGroup
-                  value={buildingType || "Apartment"}
+                  value={buildingType || ""}
                   onChange={handleBuildingTypeChange}
                   row
                 >
@@ -601,6 +604,8 @@ const PropertyType = () => {
                         value={propertyState.priceNegotiable}
                         exclusive
                         size="small"
+                        color="primary"
+                        
                         onChange={handleToggleChange}
                         aria-label="Price Negotiable"
                       >
@@ -1254,8 +1259,8 @@ const PropertyType = () => {
       propertyType: propertyType,
       transactionTypes: [subType],
     }));
+    setValid(true);
 
-    console.log(propertyState);
   };
   return (
     <div className="">
@@ -1280,7 +1285,7 @@ const PropertyType = () => {
         <div className="d-flex flex-column align-items-center gap-2 w-100">
           {renderSubTypeOptions()}
           <Button type="submit" fullWidth variant="outlined" className="m-3">
-            Submit
+            Continue
           </Button>
         </div>
       </form>

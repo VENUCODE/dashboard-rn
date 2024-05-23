@@ -8,7 +8,7 @@ import { IoIosMore } from "react-icons/io";
 import { Divider } from "antd";
 import { Button } from "@mui/material";
 
-import AddService from "./addService";
+import AddService from "./AddService";
 import AddServiceCategory from "./addServiceCategory";
 const ServicePage = () => {
   const { services, loading } = useServices();
