@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { FaMoneyBillWave } from "react-icons/fa";
 import ImageGallery from "react-image-gallery";
-import "react-image-gallery/styles/css/image-gallery.css";
 import {
   FaChartArea,
   FaBuilding,
@@ -37,9 +36,9 @@ export default function PropertyCard({ data, buttons }) {
 
   return (
     <>
-      <Grid item xs={12} sm={12} md={6}>
+      <Grid item xs={12} sm={12} md={6} className="p-1">
         <Card
-          className="p-0 my-2 mx-1 outline-light shadow"
+          className="p-0 my-2 mx-1 outline-light shadow h-100"
           data-aos="zoom-in"
           data-aos-delay="100"
         >

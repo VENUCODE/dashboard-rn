@@ -5,7 +5,11 @@ import { useAuth } from "../../../context/useAuth";
 const PropertyPictures = ({ propertyState, setPropertyState }) => {
   const [fileList, setFileList] = useState([]);
   const { userData } = useAuth();
-
+  useEffect(() => {
+    if (!propertyState.images) {
+      setFileList([]);
+    }
+  }, [propertyState]);
   useEffect(() => {
     setPropertyState((prev) => ({ ...prev, images: fileList }));
     if (userData) {

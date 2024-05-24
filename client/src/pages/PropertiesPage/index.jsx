@@ -19,6 +19,7 @@ const PropertiesPage = () => {
   } = useProperties();
   const [propertyType, setPropertyType] = useState("verified");
   const [showAddForm, setShowAddForm] = useState(false);
+  const [deleteLoading, setDeleteLoading] = useState(false);
   const verifyProperty = async (propertyId) => {
     try {
       const response = await fetch(hostUri + endpoints.verifyProperty, {
@@ -57,6 +58,8 @@ const PropertiesPage = () => {
   };
   const deleteProperty = async (propertyId) => {
     try {
+      message.info(propertyId, 2);
+      setDeleteLoading(true);
       const response = await fetch(hostUri + endpoints.deleteProperty, {
         method: "DELETE",
         headers: {
@@ -67,9 +70,13 @@ const PropertiesPage = () => {
       if (response.ok) {
         message.success("proeprty deleted");
         getProperties();
+      } else {
+        message.error(data.message);
       }
     } catch (error) {
       message.error(error.message, 1);
+    } finally {
+      setDeleteLoading(false);
     }
   };
   const renderVerifiedButtons = (propertyId) => {
@@ -79,6 +86,7 @@ const PropertiesPage = () => {
           onClick={() => {
             deleteProperty(propertyId);
           }}
+          disabled={deleteLoading}
           variant="contained"
           fullWidth
           color="error"

@@ -1,5 +1,5 @@
 import React from "react";
-import { Col, Card, Row, Button } from "antd"; // Assuming you're using Ant Design components
+import { Col, Card, Row, Button, Modal } from "antd"; // Assuming you're using Ant Design components
 import {
   FaHeart,
   FaStar,
@@ -16,10 +16,14 @@ import { hostUri, endpoints } from "../../fetch";
 import { useState } from "react";
 import { useProducts } from "../../context/useProducts";
 import { message } from "antd";
+import Time from "../../components/TimeAgo";
+import ReactImageGallery from "react-image-gallery";
 
 export default function ProductCard({ data }) {
   const [deleteLoading, setDeleteLoading] = useState(false);
   const { getProducts } = useProducts();
+  const [isModalVisible, setIsModalVisible] = useState(false);
+  const handleCancel = () => setIsModalVisible(false);
   const {
     productName = "productName",
     productPrice = "NA",
@@ -63,12 +67,9 @@ export default function ProductCard({ data }) {
       <Card>
         <Row gutter={[16, 16]} align="middle">
           <Col xs={24} sm={24} lg={8} style={{ height: "240px" }}>
-            <CardMedia className="h-100" >
-
+            <CardMedia className="h-100">
               <ImageCarousel images={data.images} path={hostUri + "/"} />
-    
             </CardMedia>
-                
           </Col>
           <Col xs={24} sm={16} lg={16} className="ps-3">
             <div>
@@ -138,6 +139,7 @@ export default function ProductCard({ data }) {
                   <div className="col-md-6 col-12">
                     <Button
                       variant="outlined"
+                      onClick={() => setIsModalVisible(true)}
                       className="px-2 py-1 w-100 btn btn-primary light border border-2 border-primary"
                     >
                       <TiInfoLargeOutline size={15} />
@@ -150,6 +152,34 @@ export default function ProductCard({ data }) {
           </Col>
         </Row>
       </Card>
+      <Modal
+        title={<p className="text-capitalize">{data.productName}</p>}
+        open={isModalVisible}
+        onCancel={handleCancel}
+        centered
+        footer={[
+          <Button key="close" onClick={handleCancel}>
+            Close
+          </Button>,
+        ]}
+      >
+        <div
+          style={{ maxHeight: "400px", overflowY: "auto", overflowX: "hidden" }}
+        >
+          <ReactImageGallery
+            items={data.images.map((item) => ({
+              original: hostUri + "/" + item,
+              thumbnail: hostUri + "/" + item,
+            }))}
+          />
+          <p>Price: {data.productPrice}</p>
+          <p>Description: {data.productDescription}</p>
+          <p>Category: {data.categoryName}</p>
+          <p>
+            Posted: <Time date={data.timestamp} />
+          </p>
+        </div>
+      </Modal>
     </Col>
   );
 }

@@ -20,6 +20,7 @@ app.use(
   "/productImages",
   express.static(path.join(__dirname, "productImages"))
 );
+app.use("/property", express.static(path.join(__dirname, "property")));
 app.use(
   "/serviceImages",
   express.static(path.join(__dirname, "serviceImages"))

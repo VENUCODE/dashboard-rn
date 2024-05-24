@@ -2,7 +2,6 @@
   "name": "dashboard",
   "version": "0.1.0",
   "private": true,
-  "proxy": "https://dashboard-react-nodejs-mongodb.onrender.com",
   "dependencies": {
     "@ant-design/icons": "^5.3.6",
     "@emotion/react": "^11.11.4",
@@ -25,6 +24,7 @@
     "axios": "^1.6.8",
     "bootstrap": "^5.3.3",
     "dotenv": "^16.4.5",
+    "express": "^4.19.2",
     "fontawesome": "^5.6.3",
     "html-to-image": "^1.11.11",
     "moment": "^2.30.1",
@@ -43,7 +43,8 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build",
-    "serve": "vite preview"
+    "serve": "vite preview",
+    "analyze": "source-map-explorer 'dist/assets/*.js'"
   },
   "eslintConfig": {
     "extends": [
@@ -64,6 +65,8 @@
     ]
   },
   "devDependencies": {
-    "@babel/plugin-proposal-private-property-in-object": "^7.21.11"
+    "@babel/plugin-proposal-private-property-in-object": "^7.21.11",
+    "source-map-explorer": "^2.5.3",
+    "webpack-bundle-analyzer": "^4.10.2"
   }
 }
