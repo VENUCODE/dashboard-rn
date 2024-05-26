@@ -23,6 +23,7 @@ import ProductPage from "./pages/ProductPage";
 import { ProductProvider } from "./context/useProducts";
 import { SupplierProvider } from "./context/useSupplier";
 import SupplierDetails from "./pages/SupplierPage/SupplierDetails";
+import UploadPage from "./pages/Uploads";
 
 const App = () => {
   const { isAuthenticated } = useAuth();
@@ -147,6 +148,12 @@ const App = () => {
             ) : (
               <Navigate to={"/login"} />
             )
+          }
+        />
+        <Route
+          path="/upload"
+          element={
+            isAuthenticated ? <UploadPage /> : <Navigate to={"/login"} />
           }
         />
         <Route

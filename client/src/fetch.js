@@ -43,4 +43,6 @@ export const endpoints = {
   //Supplier endpoints
   getAllSuppliers: "/api/suppliers/all",
   getSupplierAddons: "/api/suppliers/supplier-addons",
+  //file upload route
+  uploadFile: "/api/bulk/upload",
 };

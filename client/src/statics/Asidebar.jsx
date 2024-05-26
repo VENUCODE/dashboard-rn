@@ -5,7 +5,7 @@ import { BiBuildings } from "react-icons/bi";
 import { GrServices } from "react-icons/gr";
 import { FaBuildingUser } from "react-icons/fa6";
 import { LiaPersonBoothSolid } from "react-icons/lia";
-import { FaUserTie } from "react-icons/fa";
+import { FaFileUpload, FaUserTie } from "react-icons/fa";
 import { Tooltip } from "antd";
 
 import { useMediaQuery } from "@uidotdev/usehooks";
@@ -55,6 +55,11 @@ const Asidebar = ({ setNavToggle }) => {
       title: "Manager",
       icon: <FaUserTie color="#E35A60" size={30} />,
       link: "/manager",
+    },
+    {
+      title: "Upload",
+      icon: <FaFileUpload color="#E35A60" size={30} />,
+      link: "/upload",
     },
   ];
   const [active, setActive] = useState(0);

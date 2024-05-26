@@ -16,6 +16,8 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 //STATIC path resolution
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));
+app.use("/demoUploads", express.static(path.join(__dirname, "demoUploads")));
+
 app.use(
   "/productImages",
   express.static(path.join(__dirname, "productImages"))
@@ -25,6 +27,9 @@ app.use(
   "/serviceImages",
   express.static(path.join(__dirname, "serviceImages"))
 );
+//Bulk file upload route
+const uploadRouter = require("./routes/BulkUpload");
+app.use("/api/bulk", uploadRouter);
 // GLOBAL ERROR SETUP
 app.use((err, req, res, next) => {
   err.statusCode = err.statusCode || 500;

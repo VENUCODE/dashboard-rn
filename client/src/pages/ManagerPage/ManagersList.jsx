@@ -37,10 +37,12 @@ const ManagersList = ({ current }) => {
           )}
           {current.length === 0 && !loading && "No managers found"}
         </Grid>
-        {current.length > 0 &&
-          current.map((manager, index) => (
-            <ManagerCard key={index} manager={manager} />
-          ))}
+        <Grid item spacing={1} xs={12} container>
+          {current.length > 0 &&
+            current.map((manager, index) => (
+              <ManagerCard key={index} manager={manager} />
+            ))}
+        </Grid>
       </Grid>
     </div>
   );

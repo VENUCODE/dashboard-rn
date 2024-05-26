@@ -15,6 +15,7 @@ const LocationInput = ({ propertyState, setPropertyState }) => {
   const [selectedPlace, setSelectedPlace] = useState(null);
   const [markerPosition, setMarkerPosition] = useState(null);
   const [city, setCity] = useState(null);
+  const [state, setState] = useState(null);
   const [location, setLocation] = useState(null);
   const [locality, setLocality] = useState(null);
   useEffect(() => {

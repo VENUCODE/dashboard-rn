@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import PropertyCard from "./PropertyCard";
 
 import { Grid, Button, Badge } from "@mui/material";
@@ -7,6 +7,8 @@ import { useProperties } from "../../context/useProperties";
 import { endpoints, hostUri } from "../../fetch";
 import { message, Card } from "antd";
 import PropertyAddForm from "./PropertyForm";
+import PropertyFilter from "./PropertyFilter";
+import PropertyFilterMap from "./PropertyFilterMap";
 const PropertiesPage = () => {
   const {
     properties,
@@ -20,6 +22,17 @@ const PropertiesPage = () => {
   const [propertyType, setPropertyType] = useState("verified");
   const [showAddForm, setShowAddForm] = useState(false);
   const [deleteLoading, setDeleteLoading] = useState(false);
+  const [current, setCurrent] = useState([]);
+  useEffect(() => {
+    if (propertyType === "verified") {
+      setCurrent(properties);
+    } else if (propertyType === "notverified") {
+      setCurrent(unverified);
+    } else {
+      setCurrent(rejected);
+    }
+  }, [propertyType, properties, rejected, unverified]);
+
   const verifyProperty = async (propertyId) => {
     try {
       const response = await fetch(hostUri + endpoints.verifyProperty, {
@@ -173,6 +186,10 @@ const PropertiesPage = () => {
         {loading && <LinearProgress color="secondary" />}
         {showAddForm && <PropertyAddForm />}
         <Grid container>
+          <Grid item xs={12}>
+            <PropertyFilter current={current} setCurrent={setCurrent} />
+          </Grid>
+
           <Grid item xs={12} className="text-center my-1 p-0">
             <Card className="py-0 m-0">
               <Badge
@@ -222,12 +239,7 @@ const PropertiesPage = () => {
               </Badge>
             </Card>
           </Grid>
-          {(propertyType === "verified"
-            ? properties
-            : propertyType === "notverified"
-            ? unverified
-            : rejected
-          ).map((prop) => {
+          {current.map((prop) => {
             return (
               <>
                 <PropertyCard

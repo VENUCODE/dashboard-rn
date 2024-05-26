@@ -87,7 +87,9 @@ const AgentsList = ({ showMap }) => {
         <Grid
           item
           xs={12}
-          className="d-flex  justify-content-evenly gap-2 flex-wrap align-items-center "
+          container
+          spacing={1}
+          className="d-flex  justify-content-start  flex-wrap align-items-center "
         >
           {agentTab === "agents"
             ? current.length > 0 &&
