@@ -23,15 +23,15 @@ const PropertiesPage = () => {
   const [showAddForm, setShowAddForm] = useState(false);
   const [deleteLoading, setDeleteLoading] = useState(false);
   const [current, setCurrent] = useState([]);
-  useEffect(() => {
-    if (propertyType === "verified") {
-      setCurrent(properties);
-    } else if (propertyType === "notverified") {
-      setCurrent(unverified);
-    } else {
-      setCurrent(rejected);
-    }
-  }, [propertyType, properties, rejected, unverified]);
+  // useEffect(() => {
+  //   if (propertyType === "verified") {
+  //     setCurrent(properties);
+  //   } else if (propertyType === "notverified") {
+  //     setCurrent(unverified);
+  //   } else {
+  //     setCurrent(rejected);
+  //   }
+  // }, [propertyType, properties, rejected, unverified]);
 
   const verifyProperty = async (propertyId) => {
     try {
@@ -187,7 +187,11 @@ const PropertiesPage = () => {
         {showAddForm && <PropertyAddForm />}
         <Grid container>
           <Grid item xs={12}>
-            <PropertyFilter current={current} setCurrent={setCurrent} />
+            <PropertyFilter
+              propertyType={propertyType}
+              current={current}
+              setCurrent={setCurrent}
+            />
           </Grid>
 
           <Grid item xs={12} className="text-center my-1 p-0">
@@ -198,7 +202,11 @@ const PropertiesPage = () => {
                   vertical: "top",
                   horizontal: "left",
                 }}
-                badgeContent={properties.length}
+                badgeContent={
+                  propertyType === "verified"
+                    ? current.length
+                    : properties.length
+                }
                 color="error"
               >
                 <Button
@@ -211,7 +219,15 @@ const PropertiesPage = () => {
                 >
                   Verified
                 </Button>
-                <Badge showZero badgeContent={unverified.length} color="error">
+                <Badge
+                  showZero
+                  badgeContent={
+                    propertyType === "notverified"
+                      ? current.length
+                      : unverified.length
+                  }
+                  color="error"
+                >
                   <Button
                     size="small"
                     variant={
@@ -225,7 +241,13 @@ const PropertiesPage = () => {
                   </Button>
                 </Badge>
               </Badge>
-              <Badge showZero badgeContent={rejected.length} color="error">
+              <Badge
+                showZero
+                badgeContent={
+                  propertyType === "rejected" ? current.length : rejected.length
+                }
+                color="error"
+              >
                 <Button
                   size="small"
                   variant={

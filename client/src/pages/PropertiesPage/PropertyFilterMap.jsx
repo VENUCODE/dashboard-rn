@@ -12,7 +12,7 @@ import { Typography, Button, Chip } from "@mui/material";
 import PlaceAutocomplete from "./PropertyForm/PlaceAutocomplete";
 import { Circle } from "../../components/Circle";
 import { hostUri } from "../../fetch";
-import { FaRupeeSign } from "react-icons/fa";
+import { FaBuilding, FaRupeeSign } from "react-icons/fa";
 
 const apiKey = "AIzaSyDoHTfjnTnbU_EPSxffAB7ZP18PMp0jcog";
 
@@ -21,7 +21,7 @@ const PropertyFilterMap = ({ current }) => {
   const [markerPosition, setMarkerPosition] = useState(null);
   const [center, setCenter] = useState({ lat: 22, lng: 77 });
   const [windowVisible, setWindowVisible] = useState(false);
-  const map = useMap("property-map");
+  const [panto, setPanto] = useState(null);
   const calculateCentroid = (points) => {
     if (!points.length) return null;
 
@@ -56,6 +56,7 @@ const PropertyFilterMap = ({ current }) => {
   }, [current]);
   useEffect(() => {
     if (markerPosition) {
+      setPanto(markerPosition);
       setCenter(markerPosition);
       const fetchAddress = async () => {
         try {
@@ -67,11 +68,7 @@ const PropertyFilterMap = ({ current }) => {
       };
       fetchAddress();
     }
-    if (map) {
-      console.log("map is found");
-      map.panTo(center);
-    }
-  }, [markerPosition, map]);
+  }, [markerPosition]);
 
   const getFormattedAddress = (location) => {
     if (!location) return;
@@ -125,6 +122,7 @@ const PropertyFilterMap = ({ current }) => {
           defaultZoom={10}
           style={{ width: "100%", height: "400px" }}
           defaultCenter={center}
+          panTo={center}
           gestureHandling={"auto"}
           disableDefaultUI={true}
           zoomControl={true}
@@ -137,12 +135,13 @@ const PropertyFilterMap = ({ current }) => {
             });
           }}
         >
+          {panto && <InfoWindow position={panto}></InfoWindow>}
           <MapControl position={ControlPosition.BLOCK_START_INLINE_END}>
             <PlaceAutocomplete onPlaceSelect={setSelectedPlace} />
           </MapControl>
           {windowVisible.visible && (
             <InfoWindow
-              pixelOffset={[1000, 100]}
+              pixelOffset={[0, -40]}
               position={windowVisible.location}
               style={{ height: "200px", width: "200px", overflow: "hidden" }}
               onClose={() => setWindowVisible(false)}

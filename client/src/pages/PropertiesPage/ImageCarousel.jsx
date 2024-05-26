@@ -11,12 +11,13 @@ const ImageCarousel = ({ images, path = "" }) => (
             src={path + img}
             height={200}
             width={400}
-            sx={{maxwidth:400}}
+            sx={{ maxwidth: 400 }}
             alt={img}
           />
-        </div>  
+        </div>
       );
     })}
   </Carousel>
 );
+
 export default ImageCarousel;
