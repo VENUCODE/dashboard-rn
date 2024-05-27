@@ -16,6 +16,8 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 //STATIC path resolution
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));
+app.use("/adImages", express.static(path.join(__dirname, "adImages")));
+
 app.use("/demoUploads", express.static(path.join(__dirname, "demoUploads")));
 
 app.use(
@@ -72,6 +74,10 @@ app.use("/api/managers", ManagerRoutes);
 //NOTE - Supplier Routes
 const SupplierRoutes = require("./routes/SupplierRoutes");
 app.use("/api/suppliers", SupplierRoutes);
+//ad routes
+const AdRoutes = require("./routes/AdvertisementRoute");
+app.use("/api/ad", AdRoutes);
+
 // DATABASE CONNECTION AND SERVER ACTION
 const URI = process.env.MONGO_URL;
 // console.log(URI);

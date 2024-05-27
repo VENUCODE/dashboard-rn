@@ -5,12 +5,13 @@ import { BiBuildings } from "react-icons/bi";
 import { GrServices } from "react-icons/gr";
 import { FaBuildingUser } from "react-icons/fa6";
 import { LiaPersonBoothSolid } from "react-icons/lia";
-import { FaFileUpload, FaUserTie } from "react-icons/fa";
+import { FaAdversal, FaFileUpload, FaUserTie } from "react-icons/fa";
 import { Tooltip } from "antd";
 
 import { useMediaQuery } from "@uidotdev/usehooks";
 import { Link } from "react-router-dom";
 import { useState } from "react";
+import { FcAdvertising } from "react-icons/fc";
 const Asidebar = ({ setNavToggle }) => {
   const showToolTip = useMediaQuery("(min-width : 769px)");
 
@@ -60,6 +61,11 @@ const Asidebar = ({ setNavToggle }) => {
       title: "Upload",
       icon: <FaFileUpload color="#E35A60" size={30} />,
       link: "/upload",
+    },
+    {
+      title: "Advertise",
+      icon: <FcAdvertising color="#E35A60" size={30} />,
+      link: "/advertise",
     },
   ];
   const [active, setActive] = useState(0);

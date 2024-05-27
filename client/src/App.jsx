@@ -24,6 +24,8 @@ import { ProductProvider } from "./context/useProducts";
 import { SupplierProvider } from "./context/useSupplier";
 import SupplierDetails from "./pages/SupplierPage/SupplierDetails";
 import UploadPage from "./pages/Uploads";
+import Advertisement from "./pages/AdvertisementPage";
+import { AdProvider } from "./context/useAd";
 
 const App = () => {
   const { isAuthenticated } = useAuth();
@@ -133,6 +135,18 @@ const App = () => {
               <SupplierProvider>
                 <SupplierDetails />
               </SupplierProvider>
+            ) : (
+              <Navigate to={"/login"} />
+            )
+          }
+        />
+        <Route
+          path="/advertise"
+          element={
+            isAuthenticated ? (
+              <AdProvider>
+                <Advertisement />
+              </AdProvider>
             ) : (
               <Navigate to={"/login"} />
             )

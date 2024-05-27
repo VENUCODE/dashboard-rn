@@ -4,7 +4,14 @@ import ImgCrop from "antd-img-crop";
 import { getBase64 } from "../helperFunctions/helper";
 import { FiUpload } from "react-icons/fi";
 import "./uploadstyle.css";
-const ImageUpload = ({ fileList, setFileList }) => {
+
+const ImageUpload = ({
+  fileList,
+  setFileList,
+  cropShape = "rect",
+  aspect = 1 / 1,
+  ...props
+}) => {
   const [previewOpen, setPreviewOpen] = useState(false);
   const [previewImage, setPreviewImage] = useState("");
 
@@ -15,6 +22,7 @@ const ImageUpload = ({ fileList, setFileList }) => {
     setPreviewImage(file.url || file.preview);
     setPreviewOpen(true);
   };
+
   const onChange = ({ fileList: newFileList }) => {
     setFileList(newFileList);
   };
@@ -22,7 +30,7 @@ const ImageUpload = ({ fileList, setFileList }) => {
   return (
     <div className="d-flex flex-row">
       <div>
-        <ImgCrop rotationSlider>
+        <ImgCrop rotationSlider cropShape={cropShape} aspect={aspect}>
           <Upload
             listType="picture-card"
             fileList={fileList}
