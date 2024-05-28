@@ -7,13 +7,15 @@ import { FaBuildingUser } from "react-icons/fa6";
 import { LiaPersonBoothSolid } from "react-icons/lia";
 import { FaAdversal, FaFileUpload, FaUserTie } from "react-icons/fa";
 import { Tooltip } from "antd";
-
 import { useMediaQuery } from "@uidotdev/usehooks";
-import { Link } from "react-router-dom";
-import { useState } from "react";
+import { Link, useLocation } from "react-router-dom";
+import { useState, useEffect } from "react";
 import { FcAdvertising } from "react-icons/fc";
+
 const Asidebar = ({ setNavToggle }) => {
   const showToolTip = useMediaQuery("(min-width : 769px)");
+  const location = useLocation();
+  const [active, setActive] = useState(0);
 
   const sidebarItems = [
     {
@@ -44,14 +46,13 @@ const Asidebar = ({ setNavToggle }) => {
     {
       title: "Agents",
       icon: <FaBuildingUser color="#E35A60" size={30} />,
-      link: "agents",
+      link: "/agents",
     },
     {
       title: "Suppliers",
       icon: <LiaPersonBoothSolid color="#E35A60" size={30} />,
       link: "/suppliers",
     },
-
     {
       title: "Manager",
       icon: <FaUserTie color="#E35A60" size={30} />,
@@ -68,62 +69,53 @@ const Asidebar = ({ setNavToggle }) => {
       link: "/advertise",
     },
   ];
-  const [active, setActive] = useState(0);
+
+  useEffect(() => {
+    const currentPath = location.pathname;
+    const activeIndex = sidebarItems.findIndex(
+      (item) =>
+        currentPath === item.link ||
+        (currentPath.startsWith("/suppliers") && item.link === "/suppliers")
+    );
+
+    setActive(activeIndex);
+  }, [location.pathname]);
 
   return (
-    <>
-      <div className="deznav">
-        <div className="deznav-scroll ">
-          <ul className="metismenu" id="menu">
-            {sidebarItems.map((item, index) => (
-              <li
-                key={index}
-                className={`mm${index === active ? "-active" : ""}`}
-                area-expanded="false"
-                onClick={() => {
-                  setActive(index);
-                  setNavToggle(false);
-                }}
-              >
-                {showToolTip && (
-                  <Link
-                    // className="has-arrow ai-icon"
-                    to={item.link}
-                    aria-expanded="false"
-                  >
-                    <Tooltip
-                      title={item.title}
-                      placement="right"
-                      color="#E35A60aa"
-                      trigger={"hover"}
-                    >
-                      {item.icon}{" "}
-                      <span className="nav-text ">{item.title}</span>
-                    </Tooltip>
-                  </Link>
-                )}
-                {!showToolTip && (
-                  <Link
-                    // className="has-arrow ai-icon"
-                    to={`${item.link}`}
-                    aria-expanded="false"
+    <div className="deznav">
+      <div className="deznav-scroll ">
+        <ul className="metismenu" id="menu">
+          {sidebarItems.map((item, index) => (
+            <li
+              key={index}
+              className={`mm${index === active ? "-active" : ""}`}
+              aria-expanded="false"
+              onClick={() => {
+                setActive(index);
+                setNavToggle(false);
+              }}
+            >
+              {showToolTip ? (
+                <Link to={item.link} aria-expanded="false">
+                  <Tooltip
+                    title={item.title}
+                    placement="right"
+                    color="#E35A60aa"
+                    trigger={"hover"}
                   >
                     {item.icon} <span className="nav-text">{item.title}</span>
-                  </Link>
-                )}
-                <ul>
-                  {item.subMenu?.map((subItem, subIndex) => (
-                    <li key={subIndex}>
-                      <Link to={subItem.link}>{subItem.title}</Link>
-                    </li>
-                  ))}
-                </ul>
-              </li>
-            ))}
-          </ul>
-        </div>
+                  </Tooltip>
+                </Link>
+              ) : (
+                <Link to={item.link} aria-expanded="false">
+                  {item.icon} <span className="nav-text">{item.title}</span>
+                </Link>
+              )}
+            </li>
+          ))}
+        </ul>
       </div>
-    </>
+    </div>
   );
 };
 

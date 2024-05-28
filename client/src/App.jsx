@@ -1,7 +1,7 @@
 import "./assets/css/bootstrap-select.min.css";
 import LoginUser from "./components/LoginUser";
 import { Routes, Route, Navigate } from "react-router-dom";
-import { useAuth } from "./context/useAuth";
+import { useAuth, AuthProvider } from "./context/useAuth";
 import { useEffect, useState } from "react";
 import AOS from "aos";
 import "aos/dist/aos.css";
@@ -28,8 +28,9 @@ import Advertisement from "./pages/AdvertisementPage";
 import { AdProvider } from "./context/useAd";
 
 const App = () => {
-  const { isAuthenticated } = useAuth();
+  const { isAuthenticated, loading } = useAuth();
   const [navToggle, setNavToggle] = useState(false);
+
   useEffect(() => {
     AOS.init({
       offset: 50,
@@ -38,9 +39,14 @@ const App = () => {
       once: true,
     });
   }, []);
+
+  if (loading) {
+    return <div>Loading...</div>; // Show a loading spinner or message
+  }
+
   return (
     <div id="main-wrapper" className={`show ${navToggle && "menu-toggle"}`}>
-      {isAuthenticated && (
+      {!loading && isAuthenticated && (
         <>
           <Topbar navToggle={navToggle} setNavToggle={setNavToggle} />
           <Asidebar setNavToggle={setNavToggle} />
@@ -49,15 +55,14 @@ const App = () => {
       <Routes>
         <Route
           path="/login"
-          element={!isAuthenticated ? <LoginUser /> : <Navigate to={"/"} />}
+          element={!isAuthenticated ? <LoginUser /> : <Navigate to="/" />}
         />
         <Route
           path="/"
           element={
-            isAuthenticated ? <LandingSection /> : <Navigate to={"/login"} />
+            isAuthenticated ? <LandingSection /> : <Navigate to="/login" />
           }
         />
-
         <Route
           path="/jobs"
           element={
@@ -78,7 +83,6 @@ const App = () => {
             </PropertiesProvider>
           }
         />
-
         <Route
           path="/agents"
           element={
@@ -87,7 +91,7 @@ const App = () => {
                 <AgentsPage />
               </AgentsProvider>
             ) : (
-              <Navigate to={"/login"} />
+              <Navigate to="/login" />
             )
           }
         />
@@ -99,7 +103,7 @@ const App = () => {
                 <ManagerPage />
               </ManagersProvider>
             ) : (
-              <Navigate to={"/login"} />
+              <Navigate to="/login" />
             )
           }
         />
@@ -111,11 +115,10 @@ const App = () => {
                 <ProductPage />
               </ProductProvider>
             ) : (
-              <Navigate to={"/login"} />
+              <Navigate to="/login" />
             )
           }
         />
-
         <Route
           path="/suppliers"
           element={
@@ -124,19 +127,19 @@ const App = () => {
                 <SupplierPage />
               </SupplierProvider>
             ) : (
-              <Navigate to={"/login"} />
+              <Navigate to="/login" />
             )
           }
         />
         <Route
-          path="/supplier/:sid"
+          path="/suppliers/:sid"
           element={
             isAuthenticated ? (
               <SupplierProvider>
                 <SupplierDetails />
               </SupplierProvider>
             ) : (
-              <Navigate to={"/login"} />
+              <Navigate to="/login" />
             )
           }
         />
@@ -148,7 +151,7 @@ const App = () => {
                 <Advertisement />
               </AdProvider>
             ) : (
-              <Navigate to={"/login"} />
+              <Navigate to="/login" />
             )
           }
         />
@@ -160,15 +163,13 @@ const App = () => {
                 <ServicePage />
               </ServiceProvider>
             ) : (
-              <Navigate to={"/login"} />
+              <Navigate to="/login" />
             )
           }
         />
         <Route
           path="/upload"
-          element={
-            isAuthenticated ? <UploadPage /> : <Navigate to={"/login"} />
-          }
+          element={isAuthenticated ? <UploadPage /> : <Navigate to="/login" />}
         />
         <Route
           path="*"
@@ -183,4 +184,10 @@ const App = () => {
   );
 };
 
-export default App;
+const Root = () => (
+  <AuthProvider>
+    <App />
+  </AuthProvider>
+);
+
+export default Root;

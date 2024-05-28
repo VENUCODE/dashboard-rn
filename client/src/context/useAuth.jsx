@@ -6,15 +6,17 @@ export const AuthProvider = ({ children }) => {
   const [token, setToken] = useState(null);
   const [userData, setUserData] = useState(null);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const storedData = JSON.parse(localStorage.getItem("user_data"));
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    const storedData = JSON.parse(localStorage.getItem("user_data"));
     if (storedData) {
       const { userToken, user } = storedData;
       setToken(userToken);
       setUserData(user);
       setIsAuthenticated(true);
     }
+    setLoading(false); // Ensure loading state is set to false after checking local storage
   }, []);
 
   const login = (newToken, newData) => {
@@ -38,12 +40,15 @@ export const AuthProvider = ({ children }) => {
     token,
     isAuthenticated,
     userData,
+    loading,
     login,
     logout,
   };
 
   return (
-    <AuthContext.Provider value={contextValue}>{children}</AuthContext.Provider>
+    <AuthContext.Provider value={contextValue}>
+      {!loading && children}
+    </AuthContext.Provider>
   );
 };
 

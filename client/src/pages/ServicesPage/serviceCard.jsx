@@ -89,12 +89,13 @@ const ServiceCard = ({ service }) => {
             </p>{" "}
             <div className=" text-muted my-1 gap-2 ">
               {" "}
-              <FaCity className="me-2 text-black" /> {service.location}
+              <FaCity className="me-2 text-black" />{" "}
+              {service.location || service.city}
             </div>{" "}
             <div className=" text-muted my-1 ">
               {" "}
               <FaCalendarTimes className="me-2 text-black" />{" "}
-              <Time date={service.createdAt} />{" "}
+              <Time date={service.createdAt || service.timestamp} />{" "}
             </div>{" "}
           </div>{" "}
           <div className=" d-flex col-12 justify-content-around align-items-center gap-1">

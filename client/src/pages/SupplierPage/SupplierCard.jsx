@@ -19,7 +19,7 @@ export default function SupplierCard({ supplier }) {
   const navigate = useNavigate();
 
   const handleViewClick = () => {
-    navigate(`/supplier/${supplier._id}`);
+    navigate(`/suppliers/${supplier._id}`);
   };
   return (
     <Grid item xs={12} sm={6} md={4} lg={3}>

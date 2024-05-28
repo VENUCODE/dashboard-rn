@@ -23,15 +23,6 @@ const PropertiesPage = () => {
   const [showAddForm, setShowAddForm] = useState(false);
   const [deleteLoading, setDeleteLoading] = useState(false);
   const [current, setCurrent] = useState([]);
-  // useEffect(() => {
-  //   if (propertyType === "verified") {
-  //     setCurrent(properties);
-  //   } else if (propertyType === "notverified") {
-  //     setCurrent(unverified);
-  //   } else {
-  //     setCurrent(rejected);
-  //   }
-  // }, [propertyType, properties, rejected, unverified]);
 
   const verifyProperty = async (propertyId) => {
     try {

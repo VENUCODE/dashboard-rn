@@ -1,47 +1,50 @@
 import React, { useState, useEffect } from "react";
 import Chip from "@mui/material/Chip";
-import IconButton from "@mui/material/IconButton";
-import { AiOutlineControl } from "react-icons/ai";
-import FilterModal from "./ManagerFilterModal";
-import { Card, Input } from "antd";
-import { useManager } from "../../context/useManager";
-const ManagerFilter = ({ setCurrent }) => {
-  const { managers } = useManager();
+import { Input } from "antd";
+import { useAd } from "../../context/useAd";
+const AdFilter = ({ setCurrent }) => {
+  const { ads } = useAd();
   const [sortOrder, setSortOrder] = useState("desc");
   const [searchInput, setSearchInput] = useState("");
   useEffect(() => {
     const handleFilter = () => {
-      let filteredManagers = [...managers];
+      let filteredads = [...ads];
       if (searchInput) {
         const searchTerm = searchInput.toLowerCase();
-        filteredManagers = filteredManagers.filter(
-          (manager) =>
-            manager.name.toLowerCase().includes(searchTerm) ||
-            manager.location?.toLowerCase().includes(searchTerm)
+        filteredads = filteredads.filter(
+          (ad) =>
+            ad.adTitle.toLowerCase().includes(searchTerm) ||
+            ad.adCategory.toLowerCase().includes(searchTerm) ||
+            ad.adOrigins.toLowerCase().includes(searchTerm) ||
+            ad.adLocation.toLowerCase().includes(searchTerm)
         );
       }
       if (sortOrder === "asc") {
-        filteredManagers.sort((a, b) => a.name.localeCompare(b.name));
+        filteredads.sort(
+          (a, b) => new Date(a.timestamp) - new Date(b.timestamp)
+        );
       } else if (sortOrder === "desc") {
-        filteredManagers.sort((a, b) => b.name.localeCompare(a.name));
+        filteredads.sort(
+          (a, b) => new Date(b.timestamp) - new Date(a.timestamp)
+        );
       }
 
-      setCurrent(filteredManagers);
+      setCurrent(filteredads);
     };
     handleFilter();
-  }, [searchInput, sortOrder, managers]);
+  }, [searchInput, sortOrder, ads]);
 
   const handleSearchInputChange = (value) => {
     setSearchInput(value);
   };
 
   return (
-    <div className="manager-filter  py-2 px-1">
+    <div className="ad-filter  w-100">
       <div className="d-flex flex-row justify-content-between px-2 py-2 bg-white">
         <div className="justify-content-center align-items-center d-flex">
           <Input
             type="text"
-            placeholder="Search by manager title or Occupation"
+            placeholder="Search by title,category,.."
             value={searchInput}
             onChange={(e) => handleSearchInputChange(e.target.value)}
             style={{ width: 200 }}
@@ -59,21 +62,10 @@ const ManagerFilter = ({ setCurrent }) => {
               );
             }}
           />
-          {/* <IconButton
-            color="secondary"
-            aria-label="filter"
-            onClick={() => setFiltersVisible((p) => !p)}
-          >
-            <AiOutlineControl color="#3B4CB8" size={30} />
-          </IconButton> */}
         </div>
       </div>
-      {/* <FilterModal
-        isOpen={filtersVisible}
-        onClose={() => setFiltersVisible(false)}
-      /> */}
     </div>
   );
 };
 
-export default ManagerFilter;
+export default AdFilter;
