@@ -5,6 +5,7 @@ import JobCard from "./Jobcard";
 import JobFilter from "./JobFilter";
 import { Grid, LinearProgress } from "@mui/material";
 import { endpoints, hostUri } from "../../fetch";
+import CardSkeleton from "../../components/CardSkeleton";
 const JobPostList = () => {
   const { jobs, closeJob, deleteJob, loading } = useJobs();
   const [jobPosts, setJobPosts] = useState([...jobs]);
@@ -86,20 +87,31 @@ const JobPostList = () => {
         )}
         {current.length === 0 && !loading && "No jobs found"}
       </Grid>
+      {loading && (
+        <Grid container spacing={1}>
+          <CardSkeleton />
+          <CardSkeleton />
+          <CardSkeleton />
+          <CardSkeleton />
+          <CardSkeleton />
+          <CardSkeleton />
+        </Grid>
+      )}
       <Grid container>
         <Grid
           item
           xs={12}
           className="d-flex justify-content-center align-items-center my-2 "
         ></Grid>
-        {current.map((post) => (
-          <JobCard
-            key={post._id}
-            data={post}
-            handleCloseJob={handleCloseJob}
-            handleDeleteJob={handleDeleteJob}
-          />
-        ))}
+        {!loading &&
+          current.map((post) => (
+            <JobCard
+              key={post._id}
+              data={post}
+              handleCloseJob={handleCloseJob}
+              handleDeleteJob={handleDeleteJob}
+            />
+          ))}
       </Grid>
     </div>
   );

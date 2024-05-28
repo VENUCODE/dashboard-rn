@@ -10,9 +10,10 @@ export const useAd = () => {
 
 export const AdProvider = ({ children }) => {
   const [ads, setAds] = useState([]);
-
+  const [loading, setLoading] = useState(false);
   const fetchAds = async () => {
     try {
+      setLoading(true);
       const response = await fetch(hostUri + endpoints.getAllAds);
       if (!response.ok) {
         throw new Error("Failed to fetch ads");
@@ -21,6 +22,8 @@ export const AdProvider = ({ children }) => {
       setAds(result.data); // Assuming result has a data property containing ads
     } catch (error) {
       console.error("Error fetching ads:", error);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -30,6 +33,7 @@ export const AdProvider = ({ children }) => {
 
   const value = {
     ads,
+    loading,
     fetchAds,
   };
 

@@ -3,6 +3,7 @@ import { Grid, LinearProgress } from "@mui/material";
 
 import { useManager } from "../../context/useManager";
 import ManagerCard from "./ManagerCard";
+import CardSkeleton from "../../components/CardSkeleton";
 const ManagersList = ({ current }) => {
   const { loading } = useManager();
 
@@ -37,8 +38,19 @@ const ManagersList = ({ current }) => {
           )}
           {current.length === 0 && !loading && "No managers found"}
         </Grid>
+        {loading && (
+          <Grid container spacing={1}>
+            <CardSkeleton />
+            <CardSkeleton />
+            <CardSkeleton />
+            <CardSkeleton />
+            <CardSkeleton />
+            <CardSkeleton />
+          </Grid>
+        )}
         <Grid item spacing={1} xs={12} container>
-          {current.length > 0 &&
+          {!loading &&
+            current.length > 0 &&
             current.map((manager, index) => (
               <ManagerCard key={index} manager={manager} />
             ))}

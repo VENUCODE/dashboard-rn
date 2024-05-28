@@ -11,9 +11,9 @@ const ProductPage = () => {
   const [show, toggleShow] = useState(false);
   const { products } = useProducts();
   const [current, setCurrent] = useState(products);
-  useEffect(()=>{
+  useEffect(() => {
     setCurrent(products);
-  },[products])
+  }, [products]);
   return (
     <div className="content-body">
       <div className="container-fluid ">

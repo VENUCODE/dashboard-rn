@@ -9,6 +9,7 @@ import { message, Card } from "antd";
 import PropertyAddForm from "./PropertyForm";
 import PropertyFilter from "./PropertyFilter";
 import PropertyFilterMap from "./PropertyFilterMap";
+import CardSkeleton from "../../components/CardSkeleton";
 const PropertiesPage = () => {
   const {
     properties,
@@ -252,22 +253,33 @@ const PropertiesPage = () => {
               </Badge>
             </Card>
           </Grid>
-          {current.map((prop) => {
-            return (
-              <>
-                <PropertyCard
-                  data={prop}
-                  buttons={
-                    propertyType === "verified"
-                      ? renderVerifiedButtons(prop._id)
-                      : propertyType === "notverified"
-                      ? renderUnverifiedButtons(prop._id)
-                      : renderRejectedButtons(prop._id)
-                  }
-                />
-              </>
-            );
-          })}
+          {loading && (
+            <Grid container spacing={1}>
+              <CardSkeleton />
+              <CardSkeleton />
+              <CardSkeleton />
+              <CardSkeleton />
+              <CardSkeleton />
+              <CardSkeleton />
+            </Grid>
+          )}
+          {!loading &&
+            current.map((prop) => {
+              return (
+                <>
+                  <PropertyCard
+                    data={prop}
+                    buttons={
+                      propertyType === "verified"
+                        ? renderVerifiedButtons(prop._id)
+                        : propertyType === "notverified"
+                        ? renderUnverifiedButtons(prop._id)
+                        : renderRejectedButtons(prop._id)
+                    }
+                  />
+                </>
+              );
+            })}
         </Grid>
       </div>
     </div>

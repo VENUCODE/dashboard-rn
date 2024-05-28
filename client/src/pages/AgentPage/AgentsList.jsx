@@ -6,6 +6,7 @@ import { useAgents } from "../../context/useAgents";
 import { Divider, message } from "antd";
 import RequestAgentCard from "./RequestAgentCard";
 import GoogleMap from "../../components/googleMap";
+import CardSkeleton from "../../components/CardSkeleton";
 const AgentsList = ({ showMap }) => {
   const { agents, loading, reqAgents } = useAgents();
   const [current, setCurrent] = useState(agents);
@@ -84,23 +85,35 @@ const AgentsList = ({ showMap }) => {
         >
           <h2>{agentTab === "requests" ? "Agent Requests" : "Agents"}</h2>
         </Grid>
-        <Grid
-          item
-          xs={12}
-          container
-          spacing={1}
-          className="d-flex  justify-content-start  flex-wrap align-items-center "
-        >
-          {agentTab === "agents"
-            ? current.length > 0 &&
-              current.map((agent, index) => (
-                <AgentCard key={index} agent={agent} />
-              ))
-            : reqCurrent.length > 0 &&
-              reqCurrent.map((agent, index) => (
-                <RequestAgentCard key={index} agent={agent} />
-              ))}
-        </Grid>
+        {loading && (
+          <Grid container spacing={1}>
+            <CardSkeleton />
+            <CardSkeleton />
+            <CardSkeleton />
+            <CardSkeleton />
+            <CardSkeleton />
+            <CardSkeleton />
+          </Grid>
+        )}
+        {!loading && (
+          <Grid
+            item
+            xs={12}
+            container
+            spacing={1}
+            className="d-flex  justify-content-start  flex-wrap align-items-center "
+          >
+            {agentTab === "agents"
+              ? current.length > 0 &&
+                current.map((agent, index) => (
+                  <AgentCard key={index} agent={agent} />
+                ))
+              : reqCurrent.length > 0 &&
+                reqCurrent.map((agent, index) => (
+                  <RequestAgentCard key={index} agent={agent} />
+                ))}
+          </Grid>
+        )}
       </Grid>
     </div>
   );
