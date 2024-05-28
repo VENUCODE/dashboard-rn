@@ -13,6 +13,7 @@ import { FaFileUpload, FaTrashAlt } from "react-icons/fa";
 import { Card, Switch, message } from "antd";
 import { endpoints, hostUri } from "../../fetch";
 import ResponseCard from "./ResponseCard";
+import { useAuth } from "../../context/useAuth";
 
 const VisuallyHiddenInput = styled("input")({
   clip: "rect(0 0 0 0)",
@@ -32,6 +33,7 @@ const UploadPage = () => {
   const [loading, setLoading] = useState(false);
   const [responseData, setResponseData] = useState(null);
   const fileInputRef = useRef(null);
+  const { userData } = useAuth();
 
   const handleFileChange = (event) => {
     const file = event.target.files[0];
@@ -55,12 +57,13 @@ const UploadPage = () => {
     if (selectedFile && operationType) {
       const formData = new FormData();
       formData.append("file", selectedFile);
+      formData.append("agentId", userData.id);
       console.log(selectedFile);
 
       formData.append("operationType", operationType);
       try {
         setLoading(true);
-        const response = await fetch("http://localhost:3300/api/bulk/upload", {
+        const response = await fetch(hostUri + endpoints.uploadFile, {
           method: "POST",
           body: formData,
         });

@@ -114,10 +114,11 @@ const SupplierChart = ({ graphData }) => {
   }, [graphData]);
 
   return (
-    <div className="bg-white p-0 m-0">
+    <div className="bg-white p-0 m-0 h-100">
       {/* Render the chart only when chartOptions is not empty */}
       {Object.keys(chartOptions).length > 0 && (
         <Chart
+          className="h-100"
           options={chartOptions}
           series={chartOptions.series}
           type="bar"

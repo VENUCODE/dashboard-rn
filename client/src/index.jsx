@@ -7,16 +7,13 @@ import "react-image-gallery/styles/css/image-gallery.css";
 
 import { BrowserRouter } from "react-router-dom";
 import { AuthProvider } from "./context/useAuth";
-import { SocketProvider } from "./context/useSocket.jsx";
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <React.StrictMode>
     <BrowserRouter>
-      <SocketProvider>
-        <AuthProvider>
-          <App />
-        </AuthProvider>
-      </SocketProvider>
+      <AuthProvider>
+        <App />
+      </AuthProvider>
     </BrowserRouter>
   </React.StrictMode>
 );

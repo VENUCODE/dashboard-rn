@@ -1,15 +1,12 @@
 import { useState } from "react";
 import { useAuth } from "../context/useAuth";
-import { useSocket } from "../context/useSocket";
 import { message } from "antd";
 import { hostUri, endpoints } from "../fetch";
 
 const useLogin = () => {
   const { login } = useAuth();
-  const { emitUserConnected } = useSocket();
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
-
   const loginUser = async (values) => {
     try {
       setError(null);
@@ -28,7 +25,6 @@ const useLogin = () => {
       if (result.ok) {
         message.success("Login successful", 3);
         login(data.token, data.user);
-        emitUserConnected({ userId: data.user._id });
       } else {
         message.error(data.message);
         setError(data.message || "Login failed");

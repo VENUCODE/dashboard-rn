@@ -17,17 +17,15 @@ const ProfileCard = ({ supplier = {}, count = 0, reqCount = 0 }) => {
       <Grid container spacing={2} className="">
         <Grid item xs={12} md={4} className="text-center">
           <CardMedia className="h-100">
-
- <Avatar
-            id="avatar"
-            variant="rounded"
-            className="h-100 w-100"
-            sx={{ objectFit: "cover" }}
-            src={ hostUri+"/"+supplier.profileImage}
-            alt={supplier.name}
-          /> 
+            <Avatar
+              id="avatar"
+              variant="rounded"
+              className="h-100 w-100"
+              sx={{ objectFit: "cover", maxHeight: "200px" }}
+              src={hostUri + "/" + supplier.profileImage}
+              alt={supplier.name}
+            />
           </CardMedia>
-
         </Grid>
         <Grid
           item

@@ -1,6 +1,6 @@
-// export const hostUri = "http://localhost:3300";
+export const hostUri = "http://localhost:3300";
 // export const hostUri = "https://dashboard-react-nodejs-mongodb.onrender.com";
-export const hostUri = "https://rightneed.azurewebsites.net";
+// export const hostUri = "https://rightneed.azurewebsites.net";
 
 export const endpoints = {
   loginUser: "/api/user/login",
