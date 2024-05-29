@@ -57,8 +57,8 @@ const ServiceRoutes = require("./routes/ServiceRoutes");
 app.use("/api/services", ServiceRoutes);
 
 //NOTE -  statistic Route
-const PropertyStatRoutes = require("./routes/PropertyStatsRoute");
-app.use("/api/stats/property", PropertyStatRoutes);
+const statsRoutes = require("./routes/PropertyStatsRoute");
+app.use("/api/stats", statsRoutes);
 
 //NOTE - Property Routes
 const PropertyRoutes = require("./routes/PropertyRoutes");

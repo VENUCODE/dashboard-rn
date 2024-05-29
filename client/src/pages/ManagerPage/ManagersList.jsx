@@ -4,6 +4,7 @@ import { Grid, LinearProgress } from "@mui/material";
 import { useManager } from "../../context/useManager";
 import ManagerCard from "./ManagerCard";
 import CardSkeleton from "../../components/CardSkeleton";
+import PaginationComponent from "../PropertiesPage/PaginationComponent";
 const ManagersList = ({ current }) => {
   const { loading } = useManager();
 
@@ -48,13 +49,23 @@ const ManagersList = ({ current }) => {
             <CardSkeleton />
           </Grid>
         )}
-        <Grid item spacing={1} xs={12} container>
-          {!loading &&
-            current.length > 0 &&
-            current.map((manager, index) => (
-              <ManagerCard key={index} manager={manager} />
-            ))}
-        </Grid>
+        <div className="mb-5 p-0 container-fluid">
+          {
+            <PaginationComponent items={current} itemsPerPage={8}>
+              {(current) => (
+                <>
+                  <Grid item spacing={1} xs={12} container>
+                    {!loading &&
+                      current.length > 0 &&
+                      current.map((manager, index) => (
+                        <ManagerCard key={index} manager={manager} />
+                      ))}
+                  </Grid>
+                </>
+              )}
+            </PaginationComponent>
+          }
+        </div>
       </Grid>
     </div>
   );

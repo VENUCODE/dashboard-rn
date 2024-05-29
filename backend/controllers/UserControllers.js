@@ -60,7 +60,7 @@ const LoginRoute = async (req, res, next) => {
       },
     });
   } catch (error) {
-    next(error);
+    res.status(500).json({ error: error.message });
   }
 };
 

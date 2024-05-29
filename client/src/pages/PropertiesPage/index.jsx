@@ -10,6 +10,9 @@ import PropertyAddForm from "./PropertyForm";
 import PropertyFilter from "./PropertyFilter";
 import PropertyFilterMap from "./PropertyFilterMap";
 import CardSkeleton from "../../components/CardSkeleton";
+import { FaDotCircle } from "react-icons/fa";
+import { FiChevronsDown } from "react-icons/fi";
+import PaginationComponent from "./PaginationComponent";
 const PropertiesPage = () => {
   const {
     properties,
@@ -253,33 +256,42 @@ const PropertiesPage = () => {
               </Badge>
             </Card>
           </Grid>
-          {loading && (
-            <Grid container spacing={1}>
-              <CardSkeleton />
-              <CardSkeleton />
-              <CardSkeleton />
-              <CardSkeleton />
-              <CardSkeleton />
-              <CardSkeleton />
-            </Grid>
-          )}
-          {!loading &&
-            current.map((prop) => {
-              return (
-                <>
-                  <PropertyCard
-                    data={prop}
-                    buttons={
-                      propertyType === "verified"
-                        ? renderVerifiedButtons(prop._id)
-                        : propertyType === "notverified"
-                        ? renderUnverifiedButtons(prop._id)
-                        : renderRejectedButtons(prop._id)
-                    }
-                  />
-                </>
-              );
-            })}
+          <Grid item xs={12}>
+            {loading && (
+              <Grid container spacing={1}>
+                <CardSkeleton />
+                <CardSkeleton />
+                <CardSkeleton />
+                <CardSkeleton />
+                <CardSkeleton />
+                <CardSkeleton />
+              </Grid>
+            )}
+          </Grid>
+          <div className="mb-5 p-0 container-fluid">
+            {!loading && (
+              <PaginationComponent items={current} itemsPerPage={6}>
+                {(current) => (
+                  <>
+                    {!loading &&
+                      current.map((prop) => (
+                        <PropertyCard
+                          key={prop._id}
+                          data={prop}
+                          buttons={
+                            propertyType === "verified"
+                              ? renderVerifiedButtons(prop._id)
+                              : propertyType === "notverified"
+                              ? renderUnverifiedButtons(prop._id)
+                              : renderRejectedButtons(prop._id)
+                          }
+                        />
+                      ))}
+                  </>
+                )}
+              </PaginationComponent>
+            )}
+          </div>
         </Grid>
       </div>
     </div>

@@ -1,6 +1,6 @@
 import React from "react";
 
-const TotalPropertiesCount = ({ percentage = "10", totalCount = "4603" }) => {
+const TotalPropertiesCount = ({ percentage, total }) => {
   return (
     <div className="col-xl-12">
       <div className="card bg-danger property-bx text-white">
@@ -41,7 +41,7 @@ const TotalPropertiesCount = ({ percentage = "10", totalCount = "4603" }) => {
               </div>
               <span className="fs-14">Total poperties enlisted till date</span>
             </div>
-            <span className="fs-35 font-w500">{totalCount}</span>
+            <span className="fs-35 font-w500">{total}</span>
           </div>
         </div>
       </div>

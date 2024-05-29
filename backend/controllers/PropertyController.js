@@ -1,10 +1,15 @@
 const Property = require("../models/Property.model");
 const getAllProperties = async (req, res) => {
   try {
+    const { pageNumber = "0" } = req.query;
+    const page = parseInt(pageNumber);
     const data = await Property.find(
       { VerificationStatus: "Verified" },
       { user_id: 0, __v: 0 }
-    );
+    )
+      .skip(page * 10)
+      .limit(10);
+
     res.status(200).json(data);
   } catch (error) {
     res.status(500).json({ message: "Internal server error" });

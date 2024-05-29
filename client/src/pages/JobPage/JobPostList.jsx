@@ -6,6 +6,7 @@ import JobFilter from "./JobFilter";
 import { Grid, LinearProgress } from "@mui/material";
 import { endpoints, hostUri } from "../../fetch";
 import CardSkeleton from "../../components/CardSkeleton";
+import PaginationComponent from "../PropertiesPage/PaginationComponent";
 const JobPostList = () => {
   const { jobs, closeJob, deleteJob, loading } = useJobs();
   const [jobPosts, setJobPosts] = useState([...jobs]);
@@ -103,15 +104,25 @@ const JobPostList = () => {
           xs={12}
           className="d-flex justify-content-center align-items-center my-2 "
         ></Grid>
-        {!loading &&
-          current.map((post) => (
-            <JobCard
-              key={post._id}
-              data={post}
-              handleCloseJob={handleCloseJob}
-              handleDeleteJob={handleDeleteJob}
-            />
-          ))}
+        <div className="mb-5 p-0 container-fluid">
+          {!loading && (
+            <PaginationComponent items={current} itemsPerPage={6}>
+              {(current) => (
+                <>
+                  {!loading &&
+                    current.map((post) => (
+                      <JobCard
+                        key={post._id}
+                        data={post}
+                        handleCloseJob={handleCloseJob}
+                        handleDeleteJob={handleDeleteJob}
+                      />
+                    ))}
+                </>
+              )}
+            </PaginationComponent>
+          )}
+        </div>
       </Grid>
     </div>
   );

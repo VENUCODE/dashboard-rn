@@ -49,4 +49,6 @@ export const endpoints = {
   addAdvertisement: "/api/ad/add",
   getAllAds: "/api/ad/all",
   deleteAd: "/api/ad/delete",
+  //stats
+  getPropertyStats: "/api/stats/properties",
 };

@@ -1,6 +1,6 @@
 import React from "react";
 import Chart from "react-apexcharts";
-const TimelineChart = () => {
+const TimelineChart = ({ data = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0] }) => {
   const optionsTimeline = {
     chart: {
       type: "bar",
@@ -17,7 +17,7 @@ const TimelineChart = () => {
     series: [
       {
         name: "Revenue",
-        data: [75, 150, 225, 200, 35, 50, 150, 89, 50, 78, 50, 60],
+        data: data,
       },
     ],
 

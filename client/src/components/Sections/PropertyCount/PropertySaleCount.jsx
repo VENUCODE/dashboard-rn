@@ -1,5 +1,6 @@
 import React from "react";
 import Chart from "react-apexcharts";
+import { Card } from "@mui/material";
 const PropertySaleCount = ({
   saleCount = "2,356",
   title = "Properties for Sale",
@@ -37,31 +38,24 @@ const PropertySaleCount = ({
     },
   };
   return (
-    <div className="col-sm-12 col-md-6">
-      <div className="card property-card">
-        <div className="card-body">
-          <div className="media align-items-center">
-            <div className="media-body me-3">
-              <h2 className="fs-28 text-black font-w600">{saleCount}</h2>
-              <p className="property-p mb-0 text-black font-w500">{title}</p>
-              <span className="fs-13">{targetText}</span>
-            </div>
-            <div className="d-inline-block position-relative donut-chart-sale">
-              <span className="donut1 ">
-                <Chart
-                  options={donutData.options}
-                  series={donutData.series}
-                  type="donut"
-                  width="150"
-                />
-              </span>
-              <small className={`text-${styleClass}`}>{percetage}</small>
-              <span className={`circle bgl-${styleClass}`}></span>
-            </div>
-          </div>
-        </div>
+    <Card>
+      <div className="d-flex w-100  justify-content-center">
+        <h2 className="fs-28 text-black font-w600 text-center">{saleCount}</h2>
       </div>
-    </div>
+      <div className="w-100 d-inline-block justify-content-center position-relative donut-chart-sale ">
+        <span className="d-flex justify-content-center">
+          <Chart
+            options={donutData.options}
+            series={donutData.series}
+            type="donut"
+            width="150"
+          />
+        </span>
+        <small className={`text-${styleClass}`}>{percetage}</small>
+        <span className={`circle bgl-${styleClass}`}></span>
+      </div>
+      <p className="text-center mb-0 text-black font-w500">{title}</p>
+    </Card>
   );
 };
 

@@ -7,6 +7,7 @@ import { Divider, message } from "antd";
 import RequestAgentCard from "./RequestAgentCard";
 import GoogleMap from "../../components/googleMap";
 import CardSkeleton from "../../components/CardSkeleton";
+import PaginationComponent from "../PropertiesPage/PaginationComponent";
 const AgentsList = ({ showMap }) => {
   const { agents, loading, reqAgents } = useAgents();
   const [current, setCurrent] = useState(agents);
@@ -95,25 +96,38 @@ const AgentsList = ({ showMap }) => {
             <CardSkeleton />
           </Grid>
         )}
-        {!loading && (
-          <Grid
-            item
-            xs={12}
-            container
-            spacing={1}
-            className="d-flex  justify-content-start  flex-wrap align-items-center "
-          >
-            {agentTab === "agents"
-              ? current.length > 0 &&
-                current.map((agent, index) => (
-                  <AgentCard key={index} agent={agent} />
-                ))
-              : reqCurrent.length > 0 &&
-                reqCurrent.map((agent, index) => (
-                  <RequestAgentCard key={index} agent={agent} />
-                ))}
-          </Grid>
-        )}
+        <div className="mb-5 p-0 container-fluid">
+          {!loading && (
+            <PaginationComponent
+              items={agentTab === "agents" ? current : reqCurrent}
+              itemsPerPage={8}
+            >
+              {(current) => (
+                <>
+                  {!loading && (
+                    <Grid
+                      item
+                      xs={12}
+                      container
+                      spacing={1}
+                      className="d-flex  justify-content-start  flex-wrap align-items-center "
+                    >
+                      {agentTab === "agents"
+                        ? current.length > 0 &&
+                          current.map((agent, index) => (
+                            <AgentCard key={index} agent={agent} />
+                          ))
+                        : reqCurrent.length > 0 &&
+                          reqCurrent.map((agent, index) => (
+                            <RequestAgentCard key={index} agent={agent} />
+                          ))}
+                    </Grid>
+                  )}
+                </>
+              )}
+            </PaginationComponent>
+          )}
+        </div>
       </Grid>
     </div>
   );

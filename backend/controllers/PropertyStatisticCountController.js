@@ -1,93 +1,71 @@
 const Property = require("../models/Property.model");
 
-const totalPropertyCount = async (req, res) => {
+const getPropertyCounts = async (req, res) => {
   try {
-    const count = await Property.countDocuments();
-    res.status(200).json({ count });
-  } catch (error) {
-    res.status(500).json({ error: "Internal Server Error" });
-  }
-};
+    const totalPropertiesCount = await Property.countDocuments();
 
-const totalPropertyCategories = async (req, res) => {
-  try {
-    const categories = await Property.distinct("propertyType");
-    res.status(200).json({ categories });
-  } catch (error) {
-    res.status(500).json({ error: "Internal Server Error" });
-  }
-};
+    const currentDate = new Date();
+    const year = currentDate.getFullYear();
+    const month = currentDate.getMonth() + 1;
+    const startDate = new Date(year, month - 1, 1);
+    const endDate = new Date(year, month, 0, 23, 59, 59);
 
-const totalActivePropertyCategories = async (req, res) => {
-  try {
-    const categories = await Property.distinct("propertyType", {
-      papproved: true,
-    });
-    res.status(200).json({ categories });
-  } catch (error) {
-    res.status(500).json({ error: "Internal Server Error" });
-  }
-};
-
-const MonthlyNewPropertyArrivals = async (req, res) => {
-  try {
-    const currentYear = new Date().getFullYear();
-    const months = [];
-    const pipeline = [
+    const monthlyProperties = await Property.aggregate([
       {
         $match: {
-          availableFrom: {
-            $gte: new Date(currentYear, 0, 1), // Get properties from January 1st of the current year
-            $lt: new Date(currentYear + 1, 0, 1), // Properties until January 1st of the next year
-          },
+          timestamp: { $gte: startDate, $lte: endDate },
         },
       },
       {
         $group: {
-          _id: { $month: "$availableFrom" }, // Extract month
-          count: { $sum: 1 }, // Count the number of properties in each group
+          _id: { $month: "$timestamp" },
+          count: { $sum: 1 },
         },
       },
-      {
-        $project: {
-          _id: 0, // Exclude _id field
-          month: "$_id", // Rename _id to month
-          count: 1, // Include count field
-        },
-      },
-    ];
+    ]);
 
-    const result = await Property.aggregate(pipeline);
+    const monthlyArrivals = {
+      Jan: 0,
+      Feb: 0,
+      Mar: 0,
+      Apr: 0,
+      May: 0,
+      Jun: 0,
+      Jul: 0,
+      Aug: 0,
+      Sep: 0,
+      Oct: 0,
+      Nov: 0,
+      Dec: 0,
+    };
 
-    // Fill months array with counts for each month
-    for (let i = 1; i <= 12; i++) {
-      const monthData = result.find((item) => item.month === i);
-      months.push({ month: i, count: monthData ? monthData.count : 0 });
-    }
+    monthlyProperties.forEach((monthData) => {
+      const monthName = new Date(year, monthData._id - 1, 1).toLocaleString(
+        "en-US",
+        { month: "short" }
+      );
+      monthlyArrivals[monthName] = monthData.count;
+    });
+    const residentialCount = await Property.countDocuments({
+      propertyType: "residential",
+    });
+    const commercialCount = await Property.countDocuments({
+      propertyType: "commercial",
+    });
+    const landPlotCount = await Property.countDocuments({
+      propertyType: "land_plot",
+    });
 
-    res.status(200).json(months);
+    res.json({
+      totalPropertiesCount,
+      monthlyArrivals,
+      residentialCount,
+      commercialCount,
+      landPlotCount,
+    });
   } catch (error) {
-    res.status(500).json({ error: "Internal Server Error" });
+    res.status(500).json({ error: error.message });
   }
 };
 
-module.exports = {
-  totalPropertyCount,
-  totalPropertyCategories,
-  totalActivePropertyCategories,
-  MonthlyNewPropertyArrivals,
-};
-
-const totalServicesCount = async (req, res) => {};
-const totalServicesCategories = async (req, res) => {};
-const totalActiveServicesCategories = async (req, res) => {};
-const MonthlyNewServicesArrivals = async (req, res) => {};
-
-const totalProductsCount = async (req, res) => {};
-const totalProductsCategories = async (req, res) => {};
-const totalActiveProductsCategories = async (req, res) => {};
-const MonthlyNewProductsArrivals = async (req, res) => {};
-
-const totalJobsPosted = async (req, res) => {};
-const totalJobsPostsActive = async (req, res) => {};
-const totalJobsClosed = async (req, res) => {};
+module.exports = getPropertyCounts;

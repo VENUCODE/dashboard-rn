@@ -24,7 +24,7 @@ const downloadImage = async (url, filename) => {
 
 const uploadData = async (req, res) => {
   try {
-    const { operationType } = req.body;
+    const { operationType, agentId } = req.body;
 
     if (!req.file) {
       return res.status(400).json({ message: "No file uploaded." });
@@ -34,6 +34,7 @@ const uploadData = async (req, res) => {
     const jsonArray = await csvtojson().fromFile(csvFilePath);
     const updatedJsonArray = await Promise.all(
       jsonArray.map(async (record) => {
+        record["agentId"] = agentId;
         if (record.images) {
           const imagePaths = record.images
             .split(",")
@@ -47,18 +48,18 @@ const uploadData = async (req, res) => {
               imagePath.startsWith("https://")
             ) {
               const imageName =
-                Date.now() + "_" + path.basename(imagePath.split("?")[0]); // Remove query parameters from URL
-              newImagePath = `demoUploads/${imageName}`; // Construct new image path with original image name
-              await downloadImage(imagePath, newImagePath); // Download image and save locally
+                Date.now() + "_" + path.basename(imagePath.split("?")[0]);
+              newImagePath = `BulkUploads/${imageName}`;
+              await downloadImage(imagePath, newImagePath);
             } else {
               if (fs.existsSync(imagePath)) {
-                const imageName = Date.now() + "_" + path.basename(imagePath); // Get the file name from the local path
-                newImagePath = `demoUploads/${imageName}`; // Construct new image path with original image name
-                fs.copyFileSync(imagePath, newImagePath); // Copy local image to demoUploads folder
+                const imageName = Date.now() + "_" + path.basename(imagePath);
+                newImagePath = `BulkUploads/${imageName}`;
+                fs.copyFileSync(imagePath, newImagePath);
               }
             }
 
-            newImagePaths.push(newImagePath || imagePath); // Push the new image path or original path
+            newImagePaths.push(newImagePath || imagePath);
           }
 
           record.images = newImagePaths;
