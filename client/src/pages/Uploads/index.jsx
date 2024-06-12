@@ -14,6 +14,7 @@ import { Card, Switch, message } from "antd";
 import { endpoints, hostUri } from "../../fetch";
 import ResponseCard from "./ResponseCard";
 import { useAuth } from "../../context/useAuth";
+import Instructions from "./Instructions";
 
 const VisuallyHiddenInput = styled("input")({
   clip: "rect(0 0 0 0)",
@@ -34,6 +35,7 @@ const UploadPage = () => {
   const [responseData, setResponseData] = useState(null);
   const fileInputRef = useRef(null);
   const { userData } = useAuth();
+  const [guides, setGuides] = useState(false);
 
   const handleFileChange = (event) => {
     const file = event.target.files[0];
@@ -98,6 +100,7 @@ const UploadPage = () => {
   useEffect(() => {
     if (responseData) {
       setOpen(true);
+      setGuides(false);
     }
   }, [responseData]);
 
@@ -214,13 +217,27 @@ const UploadPage = () => {
                       </Typography>
                     )}
                   </Grid>
-                  <Grid item xs={12} className="d-flex justify-content-center ">
+                  <Grid
+                    item
+                    xs={12}
+                    className="d-flex justify-content-center flex-column "
+                  >
+                    <Typography variant="caption" className="text-danger">
+                      {!guides && "Read the instructions to enable"}
+                      {guides && !selectedFile && "Select file"}
+                      {guides &&
+                        selectedFile &&
+                        !operationType &&
+                        "Select target"}
+                    </Typography>
                     <Button
                       variant="contained"
                       type="submit"
                       fullWidth
                       className="px-5 py-3"
-                      disabled={!operationType || !selectedFile || loading}
+                      disabled={
+                        !operationType || !selectedFile || loading || !guides
+                      }
                     >
                       {loading && (
                         <>
@@ -250,7 +267,19 @@ const UploadPage = () => {
           }
           anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
         />
-        {responseData && <ResponseCard responseData={responseData} />}
+        {/* {responseData && <ResponseCard responseData={responseData} />} */}
+        <div className="container-fluid">
+          <h2 className="poppins-bold">Instructions</h2>
+          <Instructions />
+          <Button
+            variant="outlined"
+            className="mb-3 float-end w-25 btn btn-success border border-success  light"
+            onClick={() => setGuides((p) => !p)}
+            disabled={guides}
+          >
+            Ok
+          </Button>
+        </div>
       </div>
     </div>
   );

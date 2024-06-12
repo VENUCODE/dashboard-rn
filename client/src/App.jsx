@@ -41,7 +41,7 @@ const App = () => {
   }, []);
 
   if (loading) {
-    return <div>Loading...</div>; // Show a loading spinner or message
+    return <div>Loading...</div>;
   }
 
   return (
@@ -184,10 +184,4 @@ const App = () => {
   );
 };
 
-const Root = () => (
-  <AuthProvider>
-    <App />
-  </AuthProvider>
-);
-
-export default Root;
+export default App;

@@ -13,6 +13,24 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
+.fade-enter {
+  opacity: 0;
+}
+
+.fade-enter-active {
+  opacity: 1;
+  transition: opacity 300ms ease-in;
+}
+
+.fade-exit {
+  opacity: 1;
+}
+
+.fade-exit-active {
+  opacity: 0;
+  transition: opacity 300ms ease-in;
+}
+
 .carousel-img {
   max-height: 250px !important;
   max-width: 600px !important;
@@ -14846,7 +14864,6 @@ h6,
   z-index: 7;
 }
 
-.nav-header .logo-abbr {}
 
 @media only screen and (max-width: 1480px) {
   .nav-header .logo-abbr {

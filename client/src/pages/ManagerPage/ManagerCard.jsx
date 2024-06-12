@@ -40,7 +40,7 @@ export default function ManagerCard({ manager, ...props }) {
               whiteSpace: "nowrap",
               right: "0",
             }}
-            className="bg-primary-subtle text-primary text-capitalize py-0 px-1  position-absolute mx-1 "
+            className="bg-primary-subtle text-primary text-capitalize py-0 px-1  poppins-medium position-absolute mx-1 "
             label={occupation}
           />
           <Chip
@@ -53,7 +53,7 @@ export default function ManagerCard({ manager, ...props }) {
               whiteSpace: "nowrap",
               left: "0",
             }}
-            className={`bg-${
+            className={`poppins-medium bg-${
               status === "running" ? "success" : "primary"
             }-subtle text-${
               status === "running" ? "success" : "primary"
@@ -83,11 +83,11 @@ export default function ManagerCard({ manager, ...props }) {
               textOverflow: "ellipsis",
               whiteSpace: "nowrap",
             }}
-            className="text-capitalize"
+            className="text-capitalize "
           >
-            {name}
+            <span className="poppins-bold">{name}</span>
           </Typography>
-          <p className="text-muted text-center">
+          <p className="text-muted text-center poppins-medium ">
             <CiMail size={18} className="me-2 text-primary" />
             {manager.email}
           </p>
@@ -102,7 +102,9 @@ export default function ManagerCard({ manager, ...props }) {
             }}
           >
             <MdPinDrop color="red" className="me-2" size={20} />
-            <span className="text-muted text-capitalize">{location}</span>
+            <span className="text-muted text-capitalize poppins-medium ">
+              {location}
+            </span>
           </Typography>
 
           <div className=" d-flex col-12 justify-content-around align-items-center mt-2 bg-white border-2 border-gray border py-1 rounded-5">

@@ -9,9 +9,6 @@ import { Card } from "antd";
 import { hostUri } from "../../fetch";
 
 const ProfileCard = ({ supplier = {}, count = 0, reqCount = 0 }) => {
-  useEffect(() => {
-    console.log(supplier);
-  }, [supplier]);
   return (
     <Card className="w-100 ">
       <Grid container spacing={2} className="">

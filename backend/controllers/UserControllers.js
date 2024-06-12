@@ -21,7 +21,6 @@ const SignUpRoute = async (req, res, next) => {
     const token = jwt.sign({ _id: newUser._id }, SECRET_KEY, {
       expiresIn: "7d",
     });
-    console.log({ signUp: user });
 
     res.status(201).json({
       status: "success",
@@ -48,7 +47,7 @@ const LoginRoute = async (req, res, next) => {
         .status(400)
         .json({ status: "failure", message: "Invalid Credentials" });
     }
-    const token = jwt.sign({ _id: user._id }, SECRET_KEY);
+    const token = jwt.sign({ _id: user._id }, SECRET_KEY, { expiresIn: "1d" });
     res.status(200).json({
       status: "success",
       token,

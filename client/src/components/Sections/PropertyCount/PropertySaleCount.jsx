@@ -2,14 +2,14 @@ import React from "react";
 import Chart from "react-apexcharts";
 import { Card } from "@mui/material";
 const PropertySaleCount = ({
-  saleCount = "2,356",
+  saleCount = "0",
+  total = "1",
   title = "Properties for Sale",
-  targetText = "Target 3k/month",
-  percetage = "71%",
+  percetage = "0%",
   styleClass,
 }) => {
   const donutData = {
-    series: [7, 2], // Series data representing 7 filled sections and 1 empty section
+    series: [saleCount, total - saleCount],
     options: {
       chart: {
         type: "donut",
@@ -38,7 +38,7 @@ const PropertySaleCount = ({
     },
   };
   return (
-    <Card>
+    <Card className="shadow-sm mb-1">
       <div className="d-flex w-100  justify-content-center">
         <h2 className="fs-28 text-black font-w600 text-center">{saleCount}</h2>
       </div>

@@ -1,71 +1,109 @@
-// AgentContext.
-import React, { createContext, useContext, useEffect, useState } from "react";
+// AgentContext.js
+import React, { createContext, useContext } from "react";
+import {
+  useQuery,
+  useQueryClient,
+  QueryClientProvider,
+} from "@tanstack/react-query";
 import { hostUri, endpoints } from "../fetch";
 import { message } from "antd";
+import queryClient from "./queryClient";
 
 const PropertiesContext = createContext();
 
-export const PropertiesProvider = ({ children }) => {
-  const [properties, setProperties] = useState([]);
-  const [unverified, setUnverified] = useState([]);
-  const [rejected, setRejected] = useState([]);
+const fetchProperties = async () => {
+  const response = await fetch(hostUri + endpoints.getAllProperties, {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
+  if (!response.ok) {
+    throw new Error("Failed to fetch Properties");
+  }
+  return response.json();
+};
 
-  const [loading, setLoading] = useState(false);
+const fetchUnverifiedProperties = async () => {
+  const response = await fetch(hostUri + endpoints.getUnverifiedProperties);
+  if (!response.ok) {
+    const errorData = await response.json();
+    throw new Error(errorData.message);
+  }
+  return response.json();
+};
+
+const fetchRejectedProperties = async () => {
+  const response = await fetch(hostUri + endpoints.getRejectedProperties);
+  if (!response.ok) {
+    const errorData = await response.json();
+    throw new Error(errorData.message);
+  }
+  return response.json();
+};
+
+export const PropertiesProvider = ({ children }) => {
+  const queryClient = useQueryClient();
+
+  const {
+    data: properties = [],
+    isLoading: loadingProperties,
+    refetch: refetchProperties,
+  } = useQuery({
+    queryKey: ["properties"],
+    queryFn: fetchProperties,
+    onError: (error) => message.error(error.message, 2),
+  });
+
+  const {
+    data: unverified = [],
+    isLoading: loadingUnverified,
+    refetch: refetchUnverified,
+  } = useQuery({
+    queryKey: ["unverified"],
+    queryFn: fetchUnverifiedProperties,
+    onError: (error) => message.error(error.message, 2),
+  });
+
+  const {
+    data: rejected = [],
+    isLoading: loadingRejected,
+    refetch: refetchRejected,
+  } = useQuery({
+    queryKey: ["rejected"],
+    queryFn: fetchRejectedProperties,
+    onError: (error) => message.error(error.message, 2),
+  });
 
   const getProperties = async () => {
     try {
-      setLoading(true);
-      const response = await fetch(hostUri + endpoints.getAllProperties, {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
-      if (response.ok) {
-        const data = await response.json();
-        setProperties(data);
-      } else {
-        message.error("failed to fetch Properties", 2);
-      }
+      await refetchProperties();
     } catch (error) {
-      console.log("Error fetching properties:", error.message);
-    } finally {
-      setLoading(false);
+      console.error("Error refetching properties:", error);
     }
   };
+
   const getUnverifiedProperties = async () => {
     try {
-      const response = await fetch(hostUri + endpoints.getUnverifiedProperties);
-      const data = await response.json();
-      if (response.ok) {
-        setUnverified(data);
-      } else {
-        message.error(data.message);
-      }
-    } catch (error) {}
+      await refetchUnverified();
+    } catch (error) {
+      console.error("Error refetching unverified properties:", error);
+    }
   };
+
   const getRejected = async () => {
     try {
-      const response = await fetch(hostUri + endpoints.getRejectedProperties);
-      const data = await response.json();
-      if (response.ok) {
-        setRejected(data);
-      } else {
-        message.error(data.message);
-      }
-    } catch (error) {}
+      await refetchRejected();
+    } catch (error) {
+      console.error("Error refetching rejected properties:", error);
+    }
   };
-  useEffect(() => {
-    getProperties();
-    getUnverifiedProperties();
-    getRejected();
-    return () => {};
-  }, []);
+
   return (
     <PropertiesContext.Provider
       value={{
         properties,
-        loading,
+        loading: loadingProperties || loadingUnverified || loadingRejected,
         unverified,
         rejected,
         getProperties,

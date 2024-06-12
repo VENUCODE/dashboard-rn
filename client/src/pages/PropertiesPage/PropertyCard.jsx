@@ -170,71 +170,124 @@ export default function PropertyCard({ data, buttons }) {
             />
           </div>
           <p>
-            <strong>Description:</strong> {data.description || data.landmark}
+            <strong className="poppins-medium">Description:</strong>{" "}
+            <span className="poppins-regular">
+              {data.description || data.landmark}
+            </span>
           </p>
           <p>
-            <strong>Property Type:</strong> {data.propertyType}
+            <strong className="poppins-medium">Property Type:</strong>{" "}
+            <span className="poppins-regular">{data.propertyType}</span>
           </p>
           <p>
-            <strong>City:</strong> <FaCity /> {data.city}
-          </p>
-          <p>
-            <strong>Available From:</strong> <FaCalendar />{" "}
-            <Time date={data.availableFrom} />
-          </p>
-          <p>
-            <strong>Expected Price:</strong> <FaMoneyBillWave />{" "}
-            {data.expectedPrice}
+            <strong className="poppins-medium">City:</strong>{" "}
+            <span className="poppins-regular">
+              <FaCity /> {data.city}
+            </span>
           </p>
 
           <p>
-            <strong>Property Length:</strong> <FaChartArea /> {data.pLength}
+            <strong className="poppins-medium">Property Length:</strong>{" "}
+            <span className="poppins-regular">
+              <FaChartArea /> {data.pLength}
+            </span>
           </p>
           <p>
-            <strong>Transaction Types:</strong>{" "}
-            {data.transactionTypes.map((type, index) => (
-              <span key={index}>
-                <FaBuilding /> {type}{" "}
-              </span>
-            ))}
+            <strong className="poppins-medium">Transaction Types:</strong>{" "}
+            <span className="poppins-regular">
+              {data.transactionTypes.map((type, index) => (
+                <span key={index}>
+                  <FaBuilding /> {type}{" "}
+                </span>
+              ))}
+            </span>
           </p>
           <p>
-            <strong>Property Width:</strong> <FaChartArea /> {data.pWidth}
+            <strong className="poppins-medium">Floors Allowed:</strong>{" "}
+            <span className="poppins-regular">
+              <FaBuilding /> {data.pfloorsAllowed}
+            </span>
           </p>
           <p>
-            <strong>Floors Allowed:</strong> <FaBuilding />{" "}
-            {data.pfloorsAllowed}
+            <strong className="poppins-medium">Location:</strong>{" "}
+            <span className="poppins-regular">
+              <FaLocationPin /> {data.location}
+            </span>
           </p>
           <p>
-            <strong>Location:</strong> <FaLocationPin /> {data.location}
-          </p>
-          <p>
-            <strong>Landmark:</strong> <FaLandmarkDome /> {data.landmark}
+            <strong className="poppins-medium">Landmark:</strong>{" "}
+            <span className="poppins-regular">
+              <FaLandmarkDome /> {data.landmark}
+            </span>
           </p>
           {/* Render unknown properties */}
-          {Object.entries(data).map(
-            ([key, value]) =>
-              ![
+          {Object.entries(data).map(([key, value]) => {
+            // Skip specific keys
+            if (
+              [
                 "description",
                 "propertyType",
                 "city",
-                "availableFrom",
-                "expectedPrice",
+                "commercial_propertyType",
                 "images",
-                "pLength",
                 "transactionTypes",
-                "pWidth",
                 "pfloorsAllowed",
                 "location",
                 "landmark",
+                "timestamp",
                 "_id",
-              ].includes(key) && (
-                <p key={key}>
-                  <span className="text-dark text-capitalize">{key}:</span>{" "}
-                  <span className="text-capitalize">{value}</span>
-                </p>
-              )
-          )}
+              ].includes(key)
+            ) {
+              return null;
+            }
+
+            // Function to render value based on its type
+            const renderValue = (value) => {
+              if (Array.isArray(value)) {
+                return (
+                  <ul>
+                    {value.map((item, index) => (
+                      <li key={index} className="poppins-regular">
+                        {item}
+                      </li>
+                    ))}
+                  </ul>
+                );
+              } else if (typeof value === "object" && value !== null) {
+                return (
+                  <ul>
+                    {Object.entries(value).map(
+                      ([subKey, subValue], subIndex) => (
+                        <li key={subIndex}>
+                          <span className="text-black text-capitalize poppins-medium">
+                            {subKey}:
+                          </span>{" "}
+                          <span className="text-capitalize poppins-regular">
+                            {subValue}
+                          </span>
+                        </li>
+                      )
+                    )}
+                  </ul>
+                );
+              } else {
+                return (
+                  <span className="text-capitalize poppins-regular">
+                    {value}
+                  </span>
+                );
+              }
+            };
+
+            return (
+              <p key={key}>
+                <span className="text-black text-capitalize poppins-medium">
+                  {key}:
+                </span>{" "}
+                {renderValue(value)}
+              </p>
+            );
+          })}
         </div>
       </Modal>
     </>

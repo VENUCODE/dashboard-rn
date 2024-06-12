@@ -32,7 +32,7 @@ export default function SupplierCard({ supplier }) {
           <div
             style={{
               display: "flex",
-              justifyContent: "center",
+              justifyContent: "start",
               marginBottom: "10px",
             }}
           >
@@ -44,21 +44,15 @@ export default function SupplierCard({ supplier }) {
               sx={{ width: "100%", height: 100 }}
             />
           </div>
-          <div className="bg-info-subtle py-1 mx-2 rounded-2">
+          <div className="bg-info-subtle py-1 mx-2 rounded-2 ">
             <Typography
               variant="h6"
               component="div"
               mt={2}
-              textAlign="center"
-              sx={{
-                overflow: "hidden",
-                textOverflow: "ellipsis",
-                whiteSpace: "nowrap",
-                fontWeight: "bold",
-              }}
-              className="text-capitalize   mx-2 rounded-2"
+              textAlign="start"
+              className="text-capitalize poppins-bold  mx-2 rounded-2"
             >
-              {supplier.name}
+              <span className="poppins-semibold">{supplier.name}</span>
             </Typography>
             <Typography
               variant="body1"
@@ -71,12 +65,12 @@ export default function SupplierCard({ supplier }) {
                 whiteSpace: "nowrap",
                 display: "flex",
                 alignItems: "center",
-                justifyContent: "center",
+                justifyContent: "start",
               }}
-              className="text-capitalize   mx-2 rounded-2"
+              className="text-capitalize    mx-2 rounded-2"
             >
               <AiOutlineMail size={20} color="red" style={{ marginRight: 5 }} />
-              {supplier.email}
+              <span className="poppins-medium ">{supplier.email}</span>
             </Typography>
             <Typography
               variant="body1"
@@ -89,7 +83,7 @@ export default function SupplierCard({ supplier }) {
                 whiteSpace: "nowrap",
                 display: "flex",
                 alignItems: "center",
-                justifyContent: "center",
+                justifyContent: "start",
               }}
               className="text-capitalize   mx-2 rounded-2"
             >
@@ -98,7 +92,7 @@ export default function SupplierCard({ supplier }) {
                 size={20}
                 style={{ marginRight: 5 }}
               />
-              {supplier.mobile}
+              <span className="poppins-medium ">{supplier.mobile}</span>
             </Typography>
             <Typography
               variant="body1"
@@ -111,7 +105,7 @@ export default function SupplierCard({ supplier }) {
                 whiteSpace: "nowrap",
                 display: "flex",
                 alignItems: "center",
-                justifyContent: "center",
+                justifyContent: "start",
               }}
               className="text-capitalize   mx-2 rounded-2"
             >
@@ -120,7 +114,10 @@ export default function SupplierCard({ supplier }) {
                 color="blue"
                 style={{ marginRight: 5 }}
               />
-              <Time date={supplier.registered_Date} />
+              <span className="poppins-medium ">
+                {" "}
+                <Time date={supplier.registered_Date} />
+              </span>
             </Typography>
           </div>
           <div className="w-100 px-2 py-2">

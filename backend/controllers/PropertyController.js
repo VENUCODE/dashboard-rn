@@ -98,6 +98,7 @@ const addProperty = async (req, res) => {
     const data = await Property.create(property);
     res.status(200).json({ message: "property added Succesfully" });
   } catch (error) {
+    console.log(error);
     res.status(500).json({ message: "internal server error" });
   }
 };

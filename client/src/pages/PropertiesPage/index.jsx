@@ -199,8 +199,8 @@ const PropertiesPage = () => {
                 }}
                 badgeContent={
                   propertyType === "verified"
-                    ? current.length
-                    : properties.length
+                    ? current?.length
+                    : properties?.length
                 }
                 color="error"
               >
@@ -218,8 +218,8 @@ const PropertiesPage = () => {
                   showZero
                   badgeContent={
                     propertyType === "notverified"
-                      ? current.length
-                      : unverified.length
+                      ? current?.length
+                      : unverified?.length
                   }
                   color="error"
                 >
@@ -239,7 +239,9 @@ const PropertiesPage = () => {
               <Badge
                 showZero
                 badgeContent={
-                  propertyType === "rejected" ? current.length : rejected.length
+                  propertyType === "rejected"
+                    ? current?.length
+                    : rejected?.length
                 }
                 color="error"
               >

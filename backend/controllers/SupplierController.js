@@ -1,6 +1,20 @@
 const Users = require("../models/User.model");
 const { Product, RequestedProducts } = require("../models/Product.model");
+const addSupplier = async (req, res, next) => {
+  try {
+    const { email } = req.body;
 
+    const supplierExists = await Users.findOne({ email });
+    if (supplierExists) {
+      return res.status(400).json({ message: "supplier already exists" });
+    }
+    const newSupplier = await Users.create(req.body);
+    console.log("new supplier");
+    res.status(201).json({ message: "supplier Added successfully" });
+  } catch (error) {
+    next(error);
+  }
+};
 const getAllSuppliers = async (req, res) => {
   try {
     const allSuppliers = await Users.find({ usertype: "supplier" });
@@ -13,25 +27,21 @@ const getSupplierAddons = async (req, res) => {
   try {
     const { userId } = req.body;
 
-    // Step 1: Fetch all products uploaded by the user
     const userProducts = await Product.find({ agentId: userId });
 
-    // Step 2: Fetch all requested products
     const requestedProducts = await RequestedProducts.find();
 
-    // Step 3: Filter the requested products to only include those that match the user's products
     const userProductIds = userProducts.map((product) =>
-      product._id.toString()
+      product._id?.toString()
     );
     const productRequestCounts = userProductIds.reduce((acc, productId) => {
       acc[productId] = requestedProducts.filter(
         (requestedProduct) =>
-          requestedProduct.productId.toString() === productId
+          requestedProduct.productId?.toString() === productId
       ).length;
       return acc;
     }, {});
 
-    // Combine the user products with their respective request counts
     const userProductsWithRequestCounts = userProducts.map((product) => ({
       ...product.toObject(),
       requestCount: productRequestCounts[product._id.toString()] || 0,
@@ -45,4 +55,4 @@ const getSupplierAddons = async (req, res) => {
       .json({ message: "Failed to get user's requested products" });
   }
 };
-module.exports = { getAllSuppliers, getSupplierAddons };
+module.exports = { getAllSuppliers, getSupplierAddons, addSupplier };

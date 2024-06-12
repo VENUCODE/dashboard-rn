@@ -64,7 +64,6 @@ const SupplierDetails = () => {
         ? { ...filteredSupplier[0], status: true }
         : { status: false }
     );
-    console.log(supplier);
   }, [sid]);
 
   return (

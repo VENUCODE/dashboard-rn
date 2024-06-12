@@ -16,7 +16,7 @@ const TimelineChart = ({ data = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0] }) => {
     },
     series: [
       {
-        name: "Revenue",
+        name: "Arrivals",
         data: data,
       },
     ],

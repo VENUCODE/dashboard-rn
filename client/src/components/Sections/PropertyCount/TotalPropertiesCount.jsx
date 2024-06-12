@@ -2,7 +2,7 @@ import React from "react";
 
 const TotalPropertiesCount = ({ percentage, total }) => {
   return (
-    <div className="col-xl-12">
+    <div className="col-xl-12 h-100">
       <div className="card bg-danger property-bx text-white">
         <div className="card-body">
           <div className="media d-sm-flex d-block align-items-center">

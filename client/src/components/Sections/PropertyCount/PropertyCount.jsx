@@ -6,11 +6,11 @@ import { Grid } from "@mui/material";
 import { endpoints, hostUri } from "../../../fetch";
 const PropertyCount = () => {
   const [statData, setStatData] = useState({
-    total: 200,
-    res: 102,
-    com: 20,
-    lan: 20,
-    data: [],
+    total: 1,
+    res: 0,
+    com: 0,
+    lan: 0,
+    data: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
   });
   useEffect(() => {
     const getCounts = async () => {
@@ -33,12 +33,11 @@ const PropertyCount = () => {
       }
     };
     getCounts();
-    console.log(statData.data);
   }, []);
 
   return (
     <>
-      <div className="col-xl-6 col-xxl-6">
+      <div className="col-xl-6 col-xxl-6 d-flex ">
         <Grid container spacing={1}>
           <Grid item xs={12}>
             <TotalPropertiesCount
@@ -53,25 +52,34 @@ const PropertyCount = () => {
           </Grid>
           <Grid item xs={4}>
             <PropertySaleCount
+              total={statData.total}
               saleCount={statData.res}
               title="Residential"
-              percetage={(statData.res / statData.total).toFixed(2) * 100 + "%"}
+              percetage={
+                ((statData.res * 100) / statData.total).toFixed(0) + "%"
+              }
               styleClass="primary"
             />
           </Grid>
           <Grid item xs={4}>
             <PropertySaleCount
+              total={statData.total}
               saleCount={statData.com}
               title="Commercial"
-              percetage={(statData.com / statData.total).toFixed(2) * 100 + "%"}
+              percetage={
+                ((statData.com * 100) / statData.total).toFixed(0) + "%"
+              }
               styleClass="success"
             />
           </Grid>
           <Grid item xs={4}>
             <PropertySaleCount
+              total={statData.total}
               saleCount={statData.lan}
               title="Land/plot"
-              percetage={(statData.lan / statData.total).toFixed(2) * 100 + "%"}
+              percetage={
+                ((statData.lan * 100) / statData.total).toFixed(0) + "%"
+              }
               styleClass="danger"
             />
           </Grid>

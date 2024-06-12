@@ -7,7 +7,7 @@ function PaginationComponent({ items, itemsPerPage, children }) {
   const [itemOffset, setItemOffset] = useState(0);
 
   const endOffset = itemOffset + itemsPerPage;
-  const currentItems = items.slice(itemOffset, endOffset);
+  const currentItems = items?.slice(itemOffset, endOffset);
   const pageCount = Math.ceil(items.length / itemsPerPage);
 
   const handlePageClick = (event) => {
@@ -18,7 +18,7 @@ function PaginationComponent({ items, itemsPerPage, children }) {
   return (
     <>
       <Grid container>{children(currentItems)}</Grid>
-      <div className="fixed-bottom  d-flex justify-content-end pe-3 ">
+      <div className="  d-flex justify-content-end  my-3 ">
         <ReactPaginate
           className="pagination card d-inline-flex flex-row border border-1 border-primary"
           breakLabel="..."

@@ -1,62 +1,68 @@
-// AgentContext.js
-import React, { createContext, useContext, useEffect, useState } from "react";
+import React, { createContext, useContext } from "react";
+import { useQuery } from "@tanstack/react-query";
+import { message } from "antd";
 import { endpoints, hostUri } from "../fetch";
 
 const ServicesContext = createContext();
 
+const fetchServices = async () => {
+  const response = await fetch(hostUri + endpoints.getAllServices, {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
+  const data = await response.json();
+  if (!response.ok) {
+    throw new Error(data.message || "Failed to fetch services");
+  }
+  return data;
+};
+
+const fetchServiceCategories = async () => {
+  const response = await fetch(hostUri + endpoints.getServiceCategories);
+  const data = await response.json();
+  if (!response.ok) {
+    throw new Error(data.message || "Failed to fetch service categories");
+  }
+  return data;
+};
+
 export const ServiceProvider = ({ children }) => {
-  const [services, setServices] = useState([]);
-  const [serviceCategories, setServiceCategories] = useState([]);
-  const [loading, setLoading] = useState(false);
-  const getServices = async () => {
-    try {
-      setLoading(true);
-      const response = await fetch(hostUri + endpoints.getAllServices, {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
-      const data = await response.json();
+  const {
+    data: services = [],
+    isLoading: loadingServices,
+    refetch: refetchServices,
+  } = useQuery({
+    queryKey: ["services"],
+    queryFn: fetchServices,
+    onError: (error) => {
+      console.error("Error fetching services:", error.message);
+      message.error(error.message, 2);
+    },
+  });
 
-      setServices(data);
-      setLoading(false);
-    } catch (error) {
-      console.log("Error fetching Services:", error);
-    } finally {
-      setLoading(false);
-    }
-  };
-  const getServiceCategories = async () => {
-    try {
-      setLoading(true);
-      const response = await fetch(hostUri + endpoints.getServiceCategories);
-      const data = await response.json();
-      if (response.ok) {
-        setServiceCategories(data);
-      } else {
-        message.error(data.message);
-      }
-    } catch (error) {
-      message.error(error.message);
-    } finally {
-      setLoading(false);
-    }
-  };
+  const {
+    data: serviceCategories = [],
+    isLoading: loadingCategories,
+    refetch: refetchCategories,
+  } = useQuery({
+    queryKey: ["serviceCategories"],
+    queryFn: fetchServiceCategories,
+    onError: (error) => {
+      console.error("Error fetching service categories:", error.message);
+      message.error(error.message, 2);
+    },
+  });
 
-  useEffect(() => {
-    getServices();
-    getServiceCategories();
-    return () => {};
-  }, []);
   return (
     <ServicesContext.Provider
       value={{
         services,
-        loading,
-        getServices,
+        loading: loadingServices || loadingCategories,
+        refetchServices,
         serviceCategories,
-        getServiceCategories,
+        refetchCategories,
       }}
     >
       {children}

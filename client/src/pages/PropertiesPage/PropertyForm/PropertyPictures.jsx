@@ -2,14 +2,17 @@ import React, { useEffect, useState } from "react";
 import ImageUpload from "../../../components/ImageUpload";
 import { Typography } from "@mui/material";
 import { useAuth } from "../../../context/useAuth";
-const PropertyPictures = ({ propertyState, setPropertyState }) => {
+
+const PropertyPictures = ({ propertyState = {}, setPropertyState }) => {
   const [fileList, setFileList] = useState([]);
   const { userData } = useAuth();
+
   useEffect(() => {
     if (!propertyState.images) {
       setFileList([]);
     }
   }, [propertyState]);
+
   useEffect(() => {
     setPropertyState((prev) => ({ ...prev, images: fileList }));
     if (userData) {
@@ -21,6 +24,7 @@ const PropertyPictures = ({ propertyState, setPropertyState }) => {
       }));
     }
   }, [fileList, setPropertyState, userData]);
+
   return (
     <div>
       <Typography variant="h6" gutterBottom>

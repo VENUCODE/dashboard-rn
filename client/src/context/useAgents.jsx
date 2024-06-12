@@ -1,123 +1,125 @@
 // AgentContext.js
 import { message } from "antd";
-import React, { createContext, useContext, useEffect, useState } from "react";
-import { hostUri, endpoints } from "../fetch";
+import React, { createContext, useContext } from "react";
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+import { endpoints, hostUri } from "../fetch";
+
 const AgentContext = createContext();
 
-export const AgentsProvider = ({ children }) => {
-  const [agents, setAgents] = useState([]);
-  const [reqAgents, setReqAgents] = useState([]);
+const fetchAgents = async () => {
+  const response = await fetch(`${hostUri}${endpoints.getAllAgents}`);
+  const data = await response.json();
+  if (!response.ok) {
+    throw new Error(data.message || "Failed to fetch agents");
+  }
+  return data;
+};
 
-  const [loading, setLoading] = useState(false);
+const fetchRequestedAgents = async () => {
+  const response = await fetch(`${hostUri}${endpoints.getRequestedAgents}`);
+  const data = await response.json();
+  if (!response.ok) {
+    throw new Error(data.message || "Failed to fetch requested agents");
+  }
+  return data.data;
+};
+
+const updateAgentStatus = async ({ agentId, status }) => {
+  const response = await fetch(`${hostUri}${endpoints.updateAgentStatus}`, {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ agentId, status }),
+  });
+  const data = await response.json();
+  if (!response.ok) {
+    throw new Error(data.message || "Failed to update agent status");
+  }
+  return data;
+};
+
+const verifyAgentRequest = async (agentId) => {
+  const response = await fetch(`${hostUri}${endpoints.verifyAgent}`, {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ agentId }),
+  });
+  const data = await response.json();
+  if (!response.ok) {
+    throw new Error(data.message || "Failed to verify agent");
+  }
+  return data;
+};
+
+export const AgentsProvider = ({ children }) => {
+  const queryClient = useQueryClient();
+
+  const {
+    data: agents = [],
+    isLoading: loadingAgents,
+    refetch: refetchAgents,
+  } = useQuery({
+    queryKey: ["agents"],
+    queryFn: fetchAgents,
+    onError: (error) => message.error(error.message, 2),
+  });
+
+  const {
+    data: reqAgents = [],
+    isLoading: loadingReqAgents,
+    refetch: refetchReqAgents,
+  } = useQuery({
+    queryKey: ["reqAgents"],
+    queryFn: fetchRequestedAgents,
+    onError: (error) => message.error(error.message, 2),
+  });
+
+  const holdAgentMutation = useMutation({
+    mutationFn: updateAgentStatus,
+    onSuccess: (data) => {
+      message.success(data.message, 1);
+      queryClient.invalidateQueries(["agents"]);
+    },
+    onError: (error) => message.error(error.message, 2),
+  });
+
+  const verifyAgentMutation = useMutation({
+    mutationFn: verifyAgentRequest,
+    onSuccess: (data) => {
+      message.success(data.message, 1);
+      queryClient.invalidateQueries(["agents"]);
+      queryClient.invalidateQueries(["reqAgents"]);
+    },
+    onError: (error) => message.error(error.message, 2),
+  });
 
   const addAgent = () => {
-    getAgents();
+    refetchAgents();
   };
 
-  const getAgents = async () => {
-    try {
-      setLoading(true);
-      const response = await fetch(`${hostUri}${endpoints.getAllAgents}`, {
-        method: "GET",
-      });
-      const data = await response.json();
-      if (response.ok) {
-        setAgents(data);
-      } else {
-        console.error("Failed to fetch Agents:", data.message);
-        message.error("Failed to fetch Agents", 2);
+  const holdAgent = (agentId, status, setHoldLoading) => {
+    setHoldLoading(true);
+    holdAgentMutation.mutate(
+      { agentId, status },
+      {
+        onSettled: () => setHoldLoading(false),
       }
-    } catch (error) {
-      console.error("Error fetching agents:", error);
-    } finally {
-      setLoading(false);
-    }
+    );
   };
-  const getReqAgents = async () => {
-    try {
-      setLoading(true);
-      const response = await fetch(
-        `${hostUri}${endpoints.getRequestedAgents}`,
-        {
-          method: "GET",
-        }
-      );
-      const data = await response.json();
-      if (response.ok) {
-        setReqAgents(data.data);
-      } else {
-        console.error("Failed to fetch Agents:", data.message);
-        message.error("Failed to fetch Agents", 2);
-      }
-    } catch (error) {
-      console.error("Error fetching agents:", error);
-    } finally {
-      setLoading(false);
-    }
-  };
-  const holdAgent = async (agentId, status, setHoldLoading) => {
-    try {
-      setHoldLoading(true);
-      const response = await fetch(`${hostUri}${endpoints.updateAgentStatus}`, {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ agentId, status }),
-      });
 
-      if (response.ok) {
-        console.log(`${status} successfully`);
-        const data = await response.json();
-        message.success(data.message, 1);
-        getAgents();
-      } else {
-        console.log(response);
-        console.log("Failed to hold agent");
-      }
-    } catch (error) {
-      console.error("Error updatting status", error);
-    } finally {
-      setHoldLoading(false);
-    }
-  };
   const deleteAgent = () => {
-    getAgents();
-  };
-  //Functions for requested agents
-  const verifyAgent = async (agentId, setAcceptLoading) => {
-    try {
-      setAcceptLoading(true);
-      const response = await fetch(`${hostUri}${endpoints.verifyAgent}`, {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ agentId }),
-      });
-
-      if (response.ok) {
-        console.log(`Agent Verified successfully`);
-        const data = await response.json();
-        message.success(data.message, 1);
-        getAgents();
-        getReqAgents();
-      } else {
-        console.log(response);
-        console.log("Failed to accept  agent");
-      }
-    } catch (error) {
-      console.error("Error accepthing agent", error);
-    } finally {
-      setAcceptLoading(false);
-    }
+    refetchAgents();
   };
 
-  useEffect(() => {
-    getAgents();
-    getReqAgents();
-    return () => {};
-  }, []);
+  const verifyAgent = (agentId, setAcceptLoading) => {
+    setAcceptLoading(true);
+    verifyAgentMutation.mutate(agentId, {
+      onSettled: () => setAcceptLoading(false),
+    });
+  };
 
   return (
     <AgentContext.Provider
@@ -126,10 +128,9 @@ export const AgentsProvider = ({ children }) => {
         addAgent,
         holdAgent,
         deleteAgent,
-        getAgents,
         verifyAgent,
         reqAgents,
-        loading,
+        loading: loadingAgents || loadingReqAgents,
       }}
     >
       {children}
