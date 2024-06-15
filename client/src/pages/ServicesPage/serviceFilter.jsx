@@ -47,11 +47,11 @@ const ServiceFilter = ({ setCurrent, count }) => {
       //NOTE -  Sort based on sortOrder
       if (sortOrder === "asc") {
         filteredServices.sort(
-          (a, b) => new Date(a.timestamp) - new Date(b.timestamp)
+          (a, b) => new Date(a.createdAt) - new Date(b.createdAt)
         );
       } else {
         filteredServices.sort(
-          (a, b) => new Date(b.timestamp) - new Date(a.timestamp)
+          (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
         );
       }
 

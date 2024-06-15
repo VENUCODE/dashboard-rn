@@ -46,7 +46,7 @@ const ServiceCard = ({ service }) => {
       if (response.ok) {
         getServices();
         setDeleteLoading(false);
-        message.success(data.message, 1);
+        message.success("Service deleted", 1);
       } else {
         message.error(data.message, 1);
       }

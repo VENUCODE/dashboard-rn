@@ -60,9 +60,9 @@ export const ServiceProvider = ({ children }) => {
       value={{
         services,
         loading: loadingServices || loadingCategories,
-        refetchServices,
+        getServices: refetchServices,
         serviceCategories,
-        refetchCategories,
+        getServiceCategories: refetchCategories,
       }}
     >
       {children}

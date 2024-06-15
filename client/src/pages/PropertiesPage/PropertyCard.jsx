@@ -13,7 +13,6 @@ import { FaRupeeSign } from "react-icons/fa";
 import ImageCarousel from "./ImageCarousel";
 import { Chip, Grid, Button, CardMedia } from "@mui/material";
 import { Card, Modal } from "antd";
-import Time from "../../components/TimeAgo";
 import { hostUri } from "../../fetch";
 export default function PropertyCard({ data, buttons }) {
   const {
@@ -29,6 +28,7 @@ export default function PropertyCard({ data, buttons }) {
     papproved,
     location,
     pfloorsAllowed = 14,
+    timestamp,
     landmark = "landmark",
   } = data;
   const [isModalVisible, setIsModalVisible] = useState(false);
@@ -97,9 +97,9 @@ export default function PropertyCard({ data, buttons }) {
                   </p>
                 </div>
                 <div className="col-6">
-                  <p className="text-muted">
-                    <FaCalendar style={{ color: "#3f51b5" }} />{" "}
-                    <Time date={availableFrom} />
+                  <p className="text-dark">
+                    <FaCalendar style={{ color: "#3f51b5" }} />
+                    {new Date(availableFrom).toLocaleDateString()}
                   </p>
                 </div>
               </div>

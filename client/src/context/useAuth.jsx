@@ -1,5 +1,4 @@
 import { createContext, useContext, useEffect, useState } from "react";
-import { jwtDecode } from "jwt-decode";
 import { useNavigate } from "react-router-dom";
 
 const AuthContext = createContext();
@@ -15,31 +14,15 @@ export const AuthProvider = ({ children }) => {
     const storedData = JSON.parse(localStorage.getItem("user_data"));
     if (storedData) {
       const { userToken, user } = storedData;
-      if (isTokenValid(userToken)) {
-        setToken(userToken);
-        setUserData(user);
-        setIsAuthenticated(true);
-      } else {
-        logout();
-      }
+
+      setToken(userToken);
+      setUserData(user);
+      setIsAuthenticated(true);
+    } else {
+      logout();
     }
     setLoading(false);
   }, []);
-
-  const isTokenValid = (token) => {
-    try {
-      if (!token) {
-        throw new Error("No token provided");
-      }
-
-      const decodedToken = jwtDecode(token);
-      const currentTime = Date.now() / 1000;
-      return decodedToken.exp > currentTime;
-    } catch (error) {
-      console.error("Token validation error:", error);
-      return false;
-    }
-  };
 
   const login = (newToken, newData) => {
     localStorage.setItem(

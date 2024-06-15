@@ -8,7 +8,7 @@ import {
   FaWhatsapp,
   FaTrash,
 } from "react-icons/fa6";
-import { CardMedia, Chip, CircularProgress } from "@mui/material";
+import { CardMedia, Chip, CircularProgress, Grid } from "@mui/material";
 import { TiInfoLargeOutline } from "react-icons/ti";
 
 import ImageCarousel from "../PropertiesPage/ImageCarousel";
@@ -63,7 +63,7 @@ export default function ProductCard({ data }) {
   };
 
   return (
-    <Col xs={24} sm={12} lg={12} data-aos="zoom-in" data-aos-delay="100">
+    <Grid item xs={12} md={6} data-aos="zoom-in" data-aos-delay="100">
       <Card>
         <Row gutter={[16, 16]} align="middle">
           <Col xs={24} sm={24} lg={8} style={{ height: "240px" }}>
@@ -180,6 +180,6 @@ export default function ProductCard({ data }) {
           </p>
         </div>
       </Modal>
-    </Col>
+    </Grid>
   );
 }

@@ -156,6 +156,17 @@ const PropertyFilterMap = ({ current }) => {
                     whiteSpace: "nowrap",
                   }}
                 >
+                  {windowVisible.data.city}
+                </Typography>
+                <Typography
+                  level="subtitle1"
+                  style={{
+                    maxWidth: "190px",
+                    overflow: "hidden",
+                    textOverflow: "ellipsis",
+                    whiteSpace: "nowrap",
+                  }}
+                >
                   {windowVisible.data.name}
                 </Typography>
                 <>
@@ -198,9 +209,9 @@ const PropertyFilterMap = ({ current }) => {
                     />
                   )}
                 </div>
-                <Button size="small" variant="contained" color="primary">
+                {/* <Button size="small" variant="contained" color="primary">
                   Explore
-                </Button>
+                </Button> */}
               </div>
             </InfoWindow>
           )}
@@ -213,6 +224,7 @@ const PropertyFilterMap = ({ current }) => {
                     location: { lat: prop.latitude, lng: prop.longitude },
                     data: {
                       name: prop.landmark || prop.description,
+                      city: prop.city,
                       type: prop.propertyType,
                       price:
                         prop?.expectedPrice ||

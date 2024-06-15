@@ -48,7 +48,7 @@ const LocationAutoComplete = ({ onPlaceSelected, reset }) => {
           setLocation(e.target.value);
         }}
         placeholder="Search location"
-        className="form-control"
+        className="form-control rounded-0"
       />
     </div>
   );

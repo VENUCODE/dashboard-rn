@@ -8,10 +8,8 @@ import { endpoints, hostUri } from "../../fetch";
 import { message, Card } from "antd";
 import PropertyAddForm from "./PropertyForm";
 import PropertyFilter from "./PropertyFilter";
-import PropertyFilterMap from "./PropertyFilterMap";
 import CardSkeleton from "../../components/CardSkeleton";
-import { FaDotCircle } from "react-icons/fa";
-import { FiChevronsDown } from "react-icons/fi";
+
 import PaginationComponent from "./PaginationComponent";
 const PropertiesPage = () => {
   const {
@@ -66,7 +64,6 @@ const PropertiesPage = () => {
   };
   const deleteProperty = async (propertyId) => {
     try {
-      message.info(propertyId, 2);
       setDeleteLoading(true);
       const response = await fetch(hostUri + endpoints.deleteProperty, {
         method: "DELETE",
@@ -158,6 +155,7 @@ const PropertiesPage = () => {
     );
   };
 
+  useEffect(() => {}, [current]);
   return (
     <div className="content-body ">
       <div className="container-fluid ">
@@ -273,10 +271,10 @@ const PropertiesPage = () => {
           <div className="mb-5 p-0 container-fluid">
             {!loading && (
               <PaginationComponent items={current} itemsPerPage={6}>
-                {(current) => (
+                {(paginatedItems) => (
                   <>
                     {!loading &&
-                      current.map((prop) => (
+                      paginatedItems.map((prop) => (
                         <PropertyCard
                           key={prop._id}
                           data={prop}

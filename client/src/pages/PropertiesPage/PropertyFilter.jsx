@@ -1,52 +1,45 @@
 import React, { useState, useEffect } from "react";
 import { Modal } from "antd";
 import { FaGlobeAsia } from "react-icons/fa";
-import LocationInput from "../JobPage/LocationInput";
 import PropertyFilterMap from "./PropertyFilterMap";
 import { useProperties } from "../../context/useProperties";
 import PropertyLocation from "./PropertyLocation";
+import { Chip } from "@mui/material";
 
-const toRadians = (degrees) => {
-  return degrees * (Math.PI / 180);
-};
+// const toRadians = (degrees) => {
+//   return degrees * (Math.PI / 180);
+// };
 
-const haversineDistance = (lat1, lng1, lat2, lng2) => {
-  const R = 6371; // Radius of the Earth in km
-  const dLat = toRadians(lat2 - lat1);
-  const dLng = toRadians(lat2 - lng1);
+// const haversineDistance = (lat1, lng1, lat2, lng2) => {
+//   const R = 6371; // Radius of the Earth in km
+//   const dLat = toRadians(lat2 - lat1);
+//   const dLng = toRadians(lat2 - lng1);
 
-  const a =
-    Math.sin(dLat / 2) * Math.sin(dLat / 2) +
-    Math.cos(toRadians(lat1)) *
-      Math.cos(toRadians(lat2)) *
-      Math.sin(dLng / 2) *
-      Math.sin(dLng / 2);
-  const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+//   const a =
+//     Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+//     Math.cos(toRadians(lat1)) *
+//       Math.cos(toRadians(lat2)) *
+//       Math.sin(dLng / 2) *
+//       Math.sin(dLng / 2);
+//   const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
 
-  return R * c;
-};
-
-const inBounds = (prop, tar, radius) => {
-  const distance = haversineDistance(prop.lat, prop.lng, tar.lat, tar.lng);
-  return distance <= radius;
-};
+//   return R * c;
+// };
 
 const PropertyFilter = ({ propertyType, current, setCurrent }) => {
   const [mapVisible, setMapVisible] = useState(false);
   const [place, setPlace] = useState({});
-  const [radius, setRadius] = useState(20);
   const { properties, unverified, rejected } = useProperties();
   const [location, setLocation] = useState("");
+  const [sortOrder, setSortOrder] = useState("asc");
 
   useEffect(() => {
+    let filteredProperties;
+
     if (location) {
-      const filteredProperties = current.filter((p) => {
-        return (
-          p.location.toLowerCase().includes(location.toLowerCase()) ||
-          p.landmark.toLowerCase().includes(location.toLowerCase()) ||
-          p.city.toLowerCase().includes(location.toLowerCase())
-        );
-      });
+      filteredProperties = current.filter((p) =>
+        p.landmark.toLowerCase().includes(location.toLowerCase())
+      );
       setCurrent(filteredProperties);
     } else {
       if (propertyType === "verified") {
@@ -57,16 +50,26 @@ const PropertyFilter = ({ propertyType, current, setCurrent }) => {
         setCurrent(rejected);
       }
     }
-  }, [location, current, propertyType, properties, rejected, unverified]);
-  useEffect(() => {
-    if (propertyType === "verified") {
-      setCurrent(properties);
-    } else if (propertyType === "notverified") {
-      setCurrent(unverified);
-    } else {
-      setCurrent(rejected);
+
+    if (sortOrder) {
+      setCurrent((prevCurrent) =>
+        [...prevCurrent].sort((a, b) => {
+          const dateA = new Date(a.timestamp);
+          const dateB = new Date(b.timestamp);
+          return sortOrder === "asc" ? dateA - dateB : dateB - dateA;
+        })
+      );
     }
-  }, [properties, rejected, unverified, place]);
+  }, [location, propertyType, properties, rejected, unverified, sortOrder]);
+  // useEffect(() => {
+  //   if (propertyType === "verified") {
+  //     setCurrent(properties);
+  //   } else if (propertyType === "notverified") {
+  //     setCurrent(unverified);
+  //   } else {
+  //     setCurrent(rejected);
+  //   }
+  // }, [properties, rejected, unverified, place]);
   const handleOnPlaceSelected = ({ lat, lng }) => {
     setPlace({
       lat,
@@ -85,6 +88,16 @@ const PropertyFilter = ({ propertyType, current, setCurrent }) => {
           />
         </div>
         <div>
+          <Chip
+            size="small"
+            className="bg-primary text-white"
+            label={sortOrder === "asc" ? "oldest" : "newest"}
+            onClick={() => {
+              setSortOrder((prevSortOrder) =>
+                prevSortOrder === "asc" ? "desc" : "asc"
+              );
+            }}
+          />
           <FaGlobeAsia
             size={25}
             color="blue"

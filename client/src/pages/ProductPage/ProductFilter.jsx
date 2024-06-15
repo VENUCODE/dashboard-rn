@@ -42,7 +42,6 @@ const ProductFilter = ({ setCurrent }) => {
           b.productName.localeCompare(a.productName)
         );
       }
-
       setCurrent(filteredProducts);
     };
 
