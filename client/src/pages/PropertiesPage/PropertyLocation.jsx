@@ -4,7 +4,7 @@ import { Loader } from "@googlemaps/js-api-loader";
 import { TextField } from "@mui/material";
 
 const PropertyLocation = ({ onPlaceSelected, location = "", setLocation }) => {
-  const apiKey = "AIzaSyDoHTfjnTnbU_EPSxffAB7ZP18PMp0jcog";
+  const apiKey = "";
   const [autocomplete, setAutocomplete] = useState(null);
 
   useEffect(() => {
