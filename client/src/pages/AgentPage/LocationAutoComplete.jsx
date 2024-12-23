@@ -3,7 +3,7 @@ import { Loader } from "@googlemaps/js-api-loader";
 import { Input } from "antd";
 
 const LocationAutoComplete = ({ onPlaceSelected, reset }) => {
-  const apiKey = "AIzaSyDoHTfjnTnbU_EPSxffAB7ZP18PMp0jcog";
+  const apiKey = "";
   const [autocomplete, setAutocomplete] = useState(null);
   const [location, setLocation] = useState("");
   useEffect(() => {
