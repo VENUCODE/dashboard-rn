@@ -2,7 +2,7 @@ import { APIProvider, Map, Marker } from "@vis.gl/react-google-maps";
 import { useEffect, useRef, useState } from "react";
 import { Circle } from "./Circle";
 
-const apiKey = "AIzaSyDoHTfjnTnbU_EPSxffAB7ZP18PMp0jcog";
+const apiKey = "";
 
 const GoogleMap = ({ markerPosition, markerChanged = null }) => {
   const [markerPos, setMarkerPos] = useState(markerPosition);
